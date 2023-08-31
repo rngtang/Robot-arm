@@ -29,6 +29,26 @@ Then, enter password.
  
 And now you should be done! You can make a test file in Desktop such as "touch hiIwashere.txt" in your VSCode, and check to see if it's in the robot's Desktop in RealVNC.
 
+### Optimizing the SSH process
+
+These are a few steps you can do to optimize the SSH process into the robot, so that you don't have to manually enter the IP every time.
+
+Open a new VS Code window, then click on the blue "><" button. Choose "Connect to Host..." -> "Configure SSH Hosts..." -> "Users/<your_username>/.ssh/config". Add the following lines to the file:
+
+```
+Host <your_chosen_hostname>
+  HostName 10.197.171.134
+  User er
+```
+
+Replace <your_chosen_hostname> with your chosen hostname (for example, "mycobot"), then save the file. The next time you SSH into the robot in the terminal, instead of typing in the IP, you can just run
+
+```bash
+ssh <your_chosen_hostname>
+```
+
+When you SSH into the robot using VS Code, after choosing "Connect to Host...", <your_chosen_hostname> will already be listed as an option, so you don't have to manually type in the IP.
+
 ## Running python code
 
 Make sure to always include these lines as setup.
