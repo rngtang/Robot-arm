@@ -1,4 +1,4 @@
-# Python3 program (minimax) to find the next optimal move for a player in Tic Tac Toe 
+# Python3 program (minimax) to find the next optimal move for a player in tic tac toe 
 # This code is contributed by divyesh072019 from geeksforgeeks: https://www.geeksforgeeks.org/finding-optimal-move-in-tic-tac-toe-using-minimax-algorithm-in-game-theory/
 # Good explanation of minimax for tic tac toe: https://www.neverstopbuilding.com/blog/minimax 
 player, robot = 'x', 'o'
