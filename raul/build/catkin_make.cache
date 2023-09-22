@@ -1,0 +1,2 @@
+test1
+-DCATKIN_DEVEL_PREFIX=/home/er/raul/devel -DCMAKE_INSTALL_PREFIX=/home/er/raul/install -G Unix Makefiles
