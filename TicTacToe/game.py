@@ -47,6 +47,8 @@ frame2.pack()
 # label1.grid(row=0,column=0,padx=5)
 button_restart=tk.Button(master=frame2,text="Restart",width=10,height=3,relief=tk.GROOVE,command=lambda: restartbutton())
 button_restart.grid(row=0,column=1,padx=10,pady=10)
+# button_restart.grid_remove()
+frame2.pack_forget()
 # label2=tk.Label(master=frame2,text='Player-1 Turn',bg="skyblue",width=10,height=3,relief=tk.SUNKEN)
 label2=tk.Label(master=frame2,text='Player-1 Turn',bg="skyblue",width=0,height=0,relief=tk.SUNKEN)
 # label2.grid(row=0,column=2,padx=5)
@@ -106,7 +108,8 @@ def restartbutton():
     button7['state']=tk.NORMAL
     button8['state']=tk.NORMAL
     button9['state']=tk.NORMAL
-
+    frame2.pack_forget()
+    frame1.pack()
 def buttonclick(x):
     global a,b,c
     runScript = a
@@ -272,6 +275,8 @@ def buttonclick(x):
         button1['text']=='X' and button5['text']=='X' and button9['text']=='X' or
         button3['text']=='X' and button5['text']=='X' and button7['text']=='X'):
             disablebutton()
+            frame2.pack()
+            frame1.pack_forget()
             c=1
             tkinter.messagebox.showinfo("Tic Tac Toe","Winner is player 1")
     elif( button1['text']=='O' and button2['text']=='O' and button3['text']=='O' or
@@ -283,10 +288,14 @@ def buttonclick(x):
         button1['text']=='O' and button5['text']=='O' and button9['text']=='O' or
         button3['text']=='O' and button5['text']=='O' and button7['text']=='O'):
             disablebutton()
+            frame2.pack()
+            frame1.pack_forget()
             c=1
             tkinter.messagebox.showinfo("Tic Tac Toe","Winner is player 2")
     elif(b==9):
         disablebutton()
+        frame2.pack()
+        frame1.pack_forget()
         c=1
         tkinter.messagebox.showinfo("Tic Tac Toe","Match is Draw.")
     
