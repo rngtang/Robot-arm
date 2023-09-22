@@ -51,7 +51,8 @@ button_restart.grid(row=0,column=1,padx=10,pady=10)
 label2=tk.Label(master=frame2,text='Player-1 Turn',bg="skyblue",width=0,height=0,relief=tk.SUNKEN)
 # label2.grid(row=0,column=2,padx=5)
 label2.grid(row=0,column=0,padx=0)
-label2.grid_remove()
+label2.grid_remove() #added this to remove bottom section
+
 a=1
 b=0
 c=0
