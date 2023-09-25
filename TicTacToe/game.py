@@ -41,16 +41,48 @@ button8.grid(row=2,column=1,padx=5,pady=5)
 button9=tk.Button(master=frame1,text='',width=10,height=5,bg='white',command=lambda : buttonclick(9))
 button9.grid(row=2,column=2,padx=5,pady=5)
 
-frame2=tk.Frame(master=window,border=2,relief=tk.SUNKEN,bg='#dadec3')
-frame2.pack()
-# label1=tk.Label(master=frame2,text="Player 1 --> X\nPlayer 2 --> O",width=10)
-# label1.grid(row=0,column=0,padx=5)
-button_restart=tk.Button(master=frame2,text="Restart",width=10,height=3,relief=tk.GROOVE,command=lambda: restartbutton())
-button_restart.grid(row=0,column=1,padx=10,pady=10)
-# button_restart.grid_remove()
-frame2.pack_forget()
+
+
+framePlayer1=tk.Frame(master=window,border=2,relief=tk.SUNKEN)
+framePlayer1.pack(padx=20, pady=20)
+# Create an inner frame within frame2 and use grid for it
+inner_frame1 = tk.Frame(framePlayer1)
+inner_frame1.grid(row=0, column=0)
+labelPlayer1 = tk.Label(inner_frame1, text="You Won!", font=("Arial", 15))
+labelPlayer1.grid(row=0, column=0)
+button_restartPlayer1=tk.Button(master=framePlayer1,text="Restart",width=10,height=3,relief=tk.GROOVE,command=lambda: restartbutton())
+button_restartPlayer1.grid(row=0,column=2,padx=10,pady=10)
+# button_restartPlayer1.grid_remove()
+framePlayer1.pack_forget()
+
+
+framePlayer2=tk.Frame(master=window,border=2,relief=tk.SUNKEN)
+framePlayer2.pack(padx=20, pady=20)
+# Create an inner frame within frame3 and use grid for it
+inner_frame2 = tk.Frame(framePlayer2)
+inner_frame2.grid(row=0, column=0)
+labelPlayer2 = tk.Label(inner_frame2, text="Mr.Robo Won!", font=("Arial", 15))
+labelPlayer2.grid(row=0, column=0)
+button_restartPlayer2=tk.Button(master=framePlayer2,text="Restart",width=10,height=3,relief=tk.GROOVE,command=lambda: restartbutton())
+button_restartPlayer2.grid(row=0,column=1,padx=10,pady=10)
+# button_restartPlayer1.grid_remove()
+framePlayer2.pack_forget()
+
+frameDraw=tk.Frame(master=window,border=2,relief=tk.SUNKEN)
+frameDraw.pack(padx=20, pady=20)
+# Create an inner frame within frame3 and use grid for it
+inner_frame3 = tk.Frame(frameDraw)
+inner_frame3.grid(row=0, column=0)
+labelPlayer3 = tk.Label(inner_frame3, text="Woah, it was a draw!", font=("Arial", 15))
+labelPlayer3.grid(row=0, column=0)
+button_restartPlayer3=tk.Button(master=frameDraw,text="Restart",width=10,height=3,relief=tk.GROOVE,command=lambda: restartbutton())
+button_restartPlayer3.grid(row=0,column=1,padx=10,pady=10)
+# button_restartPlayer1.grid_remove()
+frameDraw.pack_forget()
+
+
 # label2=tk.Label(master=frame2,text='Player-1 Turn',bg="skyblue",width=10,height=3,relief=tk.SUNKEN)
-label2=tk.Label(master=frame2,text='Player-1 Turn',bg="skyblue",width=0,height=0,relief=tk.SUNKEN)
+label2=tk.Label(master=framePlayer1,text='Player-1 Turn',bg="skyblue",width=0,height=0,relief=tk.SUNKEN)
 # label2.grid(row=0,column=2,padx=5)
 label2.grid(row=0,column=0,padx=0)
 label2.grid_remove()
@@ -60,6 +92,9 @@ b=0
 c=0
 
 currGame = [["_", "_", "_"], ["_", "_", "_"], ["_", "_", "_"]]
+player1 = False
+player2 = False
+draw = False
 
 def disablebutton():
     button1['state']=tk.DISABLED
@@ -74,6 +109,7 @@ def disablebutton():
 
 def restartbutton():
     global a,b,c
+    global player1, player2, draw
     global currGame 
     currGame = [["_", "_", "_"], ["_", "_", "_"], ["_", "_", "_"]]
     a=1
@@ -108,10 +144,22 @@ def restartbutton():
     button7['state']=tk.NORMAL
     button8['state']=tk.NORMAL
     button9['state']=tk.NORMAL
-    frame2.pack_forget()
-    frame1.pack()
+    if player1:
+        framePlayer1.pack_forget()
+        frame1.pack()
+        player1 = not player1
+    elif player2:
+        framePlayer2.pack_forget()
+        frame1.pack()
+        player2 = not player2
+    elif draw:
+        frameDraw.pack_forget()
+        frame1.pack()
+        draw = not draw
+    
 def buttonclick(x):
     global a,b,c
+    global player1, player2, draw
     runScript = a
     #for player 1
     if(x==1 and a==1 and button1['text']==''):
@@ -275,10 +323,11 @@ def buttonclick(x):
         button1['text']=='X' and button5['text']=='X' and button9['text']=='X' or
         button3['text']=='X' and button5['text']=='X' and button7['text']=='X'):
             disablebutton()
-            frame2.pack()
+            framePlayer1.pack()
+            player1 = not player1
             frame1.pack_forget()
             c=1
-            tkinter.messagebox.showinfo("Tic Tac Toe","Winner is player 1")
+            # tkinter.messagebox.showinfo("Tic Tac Toe","Winner is player 1")
     elif( button1['text']=='O' and button2['text']=='O' and button3['text']=='O' or
         button4['text']=='O' and button5['text']=='O' and button6['text']=='O' or
         button7['text']=='O' and button8['text']=='O' and button9['text']=='O' or
@@ -288,15 +337,17 @@ def buttonclick(x):
         button1['text']=='O' and button5['text']=='O' and button9['text']=='O' or
         button3['text']=='O' and button5['text']=='O' and button7['text']=='O'):
             disablebutton()
-            frame2.pack()
+            framePlayer2.pack()
+            player2 = not player2
             frame1.pack_forget()
             c=1
-            tkinter.messagebox.showinfo("Tic Tac Toe","Winner is player 2")
+            # tkinter.messagebox.showinfo("Tic Tac Toe","Winner is player 2")
     elif(b==9):
         disablebutton()
-        frame2.pack()
+        frameDraw.pack()
+        draw = not draw
         frame1.pack_forget()
         c=1
-        tkinter.messagebox.showinfo("Tic Tac Toe","Match is Draw.")
+        # tkinter.messagebox.showinfo("Tic Tac Toe","Match is Draw.")
     
 window.mainloop()
