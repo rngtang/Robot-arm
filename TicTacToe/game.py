@@ -3,6 +3,23 @@ import tkinter as tk
 import tkinter.messagebox
 from tkinter.tix import COLUMN
 
+from flask import Flask, request
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
+
+@app.route("/send/", methods=['POST'])
+def send_pos(position):
+    position = request.args.get('< >')
+    return
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0',port=5001,debug=True)
+
+
+
 window=tk.Tk()
 window.title('Tic Tac Toe')
 frame=tk.Frame(master=window)
