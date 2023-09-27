@@ -1,12 +1,13 @@
 Run the flask app on the venv environment using this command
+        
         .venv\Scripts\activate
 
 Then, run the flask app using these commands: 
-        flask run
-        or
-        flask run --host=0.0.0.0
 
-        if this does not work try
+        flask run
+
+if this does not work try
+
         python3 -m pip install flask
         python3 -m flask run
 
