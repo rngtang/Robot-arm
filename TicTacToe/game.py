@@ -8,9 +8,6 @@ window.title('Tic Tac Toe')
 frame=tk.Frame(master=window)
 frame.pack(pady=10)
 
-label=tk.Label(master=frame,text="Tic Tac Toe",font=("Arial", 15))
-label.pack()
-
 frame1=tk.Frame(master=window,borderwidth=2,relief=tk.SUNKEN,bg='#00539B')
 frame1.pack(padx=10,pady=10)
 
