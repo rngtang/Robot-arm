@@ -3,6 +3,7 @@ Run the flask app on the venv environment using this command
         .venv\Scripts\activate
 
 Then, run the flask app using these commands: 
+
         cd api
         flask run
 
