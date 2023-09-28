@@ -12,7 +12,7 @@ def hello_world():
 @app.route('/move/<position>', methods=['GET'])
 @app.route('/move/', defaults={'position' : '99'})
 def move(position):
-    # response = request.get(url="http://0.0.0.0:5001/send/")
+    response = request.get(url="http://0.0.0.0:5000/send/")
         # row = request.get(position[0])
         # col = request.get(position[1])
 
