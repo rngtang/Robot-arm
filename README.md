@@ -1,5 +1,17 @@
 # Co-Lab Robotics Team!
 
+# Working with the LCD
+You'll need to go to the Raspberry Pi station and connect a mouse and keyboard if working on the LCD, or you can also connect to HDMI as well to work on a bigger screen. 
+
+To switch between the LCD and HDMI views, use these commands in the pi terminal.
+
+```bash
+cd LCD-show/
+sudo ./LCD35-show
+sudo ./LCD-hdmi
+
+```
+
 ## Setting up Remote Server
 
 Get RealVNC Viewer for your laptop, and then connect to robot with using the info below. You do not need to sign into VNC Viewer.
