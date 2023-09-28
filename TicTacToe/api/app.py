@@ -1,5 +1,6 @@
 # for the robot
 from flask import Flask, request
+from pymycobot.mycobot import MyCobot
 
 app = Flask(__name__)
 # if __name__ == '__main__':
@@ -7,15 +8,17 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return "<p>Hello, World! \nDefault Message</p>"
 
 # position is two numbers (row, col) put together
 @app.route("/move")
-def access_position():
+def access_position():                     
     position = request.args.get('pos')
+    # Converts string into a list
+    move = [int(position[0]), int(position[1])]
     result = robot_move(position)
     return result
 
 def robot_move(position):
-    return "hi zhichen"
-    # return '''<h1>The given position is: {}, {}</h1>'''.format(row, col)
+    # return "hi zhichen"
+    return '''<h1>The given position is: {}, {}</h1>'''.format(position[0], position[1])
