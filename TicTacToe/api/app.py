@@ -1,6 +1,6 @@
 # for the robot
 from flask import Flask, request
-from pymycobot.mycobot import MyCobot
+# from pymycobot.mycobot import MyCobot
 
 app = Flask(__name__)
 # if __name__ == '__main__':
