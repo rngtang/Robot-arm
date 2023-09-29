@@ -29,9 +29,9 @@ def robot_move(coords):
 
     # Testing movements
     if(coords[0] == 1):
-        mc.sync_send_angles([-45, 90, 90, 0, 0, 0], 70, 7)
+        mc.sync_send_angles([-45, -90, 90, 0, 0, 0], 70, 7)
     elif(coords[0] == 2):
-        mc.sync_send_angles([-50, 90, -90, 0, 0, 0], 70, 7)
+        mc.sync_send_angles([-50, -90, 90, 0, 0, 0], 70, 7)
     # time.sleep(2)
     mc.send_angles([-50, 0, 0, 0, 0, 0], 70)
     # Prints the coordinates to move
