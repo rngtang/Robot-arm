@@ -27,7 +27,7 @@ def access_position():
 def robot_move(coords):
     # Prints the coordinates to move
     if(coords[0] == 1):
-        mc.send_coords([0,0,0,0,0,0], 60, 1)
+        mc.send_coords([0,0,0,0,0,0], 60, 0)
         print(mc.get_coords())
     elif(coords[0] == 2):
         mc.send_angles([90, 90, -90, 0, 0, 0], 60)
