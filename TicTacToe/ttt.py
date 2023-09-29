@@ -1,6 +1,8 @@
 # Python3 program (minimax) to find the next optimal move for a player in tic tac toe 
 # This code is contributed by divyesh072019 from geeksforgeeks: https://www.geeksforgeeks.org/finding-optimal-move-in-tic-tac-toe-using-minimax-algorithm-in-game-theory/
 # Good explanation of minimax for tic tac toe: https://www.neverstopbuilding.com/blog/minimax 
+import requests
+
 player, robot = 'x', 'o'
 # player = robot, opponent = student
 
@@ -165,8 +167,12 @@ board = [
 #JUDY: add ability to take a move (bestMove for robot) and update the board with it
 # RAUL: I changed some stuff here like implementing the isValid() method, but I don't think the robot needs
 #		to validates its moves
-def updateBoard(board) : 
+def updateBoard(board): 
 	move = findBestMove(board)
+	# URL + sends request
+	url = "http://10.194.72.227:5000/move?pos={pos}".format(pos = str(move[0])+str(move[1]))
+	respose  = requests.get(url)
+	# Updates board
 	row = move[0]
 	column = move[1]
 	if (isValid(board, (row, column))) : 

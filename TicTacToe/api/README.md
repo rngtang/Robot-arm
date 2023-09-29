@@ -4,6 +4,7 @@ Run the flask app on the venv environment using this command
 
 Then, run the flask app using these commands: 
 
+        cd api
         flask run
 
 if this does not work try
