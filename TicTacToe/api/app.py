@@ -1,6 +1,7 @@
 # for the robot
 from flask import Flask, request
 from pymycobot.mycobot import MyCobot
+import time
 
 mc = MyCobot("/dev/ttyAMA0", 1000000)
 
@@ -28,5 +29,6 @@ def robot_move(coords):
     if(coords[0] == 1):
         mc.send_coords([0,0,0,0,0,0], 60, 1)
     elif(coords[0] == 2):
-        mc.set_angles([90, 90, -90, 0, 0, 0], 60)
+        mc.send_angles([90, 90, -90, 0, 0, 0], 60)
+    time.sleep(3)
     return '''<h1>The given position is: {}, {}</h1>'''.format(coords[0], coords[1])
