@@ -32,7 +32,7 @@ def robot_move(coords):
         mc.sync_send_angles([-45, -90, 90, 0, 0, 0], 70, 3)
     elif(coords[0] == 2):
         mc.sync_send_angles([-50, -90, 90, 0, 0, 0], 70, 3)
-    # time.sleep(2)
+    time.sleep(1)
     mc.send_angles([-50, 0, 0, 0, 0, 0], 70)
     # Prints the coordinates to move
     return '''<h1>The given position is: {}, {}</h1>'''.format(coords[0], coords[1])
