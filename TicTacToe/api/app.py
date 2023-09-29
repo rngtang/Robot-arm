@@ -22,6 +22,7 @@ def access_position():
 
     # Converts string into a list
     coords = [int(position[0]), int(position[1])]
+    print(coords)
     result = robot_move(coords)
     return result
 

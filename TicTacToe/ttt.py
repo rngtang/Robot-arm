@@ -169,10 +169,12 @@ board = [
 #		to validates its moves
 def updateBoard(board): 
 	move = findBestMove(board)
+	# URL + sends request
 	url = "http://10.194.72.227:5000/move?pos={pos}".format(pos = str(move[0]+1)+str(move[1]+1))
+	respose  = requests.get(url)
+	# Updates board
 	row = move[0]
 	column = move[1]
-	respose  = requests.get(url)
 	if (isValid(board, (row, column))) : 
 		board[row][column] = 'o'
 	else:
