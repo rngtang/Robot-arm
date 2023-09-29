@@ -1,5 +1,8 @@
 # for the robot
 from flask import Flask, request
+from pymycobot.mycobot import MyCobot
+
+mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 app = Flask(__name__)
 # if __name__ == '__main__':
@@ -22,4 +25,8 @@ def access_position():
 
 def robot_move(coords):
     # Prints the coordinates to move
+    if(coords[0] == 1):
+        mc.send_coordinates([0,0,0,0,0,0], 60)
+    elif(coords[0] == 2):
+        mc.set_angles([90, 90, -90, 0, 0, 0], 60)
     return '''<h1>The given position is: {}, {}</h1>'''.format(coords[0], coords[1])
