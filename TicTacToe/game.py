@@ -18,8 +18,6 @@ from tkinter.tix import COLUMN
 # if __name__ == '__main__':
 #     app.run(host='0.0.0.0',port=5000,debug=True)
 
-
-
 window=tk.Tk()
 window.title('Tic Tac Toe')
 frame=tk.Frame(master=window)
