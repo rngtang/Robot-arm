@@ -26,7 +26,7 @@ def access_position():
 def robot_move(coords):
     # Prints the coordinates to move
     if(coords[0] == 1):
-        mc.send_coordinates([0,0,0,0,0,0], 60)
+        mc.send_coords([0,0,0,0,0,0], 60, 1)
     elif(coords[0] == 2):
         mc.set_angles([90, 90, -90, 0, 0, 0], 60)
     return '''<h1>The given position is: {}, {}</h1>'''.format(coords[0], coords[1])
