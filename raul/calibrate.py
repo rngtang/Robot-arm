@@ -6,3 +6,5 @@ mc.send_angles([-50, 2, 0, 0, -8, 1], 70)
 
 for i in range(1, 7):
     mc.set_servo_calibration(i)
+
+mc.release_all_servos()
