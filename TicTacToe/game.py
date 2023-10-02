@@ -292,10 +292,6 @@ def buttonclick(x):
         a=0
         b+=1
 
-    if runScript ==1: #run the script to call robot move if the player made their move
-        updateBoard(currGame)
-        print("test")
-
     #for player 2
     if(x==1 and a==0 and button1['text']==''):
         currGame[0][0] = "o"
@@ -406,5 +402,9 @@ def buttonclick(x):
         frame1.pack_forget()
         c=1
         # tkinter.messagebox.showinfo("Tic Tac Toe","Match is Draw.")
+
+    elif runScript == 1: #run the script to call robot move if the player made their move and game is not over
+        updateBoard(currGame)
+        print("test")
     
 window.mainloop()
