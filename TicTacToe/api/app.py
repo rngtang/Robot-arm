@@ -3,7 +3,6 @@ from flask import Flask, request
 # import requests
 import time
 from pymycobot.mycobot import MyCobot
-
 mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 app = Flask(__name__)
@@ -36,7 +35,6 @@ def robot_move(coords):
     # return response.text
 
     # Raul's
-
     # Testing movements
     if(coords[0] == 1):
         mc.sync_send_angles([0, -135, 90, -50, 0, 0], 60, 3)

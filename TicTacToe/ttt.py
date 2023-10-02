@@ -4,7 +4,6 @@
 import requests
 
 player, robot = 'x', 'o'
-# player = robot, opponent = student
 
 # This function returns true if there are moves remaining on the board. It returns false if there are no moves left to play.
 def isMovesLeft(board) :
@@ -114,7 +113,7 @@ def minimax(board, depth, isMax) :
 
 # This will return the best possible move for the player
 def findBestMove(board) :
-	print("board", board)
+	# print("board", board)
 	bestVal = -1000
 	bestMove = (-1, -1)
 
@@ -128,10 +127,8 @@ def findBestMove(board) :
 				# Make the move
 				board[i][j] = robot
 				
-				print("test1")
 				# compute evaluation function for this move.
 				moveVal = minimax(board, 0, False)
-				print("test2")
 
 				# Undo the move
 				board[i][j] = '_'
@@ -141,9 +138,6 @@ def findBestMove(board) :
 					bestMove = (i, j)
 					bestVal = moveVal
 
-	# print("The value of the best Move is :", bestVal)
-	# print()
-	print("bestmove", bestMove)
 	return bestMove
 
 # RAUL: Validates the move. This function might not be necessary later, but it works if needed
@@ -180,16 +174,3 @@ def updateBoard(board):
 		board[row][column] = 'o'
 	else:
 		return
-	# print board
-
-# bestMove = findBestMove(board)
-# print("The Optimal Move is :")
-# print("ROW:", bestMove[0]+1, " COL:", bestMove[1]+1)
-# updateBoard(board, bestMove)
-
-# print("reached end")
-
-def toMove(bestMove) : 
-	print(bestMove)
-	return bestMove
-
