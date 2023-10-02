@@ -49,7 +49,7 @@ def robot_move(coords):
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5001,debug=True)
 
-    # Idk why is this here 🤔
+    # Idk why is this here
     # # Testing movements
     # if(coords[0] == 1):
     #     mc.sync_send_angles([-40, -135, 90, -50, 0, 0], 60, 3)
