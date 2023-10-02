@@ -2,6 +2,31 @@ from ttt import *
 import tkinter as tk
 import tkinter.messagebox
 from tkinter.tix import COLUMN
+import requests
+
+# # Define the URL of your Flask server
+# server_url = "http://127.0.0.1:5000/"
+
+# # Coordinates to send
+# coordinates = "12"  # This should be a string like "12" for row 1 and column 2
+
+# # Create a dictionary with the coordinates
+# data = {'pos': coordinates}
+
+# # Make a POST request to the server
+# response = requests.post(server_url, data=data)
+
+# # Check the response from the server
+# if response.status_code == 200:
+#     print("Coordinates sent successfully.")
+#     print(response.text)  # This will print the response from your Flask server
+# else:
+#     print("Failed to send coordinates.")
+
+
+
+
+
 
 # WIDTH, HEIGHT = 400, 300  # Defines aspect ratio of window.
 # def maintain_aspect_ratio(event, aspect_ratio):
@@ -267,10 +292,6 @@ def buttonclick(x):
         a=0
         b+=1
 
-    if runScript ==1: #run the script to call robot move if the player made their move
-        updateBoard(currGame)
-        print("test")
-
     #for player 2
     if(x==1 and a==0 and button1['text']==''):
         currGame[0][0] = "o"
@@ -381,5 +402,9 @@ def buttonclick(x):
         frame1.pack_forget()
         c=1
         # tkinter.messagebox.showinfo("Tic Tac Toe","Match is Draw.")
+
+    elif runScript == 1: #run the script to call robot move if the player made their move and game is not over
+        updateBoard(currGame)
+        print("test")
     
 window.mainloop()
