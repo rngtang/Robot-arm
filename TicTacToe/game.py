@@ -3,54 +3,74 @@ import tkinter as tk
 import tkinter.messagebox
 from tkinter.tix import COLUMN
 
-# from flask import Flask, request
-# app = Flask(__name__)
-
-# @app.route("/")
-# def hello_world():
-#     return "<p>Hello, World!</p>"
-
-# @app.route("/send/", methods=['POST'])
-# def send_pos(position):
-#     position = request.args.get('< >')
-#     return
-
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0',port=5000,debug=True)
-
+# WIDTH, HEIGHT = 400, 300  # Defines aspect ratio of window.
+# def maintain_aspect_ratio(event, aspect_ratio):
+#     """ Event handler to override root window resize events to maintain the
+#         specified width to height aspect ratio.
+#     """
+#     if event.widget.master:  # Not root window?
+#         return  # Ignore.
+#     #  events contain the widget's new width and height in pixels.
+#     new_aspect_ratio = event.width / event.height
+#     # Decide which dimension controls.
+#     if new_aspect_ratio > aspect_ratio:
+#         # Use width as the controlling dimension.
+#         desired_width = event.width
+#         desired_height = int(event.width / aspect_ratio)
+#     else:
+#         # Use height as the controlling dimension.
+#         desired_height = event.height
+#         desired_width = int(event.height * aspect_ratio)
+#     # Override if necessary.
+#     if event.width != desired_width or event.height != desired_height:
+#         # Manually give it the proper dimensions.
+#         event.widget.geometry(f'{desired_width}x{desired_height}')
+#         return "break"  # Block further processing of this event.
+    
 window=tk.Tk()
 window.title('Tic Tac Toe')
 frame=tk.Frame(master=window)
 frame.pack(pady=10)
+window.resizable(True, True)
+# window.geometry(f'{WIDTH}x{HEIGHT}')
+# window.bind('', lambda event: maintain_aspect_ratio(event, WIDTH/HEIGHT))
+
+#Get the current screen width and height
+screen_width = window.winfo_screenwidth()
+screen_height = window.winfo_screenheight()
+
+#Print the screen size
+print("Screen width:", screen_width)
+print("Screen height:", screen_height)
 
 frame1=tk.Frame(master=window,borderwidth=2,relief=tk.SUNKEN,bg='#00539B')
 frame1.pack(padx=10,pady=10)
 
-button1=tk.Button(master=frame1,text='',width=10,height=5,bg='white',command=lambda : buttonclick(1))
+button1=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(1))
 button1.grid(row=0,column=0,padx=5,pady=5)
 
-button2=tk.Button(master=frame1,text='',width=10,height=5,bg='white',command=lambda : buttonclick(2))
+button2=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(2))
 button2.grid(row=0,column=1,padx=5,pady=5)
 
-button3=tk.Button(master=frame1,text='',width=10,height=5,bg='white',command=lambda : buttonclick(3))
+button3=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(3))
 button3.grid(row=0,column=2,padx=5,pady=5)
 
-button4=tk.Button(master=frame1,text='',width=10,height=5,bg='white',command=lambda : buttonclick(4))
+button4=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(4))
 button4.grid(row=1,column=0,padx=5,pady=5)
 
-button5=tk.Button(master=frame1,text='',width=10,height=5,bg='white',command=lambda : buttonclick(5))
+button5=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(5))
 button5.grid(row=1,column=1,padx=5,pady=5)
 
-button6=tk.Button(master=frame1,text='',width=10,height=5,bg='white',command=lambda : buttonclick(6))
+button6=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(6))
 button6.grid(row=1,column=2,padx=5,pady=5)
 
-button7=tk.Button(master=frame1,text='',width=10,height=5,bg='white',command=lambda : buttonclick(7))
+button7=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(7))
 button7.grid(row=2,column=0,padx=5,pady=5)
 
-button8=tk.Button(master=frame1,text='',width=10,height=5,bg='white',command=lambda : buttonclick(8))
+button8=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(8))
 button8.grid(row=2,column=1,padx=5,pady=5)
 
-button9=tk.Button(master=frame1,text='',width=10,height=5,bg='white',command=lambda : buttonclick(9))
+button9=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(9))
 button9.grid(row=2,column=2,padx=5,pady=5)
 
 
