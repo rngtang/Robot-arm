@@ -2,6 +2,9 @@
 from flask import Flask, request
 import requests
 import time
+from pymycobot.mycobot import MyCobot
+
+mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 app = Flask(__name__)
 
@@ -23,22 +26,32 @@ def access_position():
 
 def robot_move(coords):
     # Sends the position coordinates to the Flask API
-    url = "http://localhost:5000/move"
-    params = {"pos": str(coords[0]) + str(coords[1])}
-    response = requests.get(url, params=params)
+    # url = "http://localhost:5000/move"
+    # params = {"pos": str(coords[0]) + str(coords[1])}
+    # response = requests.get(url, params=params)
+
+    # Testing movements
+    if(coords[0] == 1):
+        mc.sync_send_angles([0, -135, 90, -50, 0, 0], 60, 3)
+    elif(coords[0] == 2):
+        mc.sync_send_angles([0, -135, 90, -50, 0, 0], 60, 3)
+    time.sleep(1)
+    mc.send_angles([0, 0, 0, 0, 0, 0], 70)
+    # Prints the coordinates to move
+    return '''<h1>The given position is: {}, {}</h1>'''.format(coords[0], coords[1])
 
     # Returns the response from the Flask API
-    return response.text
+    # return response.text
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5001,debug=True)
 
-#     # Testing movements
-#     if(coords[0] == 1):
-#         mc.sync_send_angles([-40, -135, 90, -50, 0, 0], 60, 3)
-#     elif(coords[0] == 2):
-#         mc.sync_send_angles([-50, -135, 90, -50, 0, 0], 60, 3)
-#     time.sleep(1)
-#     mc.send_angles([-50, 0, 0, 0, 0, 0], 70)
-#     # Prints the coordinates to move
-#     return '''<h1>The given position is: {}, {}</h1>'''.format(coords[0], coords[1])
+    # # Testing movements
+    # if(coords[0] == 1):
+    #     mc.sync_send_angles([-40, -135, 90, -50, 0, 0], 60, 3)
+    # elif(coords[0] == 2):
+    #     mc.sync_send_angles([-50, -135, 90, -50, 0, 0], 60, 3)
+    # time.sleep(1)
+    # mc.send_angles([-50, 0, 0, 0, 0, 0], 70)
+    # # Prints the coordinates to move
+    # # return '''<h1>The given position is: {}, {}</h1>'''.format(coords[0], coords[1])
