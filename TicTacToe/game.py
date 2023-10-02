@@ -71,31 +71,31 @@ print("Screen height:", screen_height)
 frame1=tk.Frame(master=window,borderwidth=2,relief=tk.SUNKEN,bg='#00539B')
 frame1.pack(padx=10,pady=10)
 
-button1=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(1))
+button1=tk.Button(master=frame1,text='',width=9,height=3,bg='white',command=lambda : buttonclick(1))
 button1.grid(row=0,column=0,padx=5,pady=5)
 
-button2=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(2))
+button2=tk.Button(master=frame1,text='',width=9,height=3,bg='white',command=lambda : buttonclick(2))
 button2.grid(row=0,column=1,padx=5,pady=5)
 
-button3=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(3))
+button3=tk.Button(master=frame1,text='',width=9,height=3,bg='white',command=lambda : buttonclick(3))
 button3.grid(row=0,column=2,padx=5,pady=5)
 
-button4=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(4))
+button4=tk.Button(master=frame1,text='',width=9,height=3,bg='white',command=lambda : buttonclick(4))
 button4.grid(row=1,column=0,padx=5,pady=5)
 
-button5=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(5))
+button5=tk.Button(master=frame1,text='',width=9,height=3,bg='white',command=lambda : buttonclick(5))
 button5.grid(row=1,column=1,padx=5,pady=5)
 
-button6=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(6))
+button6=tk.Button(master=frame1,text='',width=9,height=3,bg='white',command=lambda : buttonclick(6))
 button6.grid(row=1,column=2,padx=5,pady=5)
 
-button7=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(7))
+button7=tk.Button(master=frame1,text='',width=9,height=3,bg='white',command=lambda : buttonclick(7))
 button7.grid(row=2,column=0,padx=5,pady=5)
 
-button8=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(8))
+button8=tk.Button(master=frame1,text='',width=9,height=3,bg='white',command=lambda : buttonclick(8))
 button8.grid(row=2,column=1,padx=5,pady=5)
 
-button9=tk.Button(master=frame1,text='',width=8,height=4,bg='white',command=lambda : buttonclick(9))
+button9=tk.Button(master=frame1,text='',width=9,height=3,bg='white',command=lambda : buttonclick(9))
 button9.grid(row=2,column=2,padx=5,pady=5)
 
 
@@ -105,10 +105,10 @@ framePlayer1.pack(padx=20, pady=20)
 # Create an inner frame within frame2 and use grid for it
 inner_frame1 = tk.Frame(framePlayer1, bg='#00539B')
 inner_frame1.grid(row=0, column=0)
-labelPlayer1 = tk.Label(inner_frame1, text="You Won!", font=("Arial", 30), bg='#00539B', foreground="white")
-labelPlayer1.grid(row=0, column=0, padx=10, pady=(78, 10))
-button_restartPlayer1=tk.Button(master=framePlayer1,text="Restart", width=15,height=3,relief=tk.GROOVE,command=lambda: restartbutton())
-button_restartPlayer1.grid(row=1,column=0,padx=78, pady=(10, 78))
+labelPlayer1 = tk.Label(inner_frame1, text="You Won!", font=("Arial", 17), bg='#00539B', foreground="white")
+labelPlayer1.grid(row=0, column=0, padx=10, pady=(59, 3))
+button_restartPlayer1=tk.Button(master=framePlayer1,text="Restart", width=10,height=2,relief=tk.GROOVE,command=lambda: restartbutton())
+button_restartPlayer1.grid(row=1,column=0,padx=85, pady=(3, 59))
 # button_restartPlayer1.grid_remove()
 framePlayer1.pack_forget()
 
@@ -118,10 +118,10 @@ framePlayer2.pack(padx=20, pady=20)
 # Create an inner frame within frame3 and use grid for it
 inner_frame2 = tk.Frame(framePlayer2, bg='#00539B')
 inner_frame2.grid(row=0, column=0)
-labelPlayer2 = tk.Label(inner_frame2, text="Robot Won!", font=("Arial", 30), bg='#00539B',  foreground="white")
-labelPlayer2.grid(row=0, column=0,padx=10,pady=(78, 10))
-button_restartPlayer2=tk.Button(master=framePlayer2,text="Restart",width=15,height=3,relief=tk.GROOVE,command=lambda: restartbutton())
-button_restartPlayer2.grid(row=1,column=0,padx=78,pady=(10, 78))
+labelPlayer2 = tk.Label(inner_frame2, text="Robot Won!", font=("Arial", 17), bg='#00539B',  foreground="white")
+labelPlayer2.grid(row=0, column=0,padx=10,pady=(59, 3))
+button_restartPlayer2=tk.Button(master=framePlayer2,text="Restart",width=10,height=2,relief=tk.GROOVE,command=lambda: restartbutton())
+button_restartPlayer2.grid(row=1,column=0,padx=85,pady=(3, 59))
 # button_restartPlayer1.grid_remove()
 framePlayer2.pack_forget()
 
@@ -130,10 +130,10 @@ frameDraw.pack(padx=20, pady=20)
 # Create an inner frame within frame3 and use grid for it
 inner_frame3 = tk.Frame(frameDraw, bg='#00539B')
 inner_frame3.grid(row=0, column=0)
-labelPlayer3 = tk.Label(inner_frame3, text="A Draw!", font=("Arial", 30), bg='#00539B',  foreground="white")
-labelPlayer3.grid(row=0, column=0,padx=10,pady=(78, 10))
-button_restartPlayer3=tk.Button(master=frameDraw,text="Restart",width=15,height=3,relief=tk.GROOVE,command=lambda: restartbutton())
-button_restartPlayer3.grid(row=1,column=0,padx=78,pady=(10, 78))
+labelPlayer3 = tk.Label(inner_frame3, text="A Draw!", font=("Arial", 17), bg='#00539B',  foreground="white")
+labelPlayer3.grid(row=0, column=0,padx=10,pady=(59, 3))
+button_restartPlayer3=tk.Button(master=frameDraw,text="Restart",width=10,height=2,relief=tk.GROOVE,command=lambda: restartbutton())
+button_restartPlayer3.grid(row=1,column=0,padx=85,pady=(3, 59))
 # button_restartPlayer1.grid_remove()
 frameDraw.pack_forget()
 
