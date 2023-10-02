@@ -25,27 +25,33 @@ def access_position():
     return "test1"
 
 def robot_move(coords):
+
+    # Johnny's
     # Sends the position coordinates to the Flask API
     # url = "http://localhost:5000/move"
     # params = {"pos": str(coords[0]) + str(coords[1])}
     # response = requests.get(url, params=params)
+
+    # Returns the response from the Flask API
+    # return response.text
+
+    # Raul's
 
     # Testing movements
     if(coords[0] == 1):
         mc.sync_send_angles([0, -135, 90, -50, 0, 0], 60, 3)
     elif(coords[0] == 2):
         mc.sync_send_angles([0, -135, 90, -50, 0, 0], 60, 3)
-    time.sleep(1)
+    time.sleep(3)
     mc.send_angles([0, 0, 0, 0, 0, 0], 70)
     # Prints the coordinates to move
     return '''<h1>The given position is: {}, {}</h1>'''.format(coords[0], coords[1])
 
-    # Returns the response from the Flask API
-    # return response.text
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5001,debug=True)
 
+    # Idk why is this here 🤔
     # # Testing movements
     # if(coords[0] == 1):
     #     mc.sync_send_angles([-40, -135, 90, -50, 0, 0], 60, 3)
