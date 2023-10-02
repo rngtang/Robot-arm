@@ -1,6 +1,6 @@
 # for the robot
 from flask import Flask, request
-import requests
+# import requests
 import time
 from pymycobot.mycobot import MyCobot
 
