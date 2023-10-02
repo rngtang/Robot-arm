@@ -11,5 +11,6 @@ mc.send_angles([0,0,0,0,0,0], 70)
 
 time.sleep(3)
 print(mc.get_angles())
+time.sleep(3)
 
 # mc.release_all_servos()
