@@ -286,7 +286,6 @@ def buttonclick(x):
         print("Robot's turn")
         updateBoard(currGame)
         a=0
-        b+=1
 
     # When is the robot's turn
     if(x==1 and a==0 and button1['text']==''):
@@ -296,7 +295,6 @@ def buttonclick(x):
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
-        b+=1
     if(x==2 and a==0 and button2['text']==''):
         currGame[0][1] = "o"
         button2['text']='O'
@@ -304,7 +302,6 @@ def buttonclick(x):
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
-        b+=1
     if(x==3 and a==0 and button3['text']==''):
         currGame[0][2] = "o"
         button3['text']='O'
@@ -312,7 +309,6 @@ def buttonclick(x):
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
-        b+=1
     if(x==4 and a==0 and button4['text']==''):
         currGame[1][0] = "o"
         button4['text']='O'
@@ -320,7 +316,6 @@ def buttonclick(x):
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
-        b+=1
     if(x==5 and a==0 and button5['text']==''):
         currGame[1][1] = "o"
         button5['text']='O'
@@ -328,7 +323,6 @@ def buttonclick(x):
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
-        b+=1
     if(x==6 and a==0 and button6['text']==''):
         currGame[1][2] = "o"
         button6['text']='O'
@@ -336,7 +330,6 @@ def buttonclick(x):
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
-        b+=1
     if(x==7 and a==0 and button7['text']==''):
         currGame[2][0] = "o"
         button7['text']='O'
@@ -344,7 +337,6 @@ def buttonclick(x):
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
-        b+=1
     if(x==8 and a==0 and button8['text']==''):
         currGame[2][1] = "o"
         button8['text']='O'
@@ -352,7 +344,6 @@ def buttonclick(x):
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
-        b+=1
     if(x==9 and a==0 and button9['text']==''):
         currGame[2][2] = "o"
         button9['text']='O'
@@ -360,7 +351,8 @@ def buttonclick(x):
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
-        b+=1
+    
+    b+=1
 
     #checking winner
     if(button1['text']=='X' and button2['text']=='X' and button3['text']=='X' or
