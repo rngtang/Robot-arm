@@ -277,7 +277,7 @@ def buttonclick(x):
     if a == 0: #run the script to call robot move if the player made their move and game is not over
         updateBoard(currGame)
         a=1
-        # b+=1
+        b+=1
         print("test")
 
     #for player 2
