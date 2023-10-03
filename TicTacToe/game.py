@@ -274,9 +274,9 @@ def buttonclick(x):
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
 
-    if a == 0: #run the script to call robot move if the player made their move and game is not over
+    if a == 1: #run the script to call robot move if the player made their move and game is not over
         updateBoard(currGame)
-        a=1
+        a=0
         b+=1
         print("test")
 
