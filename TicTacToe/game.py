@@ -225,64 +225,54 @@ def buttonclick(x):
         button1['bg']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
-        print("updated")
     if(x==2 and a==1 and button2['text']==''):
         currGame[0][1] = "x"
         button2['text']="X"
         button2['bg']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
-        print("updated")
     if(x==3 and a==1 and button3['text']==''):
         currGame[0][2] = "x"
         button3['text']="X"
         button3['bg']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
-        print("updated")
     if(x==4 and a==1 and button4['text']==''):
         currGame[1][0] = "x"
         button4['text']="X"
         button4['bg']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
-        print("updated")
     if(x==5 and a==1 and button5['text']==''):
         currGame[1][1] = "x"
         button5['text']="X"
         button5['bg']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
-        print("updated")
     if(x==6 and a==1 and button6['text']==''):
         currGame[1][2] = "x"
         button6['text']="X"
         button6['bg']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
-        print("updated")
     if(x==7 and a==1 and button7['text']==''):
         currGame[2][0] = "x"
         button7['text']="X"
         button7['bg']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
-        print("updated")
     if(x==8 and a==1 and button8['text']==''):
         currGame[2][1] = "x"
         button8['text']="X"
         button8['bg']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
-        print("updated")
     if(x==9 and a==1 and button9['text']==''):
         currGame[2][2] = "x"
         button9['text']="X"
         button9['bg']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
-        print("updated")
-    return
 
     if a == 1: #run the script to call robot move if the player made their move and game is not over
         print("Robot's turn")
