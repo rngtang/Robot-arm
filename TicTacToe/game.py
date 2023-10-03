@@ -71,7 +71,7 @@ print("Screen height:", screen_height)
 frame1=tk.Frame(master=window,borderwidth=2,relief=tk.SUNKEN,bg='#00539B')
 frame1.pack(padx=10,pady=10)
 
-button1=tk.Button(master=frame1,text='',width=9,height=3,bg='white',command=lambda : buttonclick(1))
+button1=tk.Button(master=frame1,text='',width=9,height=3,bg='white',command=lambda : (buttonclick(1), updateBoard(currGame)))
 button1.grid(row=0,column=0,padx=5,pady=5)
 
 button2=tk.Button(master=frame1,text='',width=9,height=3,bg='white',command=lambda : buttonclick(2))
@@ -402,9 +402,9 @@ def buttonclick(x):
         frame1.pack_forget()
         c=1
         # tkinter.messagebox.showinfo("Tic Tac Toe","Match is Draw.")
-
-    elif runScript == 1: #run the script to call robot move if the player made their move and game is not over
-        updateBoard(currGame)
-        print("test")
+    # elif runScript == 1: #run the script to call robot move if the player made their move and game is not over
+    #     print("update Board")
+    #     updateBoard(currGame)
+    #     print("test")
     
 window.mainloop()
