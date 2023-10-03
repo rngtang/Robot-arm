@@ -275,10 +275,10 @@ def buttonclick(x):
         label2['text']='Player-2 Turn'
 
     if a == 1: #run the script to call robot move if the player made their move and game is not over
+        print("Robot's turn")
         updateBoard(currGame)
         a=0
         b+=1
-        print("test")
 
     #for player 2
     if(x==1 and a==0 and button1['text']==''):
