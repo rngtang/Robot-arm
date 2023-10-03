@@ -1,10 +1,10 @@
 # Python3 program (minimax) to find the next optimal move for a player in tic tac toe 
 # This code is contributed by divyesh072019 from geeksforgeeks: https://www.geeksforgeeks.org/finding-optimal-move-in-tic-tac-toe-using-minimax-algorithm-in-game-theory/
 # Good explanation of minimax for tic tac toe: https://www.neverstopbuilding.com/blog/minimax 
-import requests
 
+# This file contains the necessary functions to calculate the best move for the robot to do
+import requests
 player, robot = 'x', 'o'
-# player = robot, opponent = student
 
 # This function returns true if there are moves remaining on the board. It returns false if there are no moves left to play.
 def isMovesLeft(board) :
@@ -114,7 +114,7 @@ def minimax(board, depth, isMax) :
 
 # This will return the best possible move for the player
 def findBestMove(board) :
-	print("board", board)
+	# print("board", board)
 	bestVal = -1000
 	bestMove = (-1, -1)
 
@@ -128,10 +128,8 @@ def findBestMove(board) :
 				# Make the move
 				board[i][j] = robot
 				
-				print("test1")
 				# compute evaluation function for this move.
 				moveVal = minimax(board, 0, False)
-				print("test2")
 
 				# Undo the move
 				board[i][j] = '_'
@@ -141,55 +139,10 @@ def findBestMove(board) :
 					bestMove = (i, j)
 					bestVal = moveVal
 
-	# print("The value of the best Move is :", bestVal)
-	# print()
-	print("bestmove", bestMove)
 	return bestMove
 
-# RAUL: Validates the move. This function might not be necessary later, but it works if needed
-def isValid(board, move):
-	row = move[0]
-	column = move[1]
-	if(board[row][column] == '_' and row in range(0,3) and column in range(0,3)):
-		return True
-	else:
-		print("Not a valid input")
-		return False
-
-# Driver code
-# NEED TO MODIFY BOARD 
-board = [
-	[ '_', '_', '_' ],
-	[ '_', '_', '_' ],
-	[ '_', '_', '_' ]
-]
-
-#JUDY: add ability to take a move (bestMove for robot) and update the board with it
-# RAUL: I changed some stuff here like implementing the isValid() method, but I don't think the robot needs
-#		to validates its moves
+# Finds the best move and sends the POST request to the robot
 def updateBoard(board): 
 	move = findBestMove(board)
-	# URL + sends request
-	url = "http://10.197.42.231:5001/move?pos={pos}".format(pos = str(move[0])+str(move[1]))
-	# url = "http://10.194.72.227:5000/move?pos={pos}".format(pos = str(move[0])+str(move[1]))
+	url = "http://10.194.72.227:5000/move?pos={pos}".format(pos = str(move[0])+str(move[1]))
 	respose  = requests.get(url)
-	# Updates board
-	row = move[0]
-	column = move[1]
-	if (isValid(board, (row, column))) : 
-		board[row][column] = 'o'
-	else:
-		return
-	# print board
-
-# bestMove = findBestMove(board)
-# print("The Optimal Move is :")
-# print("ROW:", bestMove[0]+1, " COL:", bestMove[1]+1)
-# updateBoard(board, bestMove)
-
-# print("reached end")
-
-def toMove(bestMove) : 
-	print(bestMove)
-	return bestMove
-
