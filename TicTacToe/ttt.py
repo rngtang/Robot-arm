@@ -2,7 +2,6 @@
 # This code is contributed by divyesh072019 from geeksforgeeks: https://www.geeksforgeeks.org/finding-optimal-move-in-tic-tac-toe-using-minimax-algorithm-in-game-theory/
 # Good explanation of minimax for tic tac toe: https://www.neverstopbuilding.com/blog/minimax 
 import requests
-
 player, robot = 'x', 'o'
 
 # This function returns true if there are moves remaining on the board. It returns false if there are no moves left to play.
@@ -140,27 +139,7 @@ def findBestMove(board) :
 
 	return bestMove
 
-# RAUL: Validates the move. This function might not be necessary later, but it works if needed
-def isValid(board, move):
-	row = move[0]
-	column = move[1]
-	if(board[row][column] == '_' and row in range(0,3) and column in range(0,3)):
-		return True
-	else:
-		print("Not a valid input")
-		return False
-
-# Driver code
-# NEED TO MODIFY BOARD 
-board = [
-	[ '_', '_', '_' ],
-	[ '_', '_', '_' ],
-	[ '_', '_', '_' ]
-]
-
-#JUDY: add ability to take a move (bestMove for robot) and update the board with it
-# RAUL: I changed some stuff here like implementing the isValid() method, but I don't think the robot needs
-#		to validates its moves
+# Finds the best move and sends the POST request to the robot
 def updateBoard(board): 
 	move = findBestMove(board)
 	# URL + sends request

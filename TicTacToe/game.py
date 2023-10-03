@@ -1,4 +1,4 @@
-from ttt import *
+from ttt import updateBoard
 import tkinter as tk
 import tkinter.messagebox
 from tkinter.tix import COLUMN
