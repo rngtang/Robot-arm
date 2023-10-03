@@ -7,10 +7,12 @@ mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 app = Flask(__name__)
 
+# Default route
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World! \nDefault Message</p>"
+    return "<p>Hello, World!</p>"
 
+# Route to move the robot
 @app.route("/move")
 def access_position():
     # Gets the coordinates from the arguments  
@@ -20,8 +22,7 @@ def access_position():
     coords = [int(position[0]), int(position[1])]
     print(coords)
     result = robot_move(coords)
-    # return result
-    return "test1"
+    return result
 
 def robot_move(coords):
 
