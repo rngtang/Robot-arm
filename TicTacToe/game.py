@@ -282,11 +282,6 @@ def buttonclick(x):
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
 
-    if a == 1: #run the script to call robot move if the player made their move and game is not over
-        print("Robot's turn")
-        updateBoard(currGame)
-        a=0
-
     # When is the robot's turn
     if(x==1 and a==0 and button1['text']==''):
         currGame[0][0] = "o"
@@ -351,7 +346,7 @@ def buttonclick(x):
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
-        
+
     b+=1
 
     #checking winner
@@ -391,8 +386,8 @@ def buttonclick(x):
         c=1
         # tkinter.messagebox.showinfo("Tic Tac Toe","Match is Draw.")
 
-    # elif runScript == 1: #run the script to call robot move if the player made their move and game is not over
-    #     updateBoard(currGame)
-    #     print("test")
+    elif runScript == 1: #run the script to call robot move if the player made their move and game is not over
+        updateBoard(currGame)
+        print("test")
     
 window.mainloop()
