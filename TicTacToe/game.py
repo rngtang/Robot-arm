@@ -52,6 +52,7 @@ import requests
 #         event.widget.geometry(f'{desired_width}x{desired_height}')
 #         return "break"  # Block further processing of this event.
     
+# Creates the main window for the game
 window=tk.Tk()
 window.title('Tic Tac Toe')
 frame=tk.Frame(master=window)
@@ -71,6 +72,7 @@ print("Screen height:", screen_height)
 frame1=tk.Frame(master=window,borderwidth=2,relief=tk.SUNKEN,bg='#00539B')
 frame1.pack(padx=10,pady=10)
 
+# Creates the buttons grid
 button1=tk.Button(master=frame1,text='',width=9,height=3,bg='white',command=lambda : buttonclick(1))
 button1.grid(row=0,column=0,padx=5,pady=5)
 
@@ -102,6 +104,7 @@ button9.grid(row=2,column=2,padx=5,pady=5)
 
 framePlayer1=tk.Frame(master=window,border=2,relief=tk.SUNKEN, bg='#00539B')
 framePlayer1.pack(padx=20, pady=20)
+
 # Create an inner frame within frame2 and use grid for it
 inner_frame1 = tk.Frame(framePlayer1, bg='#00539B')
 inner_frame1.grid(row=0, column=0)
@@ -148,11 +151,13 @@ a=1
 b=0
 c=0
 
+# Current board and variables that decide the winner are declared
 currGame = [["_", "_", "_"], ["_", "_", "_"], ["_", "_", "_"]]
 player1 = False
 player2 = False
 draw = False
 
+# Disables the buttons after the game is over
 def disablebutton():
     button1['state']=tk.DISABLED
     button2['state']=tk.DISABLED
@@ -164,6 +169,7 @@ def disablebutton():
     button8['state']=tk.DISABLED
     button9['state']=tk.DISABLED
 
+# Resets everything to start a new game
 def restartbutton():
     global a,b,c
     global player1, player2, draw
@@ -214,11 +220,13 @@ def restartbutton():
         frame1.pack()
         draw = not draw
     
+# When one of the buttons is clicked
 def buttonclick(x):
     global a,b,c
     global player1, player2, draw
     runScript = a
-    #for player 1
+
+    # When is the Player's turn
     if(x==1 and a==1 and button1['text']==''):
         currGame[0][0] = "x"
         button1['text']="X"
@@ -280,7 +288,7 @@ def buttonclick(x):
         a=0
         b+=1
 
-    #for player 2
+    # When is the robot's turn
     if(x==1 and a==0 and button1['text']==''):
         currGame[0][0] = "o"
         button1['text']='O'
