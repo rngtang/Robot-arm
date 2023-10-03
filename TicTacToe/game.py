@@ -351,7 +351,7 @@ def buttonclick(x):
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
-    
+        
     b+=1
 
     #checking winner
