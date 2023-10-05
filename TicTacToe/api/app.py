@@ -50,7 +50,7 @@ def robot_move(coords):
     #     mc.sync_send_angles([0, -135, 90, -50, 0, 0], 60, 3)
     # time.sleep(3)
     # mc.send_angles([0, 0, 0, 0, 0, 0], 70)
-    # # Prints the coordinates to move
+    # Prints the coordinates to move
 
     if coords[0] == coords[1] and coords[0] == 0:
         controls.send_coords([249, 32, -12, 180, 1, -48], 70, 2)
