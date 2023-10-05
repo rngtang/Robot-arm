@@ -16,7 +16,7 @@ try:
 except: 
     print("can't initialize in upright position")
 
-
+# Coordinates dictionary
 TIC_TAC_TOE_COORDS = {
     "00": [248, 30, -12, -180, 0, -68],
     "10": [235, 28, -13, -180, 0, -67],
@@ -29,6 +29,7 @@ TIC_TAC_TOE_COORDS = {
     "22": [220, -23, -14, -179, -2, -79]
 }
 
+# Angles dictionary
 TIC_TAC_TOE_ANGLES = {
     "00": [21.7, -100.54, -43.68, 55.63, -1.13, 0],
     "10": [22.5, -95.62, -56.59, 61.52, -1.04, -2.98],
@@ -75,6 +76,7 @@ def robot_move(coords):
         return "<h1>This is not a valid coordinate, please try again</h1>"
 
     try:
+        controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
         # controls.send_coords(TIC_TAC_TOE_COORDS[coords], 70, 2)
         time.sleep(2)
