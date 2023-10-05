@@ -45,7 +45,8 @@ def access_position():
     except: 
         print("cannot get request from flask")
 
-    result = robot_move(coords)
+    result = test_all()
+    # result = robot_move(coords)
     return result
 
 def robot_move(coords):
@@ -64,6 +65,16 @@ def robot_move(coords):
         print("cannot call on ros")
 
     return '''<h1>The given position is: {}</h1>'''.format(coords)
+
+def test_all():
+
+    for i in range(0, 3):
+        for j in range(0,3):
+            coords = str(i)+str(j)
+            controls.send_coords(TIC_TAC_TOE_COORDS[coords] + [180, 0, 0], 70, 2)
+            time.sleep(2)
+            controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+            time.sleep(2)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5000,debug=True)
