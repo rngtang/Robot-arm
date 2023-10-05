@@ -45,6 +45,7 @@ def access_position():
     except: 
         print("cannot get request from flask")
 
+    # Calls function to test all coordinates
     result = test_all()
     # result = robot_move(coords)
     return result
@@ -66,6 +67,7 @@ def robot_move(coords):
 
     return '''<h1>The given position is: {}</h1>'''.format(coords)
 
+# Function to test all coordinates
 def test_all():
 
     for i in range(0, 3):
