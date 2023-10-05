@@ -144,7 +144,7 @@ def findBestMove(board) :
 # Finds the best move and sends the POST request to the robot
 def updateBoard(board): 
 	move = findBestMove(board)
-	# url = "http://10.194.72.227:5000/move?pos={pos}".format(pos = str(move[0])+str(move[1]))
-	url = "http://0.0.0.0:5000/move?pos={pos}".format(pos = str(move[0])+str(move[1]))
+	url = "http://10.194.72.227:5000/move?pos={pos}".format(pos = str(move[0])+str(move[1]))
+	# url = "http://0.0.0.0:5000/move?pos={pos}".format(pos = str(move[0])+str(move[1]))
 
 	respose  = requests.get(url)
