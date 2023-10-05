@@ -40,14 +40,19 @@ def access_position():
     try: 
         # Gets the coordinates from the arguments  
         position = request.args.get('pos')
+
+        # Test all position
+        if(position == "test"):
+             result = test_all()
+             return result
+        
         # Converts string into a list
         coords = [int(position[0]), int(position[1])]
     except: 
         print("cannot get request from flask")
 
     # Calls function to test all coordinates
-    result = test_all()
-    # result = robot_move(coords)
+    result = robot_move(coords)
     return result
 
 def robot_move(coords):
