@@ -77,6 +77,7 @@ def test_all():
             time.sleep(2)
             controls.send_angles([0, 0, 0, 0, 0, 0], 70)
             time.sleep(2)
+    return '''<h1>Success?<h1>'''
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5000,debug=True)
