@@ -3,54 +3,6 @@ import tkinter as tk
 import tkinter.messagebox
 from tkinter.tix import COLUMN
 import requests
-
-# # Define the URL of your Flask server
-# server_url = "http://127.0.0.1:5000/"
-
-# # Coordinates to send
-# coordinates = "12"  # This should be a string like "12" for row 1 and column 2
-
-# # Create a dictionary with the coordinates
-# data = {'pos': coordinates}
-
-# # Make a POST request to the server
-# response = requests.post(server_url, data=data)
-
-# # Check the response from the server
-# if response.status_code == 200:
-#     print("Coordinates sent successfully.")
-#     print(response.text)  # This will print the response from your Flask server
-# else:
-#     print("Failed to send coordinates.")
-
-
-
-
-
-
-# WIDTH, HEIGHT = 400, 300  # Defines aspect ratio of window.
-# def maintain_aspect_ratio(event, aspect_ratio):
-#     """ Event handler to override root window resize events to maintain the
-#         specified width to height aspect ratio.
-#     """
-#     if event.widget.master:  # Not root window?
-#         return  # Ignore.
-#     #  events contain the widget's new width and height in pixels.
-#     new_aspect_ratio = event.width / event.height
-#     # Decide which dimension controls.
-#     if new_aspect_ratio > aspect_ratio:
-#         # Use width as the controlling dimension.
-#         desired_width = event.width
-#         desired_height = int(event.width / aspect_ratio)
-#     else:
-#         # Use height as the controlling dimension.
-#         desired_height = event.height
-#         desired_width = int(event.height * aspect_ratio)
-#     # Override if necessary.
-#     if event.width != desired_width or event.height != desired_height:
-#         # Manually give it the proper dimensions.
-#         event.widget.geometry(f'{desired_width}x{desired_height}')
-#         return "break"  # Block further processing of this event.
     
 # Creates the main window for the game
 window=tk.Tk()
@@ -58,8 +10,6 @@ window.title('Tic Tac Toe')
 frame=tk.Frame(master=window)
 frame.pack(pady=10)
 window.resizable(True, True)
-# window.geometry(f'{WIDTH}x{HEIGHT}')
-# window.bind('', lambda event: maintain_aspect_ratio(event, WIDTH/HEIGHT))
 
 #Get the current screen width and height
 screen_width = window.winfo_screenwidth()
