@@ -9,6 +9,14 @@ sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/
 from controls import Controls
 controls = Controls()
 
+# start in default position (up)
+try: 
+    controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+    time.sleep(1)
+except: 
+    print("can't initialize in upright position")
+
+
 TIC_TAC_TOE_COORDS = {
     "00": [248, 30, -12],
     "10": [235, 28, -13],
@@ -49,8 +57,9 @@ def robot_move(coords):
 
     try:
         controls.send_coords(TIC_TAC_TOE_COORDS[coords] + [180, 0, 0], 70, 2)
-        time.sleep(2)
+        time.sleep(1)
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+        time.sleep(1)
     except: 
         print("cannot call on ros")
 
