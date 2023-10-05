@@ -57,7 +57,7 @@ def robot_move(coords):
 
     try:
         controls.send_coords(TIC_TAC_TOE_COORDS[coords] + [180, 0, 0], 70, 2)
-        time.sleep(1)
+        time.sleep(2)
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         time.sleep(1)
     except: 
