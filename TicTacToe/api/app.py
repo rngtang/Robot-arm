@@ -7,7 +7,6 @@ import sys
 sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
 
 from controls import Controls
-
 controls = Controls()
 
 TIC_TAC_TOE_COORDS = {
@@ -30,25 +29,32 @@ def hello_world():
 # Route to move the robot
 @app.route("/move")
 def access_position():
-    # Gets the coordinates from the arguments  
-    position = request.args.get('pos')
+    try: 
+        # Gets the coordinates from the arguments  
+        position = request.args.get('pos')
+        # Converts string into a list
+        coords = [int(position[0]), int(position[1])]
+    except: 
+        print("cannot get request from flask")
 
-    # Converts string into a list
-    coords = [int(position[0]), int(position[1])]
     result = robot_move(coords)
     return result
 
 def robot_move(coords):
     coords = ''.join([str(coord) for coord in coords])
+    print(coords)
 
     if coords not in TIC_TAC_TOE_COORDS:
         return "<h1>This is not a valid coordinate, please try again</h1>"
 
-    controls.send_coords(TIC_TAC_TOE_COORDS[coords] + [180, 0, 0], 70, 2)
-    time.sleep(2)
-    controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+    try:
+        controls.send_coords(TIC_TAC_TOE_COORDS[coords] + [180, 0, 0], 70, 2)
+        time.sleep(2)
+        controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+    except: 
+        print("cannot call on ros")
 
-    return '''<h1>The given position is: {}, {}</h1>'''.format(coords[0], coords[1])
+    return '''<h1>The given position is: {}</h1>'''.format(coords)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5000,debug=True)
