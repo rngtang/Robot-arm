@@ -76,9 +76,8 @@ def robot_move(coords):
         return "<h1>This is not a valid coordinate, please try again</h1>"
 
     try:
-        controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+        # controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
-        # controls.send_coords(TIC_TAC_TOE_COORDS[coords], 70, 2)
         time.sleep(2)
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         time.sleep(1)
