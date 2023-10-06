@@ -3,6 +3,7 @@ import tkinter as tk
 import tkinter.messagebox
 from tkinter.tix import COLUMN
 import requests
+import time
     
 # Creates the main window for the game
 window=tk.Tk()
@@ -59,9 +60,9 @@ framePlayer1.pack(padx=20, pady=20)
 inner_frame1 = tk.Frame(framePlayer1, bg='#00539B')
 inner_frame1.grid(row=0, column=0)
 labelPlayer1 = tk.Label(inner_frame1, text="You Won!", font=("Arial", 17), bg='#00539B', foreground="white")
-labelPlayer1.grid(row=0, column=0, padx=10, pady=(59, 3))
-button_restartPlayer1=tk.Button(master=framePlayer1,text="Restart", width=10,height=2,relief=tk.GROOVE,command=lambda: restartbutton())
-button_restartPlayer1.grid(row=1,column=0,padx=85, pady=(3, 59))
+labelPlayer1.grid(row=0, column=0, padx=10, pady=(51, 3))
+button_restartPlayer1=tk.Button(master=framePlayer1,text="Restart", width=14,height=3,relief=tk.GROOVE,command=lambda: restartbutton())
+button_restartPlayer1.grid(row=1,column=0,padx=133.5, pady=(3, 52))
 # button_restartPlayer1.grid_remove()
 framePlayer1.pack_forget()
 
@@ -72,9 +73,9 @@ framePlayer2.pack(padx=20, pady=20)
 inner_frame2 = tk.Frame(framePlayer2, bg='#00539B')
 inner_frame2.grid(row=0, column=0)
 labelPlayer2 = tk.Label(inner_frame2, text="Robot Won!", font=("Arial", 17), bg='#00539B',  foreground="white")
-labelPlayer2.grid(row=0, column=0,padx=10,pady=(59, 3))
-button_restartPlayer2=tk.Button(master=framePlayer2,text="Restart",width=10,height=2,relief=tk.GROOVE,command=lambda: restartbutton())
-button_restartPlayer2.grid(row=1,column=0,padx=85,pady=(3, 59))
+labelPlayer2.grid(row=0, column=0,padx=10,pady=(51, 3))
+button_restartPlayer2=tk.Button(master=framePlayer2,text="Restart",width=14,height=3,relief=tk.GROOVE,command=lambda: restartbutton())
+button_restartPlayer2.grid(row=1,column=0,padx=133.5,pady=(3, 52))
 # button_restartPlayer1.grid_remove()
 framePlayer2.pack_forget()
 
@@ -84,9 +85,9 @@ frameDraw.pack(padx=20, pady=20)
 inner_frame3 = tk.Frame(frameDraw, bg='#00539B')
 inner_frame3.grid(row=0, column=0)
 labelPlayer3 = tk.Label(inner_frame3, text="A Draw!", font=("Arial", 17), bg='#00539B',  foreground="white")
-labelPlayer3.grid(row=0, column=0,padx=10,pady=(59, 3))
-button_restartPlayer3=tk.Button(master=frameDraw,text="Restart",width=10,height=2,relief=tk.GROOVE,command=lambda: restartbutton())
-button_restartPlayer3.grid(row=1,column=0,padx=85,pady=(3, 59))
+labelPlayer3.grid(row=0, column=0,padx=10,pady=(51, 3))
+button_restartPlayer3=tk.Button(master=frameDraw,text="Restart",width=14,height=3,relief=tk.GROOVE,command=lambda: restartbutton())
+button_restartPlayer3.grid(row=1,column=0,padx=133.5,pady=(3, 52))
 # button_restartPlayer1.grid_remove()
 frameDraw.pack_forget()
 
@@ -306,6 +307,7 @@ def buttonclick(x):
         label2['text']='Player-1 Turn'
         a=1
 
+    window.update()
     b+=1
 
     #checking winner
@@ -346,8 +348,8 @@ def buttonclick(x):
         # tkinter.messagebox.showinfo("Tic Tac Toe","Match is Draw.")
 
     elif runScript == 1: #run the script to call robot move if the player made their move and game is not over
-        window.update()
-        updateBoard(currGame)
+        # updateBoard(currGame)
+        # time.sleep(4)
         print("test")
     
 window.mainloop()
