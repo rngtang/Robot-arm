@@ -1,17 +1,17 @@
 from flask import Flask, request
 import time
+import sys
+
+sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
+from controls import Controls
 
 app = Flask(__name__)
-
-import sys
-sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
-
-from controls import Controls
 controls = Controls()
 
 # start in default position (up)
 try: 
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+    print("Default position")
     time.sleep(1)
 except: 
     print("can't initialize in upright position")
