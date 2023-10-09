@@ -99,4 +99,5 @@ def test_all():
     return '''<h1>Success?<h1>'''
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=5000,debug=True)
+    # app.run(host='0.0.0.0',port=5000,debug=True)
+    app.run(host='10.194.72.227',port=5000,debug=True)
