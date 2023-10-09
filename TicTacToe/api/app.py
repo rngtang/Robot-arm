@@ -58,9 +58,9 @@ try:
             position = request.args.get('pos')
 
             # Test all position
-            if(position == "test"):
-                result = test_all()
-                return result
+            # if(position == "test"):
+            #     result = test_all()
+            #     return result
             
             # Converts string into a list
             coords = [int(position[0]), int(position[1])]
@@ -79,7 +79,8 @@ try:
         if coords not in TIC_TAC_TOE_COORDS:
             return "<h1>This is not a valid coordinate, please try again</h1>"
         # controls.send_angles([0, 0, 0, 0, 0, 0], 70)
-        controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
+        controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70) 
+        # will print "Angles Published" <- every time controls.sen_angles() method is called 
         time.sleep(2)
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         time.sleep(1)
@@ -101,6 +102,7 @@ def test_all():
 
 if __name__ == '__main__':
     try: 
-        app.run(host='0.0.0.0',port=5000,debug=True)
+        # app.run(host='0.0.0.0',port=5000,debug=True)
+        app.run(host='10.194.72.227',port=5000,debug=True)
     except: 
         print("FROM APP: failed to run app.run LOL")
