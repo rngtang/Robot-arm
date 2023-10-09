@@ -148,3 +148,6 @@ def updateBoard(board):
 	# url = "http://0.0.0.0:5000/move?pos={pos}".format(pos = str(move[0])+str(move[1]))
 
 	respose  = requests.get(url)
+
+# board = [['-','-','-'], ['-','-','-'], ['-','-','-']]
+# updateBoard(board)
