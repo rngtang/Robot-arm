@@ -15,7 +15,7 @@ except:
 try: 
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
     print("Default position")
-    time.sleep(1)
+    time.sleep(0.1)
 except: 
     print("FROM APP: can't initialize in upright position")
 
@@ -64,7 +64,7 @@ try:
             
             # Converts string into a list
             coords = [int(position[0]), int(position[1])]
-            time.sleep(1)
+            time.sleep(0.1)
             result = robot_move(coords)
             return result
         # Calls function to test all coordinates
@@ -81,9 +81,9 @@ try:
         # controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70) 
         # will print "Angles Published" <- every time controls.sen_angles() method is called 
-        time.sleep(2)
+        time.sleep(0.1)
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
-        time.sleep(1)
+        time.sleep(0.1)
 
         return '''<h1>The given position is: {}</h1>'''.format(coords)
 except: 
