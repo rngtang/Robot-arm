@@ -1,5 +1,17 @@
 # Co-Lab Robotics Team!
 
+# Working with the LCD
+You'll need to go to the Raspberry Pi station and connect a mouse and keyboard if working on the LCD, or you can also connect to HDMI as well to work on a bigger screen. 
+
+To switch between the LCD and HDMI views, use these commands in the pi terminal.
+
+```bash
+cd LCD-show/
+sudo ./LCD35-show
+sudo ./LCD-hdmi
+
+```
+
 ## Setting up Remote Server
 
 Get RealVNC Viewer for your laptop, and then connect to robot with using the info below. You do not need to sign into VNC Viewer.
@@ -28,6 +40,26 @@ er@10.197.171.134
 Then, enter password.
  
 And now you should be done! You can make a test file in Desktop such as "touch hiIwashere.txt" in your VSCode, and check to see if it's in the robot's Desktop in RealVNC.
+
+### Optimizing the SSH process
+
+These are a few steps you can do to optimize the SSH process into the robot, so that you don't have to manually enter the IP every time.
+
+Open a new VS Code window, then click on the blue "><" button. Choose "Connect to Host..." -> "Configure SSH Hosts..." -> "Users/<your_username>/.ssh/config". Add the following lines to the file:
+
+```
+Host <your_chosen_hostname>
+  HostName 10.197.171.134
+  User er
+```
+
+Replace <your_chosen_hostname> with your chosen hostname (for example, "mycobot"), then save the file. The next time you SSH into the robot in the terminal, instead of typing in the IP, you can just run
+
+```bash
+ssh <your_chosen_hostname>
+```
+
+When you SSH into the robot using VS Code, after choosing "Connect to Host...", <your_chosen_hostname> will already be listed as an option, so you don't have to manually type in the IP.
 
 ## Running python code
 
