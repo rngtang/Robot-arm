@@ -353,7 +353,7 @@ def buttonclick(x):
         except: 
             print("FROM GAME: can't call on ttt.py ??")
 
-        # time.sleep(1)
+        time.sleep(1)
         print("test")
     
 window.mainloop()
