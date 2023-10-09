@@ -61,6 +61,7 @@ def access_position():
         
         # Converts string into a list
         coords = [int(position[0]), int(position[1])]
+        time.sleep(1)
     except: 
         print("cannot get request from flask")
 
@@ -99,5 +100,5 @@ def test_all():
     return '''<h1>Success?<h1>'''
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0',port=5000,debug=True)
-    app.run(host='10.194.72.227',port=5000,debug=True)
+    app.run(host='0.0.0.0',port=5000,debug=True)
+    # app.run(host='10.194.72.227',port=5000,debug=True)
