@@ -9,12 +9,13 @@ app = Flask(__name__)
 controls = Controls()
 
 # start in default position (up)
-try: 
+try:
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
     print("Default position")
     time.sleep(1)
-except: 
-    print("can't initialize in upright position")
+
+except Exception:
+    print("Can't initialize in upright position")
 
 # Coordinates dictionary
 TIC_TAC_TOE_COORDS = {
@@ -42,63 +43,68 @@ TIC_TAC_TOE_ANGLES = {
     "22": [10.72, -92.45, -70.30, 72.5, -1.49, -5.53]
 }
 
+
 # Default route
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
 
+
 # Route to move the robot
 @app.route("/move")
 def access_position():
-    try: 
-        # Gets the coordinates from the arguments  
+    try:
+        # Gets the coordinates from the arguments
         position = request.args.get('pos')
 
         # Test all position
-        if(position == "test"):
-             result = test_all()
-             return result
-        
+        if position == "test":
+            result = test_all()
+            return result
+
         # Converts string into a list
         coords = [int(position[0]), int(position[1])]
         time.sleep(1)
-    except: 
-        print("cannot get request from flask")
+
+    except Exception:
+        print("Cannot get request from Flask")
 
     # Calls function to test all coordinates
     result = robot_move(coords)
     return result
 
+
 def robot_move(coords):
     coords = ''.join([str(coord) for coord in coords])
-    print(coords)
 
     if coords not in TIC_TAC_TOE_COORDS:
         return "<h1>This is not a valid coordinate, please try again</h1>"
 
     try:
-        # controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
         time.sleep(2)
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         time.sleep(1)
-    except: 
-        print("cannot call on ros")
+
+    except Exception:
+        print("Cannot call ROS")
 
     return '''<h1>The given position is: {}</h1>'''.format(coords)
 
+
 # Function to test all coordinates
 def test_all():
-
     for i in range(0, 3):
-        for j in range(0,3):
-            coords = str(i)+str(j)
+        for j in range(0, 3):
+            coords = f"{i}{j}"
             controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
             time.sleep(2)
+
             controls.send_angles([0, 0, 0, 0, 0, 0], 70)
             time.sleep(2)
+
     return '''<h1>Success?<h1>'''
 
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=5000,debug=True)
-    # app.run(host='10.194.72.227',port=5000,debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
