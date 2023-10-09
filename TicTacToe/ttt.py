@@ -4,6 +4,7 @@
 
 # This file contains the necessary functions to calculate the best move for the robot to do
 import requests
+import time
 player, robot = 'x', 'o'
 
 # This function returns true if there are moves remaining on the board. It returns false if there are no moves left to play.
@@ -147,6 +148,7 @@ def updateBoard(board):
 	url = "http://10.194.72.227:5000/move?pos={pos}".format(pos = str(move[0])+str(move[1]))
 	try: 
 		response  = requests.get(url)
+		time.sleep(0.1)
 		response.raise_for_status()  # Raise an error for HTTP codes other than 2xx
 		print("FROM TTT: Request successful")
 	except requests.exceptions.HTTPError as http_err:
