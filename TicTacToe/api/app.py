@@ -2,11 +2,14 @@ from flask import Flask, request
 import time
 import sys
 
-sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
-from controls import Controls
+try: 
+    sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
+    from controls import Controls
 
-app = Flask(__name__)
-controls = Controls()
+    app = Flask(__name__)
+    controls = Controls()
+except: 
+    print("FROM APP: can't connect to controls")
 
 # start in default position (up)
 try: 
@@ -14,7 +17,7 @@ try:
     print("Default position")
     time.sleep(1)
 except: 
-    print("can't initialize in upright position")
+    print("FROM APP: can't initialize in upright position")
 
 # Coordinates dictionary
 TIC_TAC_TOE_COORDS = {
@@ -47,49 +50,46 @@ TIC_TAC_TOE_ANGLES = {
 def hello_world():
     return "<p>Hello, World!</p>"
 
-# Route to move the robot
-@app.route("/move")
-def access_position():
-    try: 
-        # Gets the coordinates from the arguments  
-        position = request.args.get('pos')
+try: 
+    # Route to move the robot
+    @app.route("/move")
+    def access_position():
+            # Gets the coordinates from the arguments  
+            position = request.args.get('pos')
 
-        # Test all position
-        if(position == "test"):
-             result = test_all()
-             return result
-        
-        # Converts string into a list
-        coords = [int(position[0]), int(position[1])]
-        time.sleep(1)
-    except: 
-        print("cannot get request from flask")
+            # Test all position
+            if(position == "test"):
+                result = test_all()
+                return result
+            
+            # Converts string into a list
+            coords = [int(position[0]), int(position[1])]
+            time.sleep(1)
+            result = robot_move(coords)
+            return result
+        # Calls function to test all coordinates
+except: 
+    print("FROM APP: cannot get request from flask")
 
-    # Calls function to test all coordinates
-    result = robot_move(coords)
-    return result
+try:
+    def robot_move(coords):
+        coords = ''.join([str(coord) for coord in coords])
+        print(coords)
 
-def robot_move(coords):
-    coords = ''.join([str(coord) for coord in coords])
-    print(coords)
-
-    if coords not in TIC_TAC_TOE_COORDS:
-        return "<h1>This is not a valid coordinate, please try again</h1>"
-
-    try:
+        if coords not in TIC_TAC_TOE_COORDS:
+            return "<h1>This is not a valid coordinate, please try again</h1>"
         # controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
         time.sleep(2)
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         time.sleep(1)
-    except: 
-        print("cannot call on ros")
 
-    return '''<h1>The given position is: {}</h1>'''.format(coords)
+        return '''<h1>The given position is: {}</h1>'''.format(coords)
+except: 
+    print("FROM APP: cannot call on ros")
 
 # Function to test all coordinates
 def test_all():
-
     for i in range(0, 3):
         for j in range(0,3):
             coords = str(i)+str(j)
@@ -100,8 +100,7 @@ def test_all():
     return '''<h1>Success?<h1>'''
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0',port=5000,debug=True)
     try: 
-        app.run(host='10.194.72.227',port=5000,debug=True)
+        app.run(host='0.0.0.0',port=5000,debug=True)
     except: 
-        print("failed to run app.run LOL")
+        print("FROM APP: failed to run app.run LOL")
