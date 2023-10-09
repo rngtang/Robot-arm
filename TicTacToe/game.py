@@ -59,7 +59,7 @@ framePlayer1.pack(padx=20, pady=20)
 # Create an inner frame within frame2 and use grid for it
 inner_frame1 = tk.Frame(framePlayer1, bg='#00539B')
 inner_frame1.grid(row=0, column=0)
-labelPlayer1 = tk.Label(inner_frame1, text="You Won    !", font=("Arial", 17), bg='#00539B', foreground="white")
+labelPlayer1 = tk.Label(inner_frame1, text="You Won  !", font=("Arial", 17), bg='#00539B', foreground="white")
 labelPlayer1.grid(row=0, column=0, padx=175, pady=(51, 3))
 button_restartPlayer1=tk.Button(master=framePlayer1,text="Restart", width=14,height=3,relief=tk.GROOVE,command=lambda: restartbutton())
 button_restartPlayer1.grid(row=1,column=0,padx=300, pady=(3, 52))
