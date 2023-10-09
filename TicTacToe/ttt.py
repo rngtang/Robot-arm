@@ -148,8 +148,8 @@ def updateBoard(board):
 	try: 
 		response  = requests.get(url)
 		response.raise_for_status()  # Raise an error for HTTP codes other than 2xx
-		print("Request successful")
+		print("FROM TTT: Request successful")
 	except requests.exceptions.HTTPError as http_err:
-		print(f'HTTP error occurred: {http_err}')
+		print(f'FROM TTT: HTTP error occurred: {http_err}')
 	except Exception as err:
-		print(f'An error occurred: {err}')
+		print(f'FROM TTT: An error occurred: {err}')

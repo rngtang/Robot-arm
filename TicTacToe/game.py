@@ -348,7 +348,11 @@ def buttonclick(x):
         # tkinter.messagebox.showinfo("Tic Tac Toe","Match is Draw.")
 
     elif runScript == 1: #run the script to call robot move if the player made their move and game is not over
-        updateBoard(currGame)
+        try: 
+            updateBoard(currGame)
+        except: 
+            print("FROM GAME: can't call on ttt.py ??")
+
         # time.sleep(1)
         print("test")
     
