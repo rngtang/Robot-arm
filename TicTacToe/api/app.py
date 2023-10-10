@@ -13,6 +13,7 @@ except:
 
 # start in default position (up)
 try: 
+    time.sleep(2)
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
     print("Default position")
     time.sleep(0.1)
