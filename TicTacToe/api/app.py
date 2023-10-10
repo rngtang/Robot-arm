@@ -68,7 +68,6 @@ try:
             time.sleep(0.1)
             result = robot_move(coords)
             return result
-        # Calls function to test all coordinates
 except: 
     print("FROM APP: cannot get request from flask")
 
