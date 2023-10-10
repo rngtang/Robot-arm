@@ -178,6 +178,8 @@ def buttonclick(x):
     runScript = a
 
     # When is the Player's turn
+    if(a == 1):
+        time.sleep(1)
     if(x==1 and a==1 and button1['text']==''):
         currGame[0][0] = "x"
         button1['text']="X"
@@ -353,7 +355,6 @@ def buttonclick(x):
         except: 
             print("FROM GAME: can't call on ttt.py ??")
 
-        # time.sleep(1)
         print("test")
     
 window.mainloop()
