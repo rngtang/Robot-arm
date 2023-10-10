@@ -4,7 +4,7 @@ import tkinter.messagebox
 from tkinter.tix import COLUMN
 import requests
 import time
-    
+
 # Creates the main window for the game
 window=tk.Tk()
 window.title('Tic Tac Toe')
@@ -12,11 +12,11 @@ frame=tk.Frame(master=window)
 frame.pack(pady=10)
 window.resizable(True, True)
 
-#Get the current screen width and height
+# Get the current screen width and height
 screen_width = window.winfo_screenwidth()
 screen_height = window.winfo_screenheight()
 
-#Print the screen size
+# Print the screen size
 print("Screen width:", screen_width)
 print("Screen height:", screen_height)
 
