@@ -173,6 +173,7 @@ def restartbutton():
     
 # When one of the buttons is clicked
 def buttonclick(x):
+    window.update()
     global a,b,c
     global player1, player2, draw
     runScript = a
