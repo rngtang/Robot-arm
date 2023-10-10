@@ -57,6 +57,8 @@ try:
     def access_position():
             # Gets the coordinates from the arguments  
             position = request.args.get('pos')
+            # Fail safe?
+            controls.send_angles([0, 0, 0, 0, 0, 0], 70)
 
             # Test all position
             # if(position == "test"):
