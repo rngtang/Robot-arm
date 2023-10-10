@@ -9,7 +9,7 @@ import time
 window=tk.Tk()
 window.title('Tic Tac Toe')
 frame=tk.Frame(master=window)
-frame.pack()
+frame.pack(pady=20)
 window.resizable(True, True)
 
 #Get the current screen width and height
