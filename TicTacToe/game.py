@@ -182,6 +182,7 @@ def buttonclick(x):
         currGame[0][0] = "x"
         button1['text']="X"
         button1['bg']="skyblue"
+        button1['activebackground']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
         a = 0
@@ -189,6 +190,7 @@ def buttonclick(x):
         currGame[0][1] = "x"
         button2['text']="X"
         button2['bg']="skyblue"
+        button2['activebackground']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
         a = 0
@@ -196,6 +198,7 @@ def buttonclick(x):
         currGame[0][2] = "x"
         button3['text']="X"
         button3['bg']="skyblue"
+        button3['activebackground']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
         a = 0
@@ -203,6 +206,7 @@ def buttonclick(x):
         currGame[1][0] = "x"
         button4['text']="X"
         button4['bg']="skyblue"
+        button4['activebackground']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
         a = 0
@@ -210,6 +214,7 @@ def buttonclick(x):
         currGame[1][1] = "x"
         button5['text']="X"
         button5['bg']="skyblue"
+        button5['activebackground']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
         a = 0
@@ -217,6 +222,7 @@ def buttonclick(x):
         currGame[1][2] = "x"
         button6['text']="X"
         button6['bg']="skyblue"
+        button6['activebackground']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
         a = 0
@@ -224,6 +230,7 @@ def buttonclick(x):
         currGame[2][0] = "x"
         button7['text']="X"
         button7['bg']="skyblue"
+        button7['activebackground']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
         a = 0
@@ -231,6 +238,7 @@ def buttonclick(x):
         currGame[2][1] = "x"
         button8['text']="X"
         button8['bg']="skyblue"
+        button8['activebackground']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
         a = 0
@@ -238,6 +246,7 @@ def buttonclick(x):
         currGame[2][2] = "x"
         button9['text']="X"
         button9['bg']="skyblue"
+        button9['activebackground']="skyblue"
         label2['bg']="#e8956f"
         label2['text']='Player-2 Turn'
         a = 0
@@ -247,6 +256,7 @@ def buttonclick(x):
         currGame[0][0] = "o"
         button1['text']='O'
         button1['bg']="#e8956f"
+        button1['activebackground']="#e8956f"
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
@@ -254,6 +264,7 @@ def buttonclick(x):
         currGame[0][1] = "o"
         button2['text']='O'
         button2['bg']="#e8956f"
+        button2['activebackground']="#e8956f"
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
@@ -261,6 +272,7 @@ def buttonclick(x):
         currGame[0][2] = "o"
         button3['text']='O'
         button3['bg']="#e8956f"
+        button3['activebackground']="#e8956f"
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
@@ -268,6 +280,7 @@ def buttonclick(x):
         currGame[1][0] = "o"
         button4['text']='O'
         button4['bg']="#e8956f"
+        button4['activebackground']="#e8956f"
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
@@ -275,6 +288,7 @@ def buttonclick(x):
         currGame[1][1] = "o"
         button5['text']='O'
         button5['bg']="#e8956f"
+        button5['activebackground']="#e8956f"
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
@@ -282,6 +296,7 @@ def buttonclick(x):
         currGame[1][2] = "o"
         button6['text']='O'
         button6['bg']="#e8956f"
+        button6['activebackground']="#e8956f"
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
@@ -289,6 +304,7 @@ def buttonclick(x):
         currGame[2][0] = "o"
         button7['text']='O'
         button7['bg']="#e8956f"
+        button7['activebackground']="#e8956f"
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
@@ -296,6 +312,7 @@ def buttonclick(x):
         currGame[2][1] = "o"
         button8['text']='O'
         button8['bg']="#e8956f"
+        button8['activebackground']="#e8956f"
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
@@ -303,6 +320,7 @@ def buttonclick(x):
         currGame[2][2] = "o"
         button9['text']='O'
         button9['bg']="#e8956f"
+        button9['activebackground']="#e8956f"
         label2['bg']="skyblue"
         label2['text']='Player-1 Turn'
         a=1
