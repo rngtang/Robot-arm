@@ -80,8 +80,8 @@ try:
             return "<h1>This is not a valid coordinate, please try again</h1>"
         # controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70) 
-        # will print "Angles Published" <- every time controls.sen_angles() method is called 
-        time.sleep(0.1)
+        # will print "Angles Published" <- every time controls.send_angles() method is called 
+        time.sleep(1)
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         time.sleep(0.1)
 
