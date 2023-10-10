@@ -25,31 +25,31 @@ frame1.pack(padx=0,pady=0)
 
 # Creates the buttons grid
 button1=tk.Button(master=frame1,text='',width=15,height=4,bg='white',activebackground='white',command=lambda : buttonclick(1))
-button1.grid(row=0,column=0,padx=5,pady=4)
+button1.grid(row=0,column=0,padx=5,pady=3)
 
 button2=tk.Button(master=frame1,text='',width=15,height=4,bg='white',activebackground='white',command=lambda : buttonclick(2))
-button2.grid(row=0,column=1,padx=5,pady=4)
+button2.grid(row=0,column=1,padx=5,pady=3)
 
 button3=tk.Button(master=frame1,text='',width=15,height=4,bg='white',activebackground='white',command=lambda : buttonclick(3))
-button3.grid(row=0,column=2,padx=5,pady=4)
+button3.grid(row=0,column=2,padx=5,pady=3)
 
 button4=tk.Button(master=frame1,text='',width=15,height=4,bg='white',activebackground='white',command=lambda : buttonclick(4))
-button4.grid(row=1,column=0,padx=5,pady=4)
+button4.grid(row=1,column=0,padx=5,pady=3)
 
 button5=tk.Button(master=frame1,text='',width=15,height=4,bg='white',activebackground='white',command=lambda : buttonclick(5))
-button5.grid(row=1,column=1,padx=5,pady=4)
+button5.grid(row=1,column=1,padx=5,pady=3)
 
 button6=tk.Button(master=frame1,text='',width=15,height=4,bg='white',activebackground='white',command=lambda : buttonclick(6))
-button6.grid(row=1,column=2,padx=5,pady=4)
+button6.grid(row=1,column=2,padx=5,pady=3)
 
 button7=tk.Button(master=frame1,text='',width=15,height=4,bg='white',activebackground='white',command=lambda : buttonclick(7))
-button7.grid(row=2,column=0,padx=5,pady=4)
+button7.grid(row=2,column=0,padx=5,pady=3)
 
 button8=tk.Button(master=frame1,text='',width=15,height=4,bg='white',activebackground='white',command=lambda : buttonclick(8))
-button8.grid(row=2,column=1,padx=5,pady=4)
+button8.grid(row=2,column=1,padx=5,pady=3)
 
 button9=tk.Button(master=frame1,text='',width=15,height=4,bg='white',activebackground='white',command=lambda : buttonclick(9))
-button9.grid(row=2,column=2,padx=5,pady=4)
+button9.grid(row=2,column=2,padx=5,pady=3)
 
 
 
