@@ -21,7 +21,7 @@ print("Screen width:", screen_width)
 print("Screen height:", screen_height)
 
 frame1=tk.Frame(master=window,borderwidth=2,relief=tk.SUNKEN,bg='#00539B')
-frame1.pack(padx=0,pady=0)
+frame1.pack(padx=0,pady=(0, 1))
 
 # Creates the buttons grid
 button1=tk.Button(master=frame1,text='',width=15,height=4,bg='white',activebackground='white',command=lambda : buttonclick(1))
