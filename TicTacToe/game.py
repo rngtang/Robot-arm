@@ -24,8 +24,9 @@ frame1=tk.Frame(master=window,borderwidth=2,relief=tk.SUNKEN,bg='#00539B')
 frame1.pack(padx=0,pady=0)
 
 # Creates the buttons grid
-button1=tk.Button(master=frame1,text='',width=15,height=30,bg='white',activebackground='white',command=lambda : buttonclick(1))
+button1=tk.Button(master=frame1,text='',width=15,height=3,bg='white',activebackground='white',command=lambda : buttonclick(1))
 button1.grid(row=0,column=0,padx=5,pady=5)
+button1.configure(height=35)
 
 button2=tk.Button(master=frame1,text='',width=15,height=3,bg='white',activebackground='white',command=lambda : buttonclick(2))
 button2.grid(row=0,column=1,padx=5,pady=5)
