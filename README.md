@@ -1,5 +1,12 @@
 # Co-Lab Robotics Team!
 
+This project allows a student to play Tic-Tac-Toe on an LCD touchscreen against our MyCobot robotic arm. This setup uses two Raspberry Pis (one for the LCD, one for the robotic arm) as well as Python to run the game and ROS to control the movement of the arm.
+
+To play the game, one must run applications on both the robot and the LCD. 
+
+For the LCD: 
+*The LCD is touchscreen, but can also be connected through RealVNC for easier access. More information about setting up RealVNC can be found below. The 
+
 # Working with the LCD
 You'll need to go to the Raspberry Pi station and connect a mouse and keyboard if working on the LCD, or you can also connect to HDMI as well to work on a bigger screen. 
 
