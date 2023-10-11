@@ -82,7 +82,7 @@ button_restartPlayer2.grid(row=1,column=0,padx=166,pady=(3, 75))
 framePlayer2.pack_forget()
 
 frameDraw=tk.Frame(master=window,border=2,relief=tk.SUNKEN, bg='#00539B')
-frameDraw.pack(padx=20, pady=20)
+frameDraw.pack(padx=0, pady=0)
 # Create an inner frame within frame3 and use grid for it
 inner_frame3 = tk.Frame(frameDraw, bg='#00539B')
 inner_frame3.grid(row=0, column=0)
