@@ -9,7 +9,7 @@ import time
 window=tk.Tk()
 window.title('Tic Tac Toe')
 frame=tk.Frame(master=window)
-frame.pack(pady=10)
+frame.pack()
 window.resizable(True, True)
 
 # Get the current screen width and height
@@ -24,7 +24,7 @@ frame1=tk.Frame(master=window,borderwidth=2,relief=tk.SUNKEN,bg='#00539B')
 frame1.pack(padx=0,pady=0)
 
 # Creates the buttons grid
-button1=tk.Button(master=frame1,text='',width=15,height=3,bg='white',activebackground='white',command=lambda : buttonclick(1))
+button1=tk.Button(master=frame1,text='',width=15,height=30,bg='white',activebackground='white',command=lambda : buttonclick(1))
 button1.grid(row=0,column=0,padx=5,pady=5)
 
 button2=tk.Button(master=frame1,text='',width=15,height=3,bg='white',activebackground='white',command=lambda : buttonclick(2))
@@ -375,10 +375,10 @@ def buttonclick(x):
         # tkinter.messagebox.showinfo("Tic Tac Toe","Match is Draw.")
 
     elif runScript == 1:  # run the script to call robot move if the player made their move and game is not over
-        try: 
-            updateBoard(currGame)
-        except: 
-            print("FROM GAME: can't call on ttt.py ??")
+        #try: 
+            #updateBoard(currGame)
+        #except: 
+            #print("FROM GAME: can't call on ttt.py ??")
 
         time.sleep(1)
     
