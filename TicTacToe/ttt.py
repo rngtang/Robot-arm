@@ -19,7 +19,7 @@ def isMovesLeft(board):
 	return False
 
 
-# This is the evaluation function as discussed in the previous article ( http://goo.gl/sJgv68 )
+# This is the evaluation function as discussed in the previous article (http://goo.gl/sJgv68)
 def evaluate(b):
 	# Checking for Rows for X or O victory.
 	for row in range(3):
