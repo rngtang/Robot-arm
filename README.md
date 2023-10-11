@@ -2,10 +2,12 @@
 
 This project allows a student to play Tic-Tac-Toe on an LCD touchscreen against our MyCobot robotic arm. This setup uses two Raspberry Pis (one for the LCD, one for the robotic arm) as well as Python to run the game and ROS to control the movement of the arm.
 
-To play the game, one must run applications on both the robot and the LCD. 
+To play the game, one must run applications on both the robot and the LCD. These applications are hosted on `~/robotic-arm/TicTacToe`.
 
 For the LCD: 
-*The LCD is touchscreen, but can also be connected through RealVNC for easier access. More information about setting up RealVNC can be found below. The 
+..*The LCD is meant to host the GUI of the game and do the mathematical calculation for finding the robot's best move based on the current board. It contains two important files, `game.py` and `ttt.py`. 
+..*The LCD is touchscreen, but can also be connected through RealVNC for easier control. More information about setting up RealVNC can be found below. 
+..*
 
 # Working with the LCD
 You'll need to go to the Raspberry Pi station and connect a mouse and keyboard if working on the LCD, or you can also connect to HDMI as well to work on a bigger screen. 
@@ -68,21 +70,16 @@ ssh <your_chosen_hostname>
 
 When you SSH into the robot using VS Code, after choosing "Connect to Host...", <your_chosen_hostname> will already be listed as an option, so you don't have to manually type in the IP.
 
-## Running python code
+## Running Python code for controlling the movement of the arm 
 
-Make sure to always include these lines as setup.
+These commands are for if you want to control the movement of the robotic arm through Python instead of ROS. These commands are not used in our Tic-Tac-Toe game, they're just here for reference.
 
 ```python
 from pymycobot.mycobot import MyCobot
-
 from pymycobot.genre import Angle
-
 from pymycobot import PI_PORT, PI_BAUD
-
 import time
 ```
-
-This is how you make the robot object, include this line too:  
 
 ```python
 mc = MyCobot("/dev/ttyAMA0", 1000000)
