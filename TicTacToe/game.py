@@ -179,7 +179,7 @@ def restartbutton():
         frameDraw.pack_forget()
         frame1.pack()
         draw = not draw
-    
+
 # When one of the buttons is clicked
 def buttonclick(x):
     global a,b,c
@@ -374,7 +374,7 @@ def buttonclick(x):
         c=1
         # tkinter.messagebox.showinfo("Tic Tac Toe","Match is Draw.")
 
-    elif runScript == 1: #run the script to call robot move if the player made their move and game is not over
+    elif runScript == 1:  # run the script to call robot move if the player made their move and game is not over
         try: 
             updateBoard(currGame)
         except: 

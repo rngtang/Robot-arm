@@ -1,7 +1,8 @@
 from pymycobot.mycobot import MyCobot
 from pymycobot.genre import Coord
 from pymycobot import PI_PORT, PI_BAUD
-import time, datetime
+import time
+import datetime
 
 print("Start running")
 mc = MyCobot(PI_PORT, PI_BAUD)
@@ -17,12 +18,12 @@ print("Starting")
 mc.send_angles([-1.49, 115, -153.45, 30, -33.42, 137.9], 80)
 # Determine if it reaches the specified position
 print("Entering loop")
-while time.time() - start <= 10:    
+while time.time() - start <= 10:
     print("Looping")
     mc.get_coords()
     time.sleep(0.5)
     # mc.get_angles()
-    
+
     mc.release_all_servos()
 
 # while not mc.is_in_position([-1.49, 115, -153.45, 30, -33.42, 137.9], 0):

@@ -10,6 +10,5 @@ mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 mc.send_angles([0, 0, 0, 0, 0, 0], 50)
 time.sleep(3)
-mc.set_color(0,0,255) #blue light on
+mc.set_color(0, 0, 255)  # blue light on
 # mc.set_color(255,0,0) #red light on
-
