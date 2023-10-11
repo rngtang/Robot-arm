@@ -50,6 +50,8 @@ button8.grid(row=2,column=1)
 
 button9=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(9))
 button9.grid(row=2,column=2)
+button1=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(1), highlightthickness=1, highlightbackground='black')
+button1.grid(row=0,column=0)
 
 
 
