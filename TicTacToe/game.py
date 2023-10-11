@@ -70,7 +70,7 @@ framePlayer1.pack_forget()
 
 
 framePlayer2=tk.Frame(master=window,border=2,relief=tk.SUNKEN, bg='#00539B')
-framePlayer2.pack(padx=20, pady=20)
+framePlayer2.pack(padx=0, pady=0)
 # Create an inner frame within frame3 and use grid for it
 inner_frame2 = tk.Frame(framePlayer2, bg='#00539B')
 inner_frame2.grid(row=0, column=0)
