@@ -5,9 +5,9 @@ This project allows a student to play Tic-Tac-Toe on an LCD touchscreen against 
 To play the game, one must run applications on both the robot and the LCD. These applications are hosted on `~/robotic-arm/TicTacToe`.
 
 For the LCD: 
-..*The LCD is meant to host the GUI of the game and do the mathematical calculation for finding the robot's best move based on the current board. It contains two important files, `game.py` and `ttt.py`. 
-..*The LCD is touchscreen, but can also be connected through RealVNC for easier control. More information about setting up RealVNC can be found below. 
-..*
+..* The LCD is meant to host the GUI of the game and do the mathematical calculation for finding the robot's best move based on the current board. It contains two important files, `game.py` and `ttt.py`. 
+..* The LCD is touchscreen, but can also be connected through RealVNC for easier control. More information about setting up RealVNC can be found below. 
+..* 
 
 # Working with the LCD
 You'll need to go to the Raspberry Pi station and connect a mouse and keyboard if working on the LCD, or you can also connect to HDMI as well to work on a bigger screen. 
