@@ -16,7 +16,7 @@ try:
     time.sleep(2)
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
     print("Default position")
-    time.sleep(0.1)
+    time.sleep(1)
 except Exception:
     print("FROM APP: can't initialize in upright position")
 
@@ -70,7 +70,7 @@ try:
 
         # Converts string into a list
         coords = [int(position[0]), int(position[1])]
-        time.sleep(0.1)
+        time.sleep(1)
         result = robot_move(coords)
         return result
 
@@ -89,7 +89,7 @@ try:
         # will print "Angles Published" <- every time controls.send_angles() method is called
         time.sleep(1)
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
-        time.sleep(0.1)
+        time.sleep(1)
 
         return '''<h1>The given position is: {}</h1>'''.format(coords)
 
@@ -98,15 +98,15 @@ except Exception:
 
 
 # Function to test all coordinates
-def test_all():
-    for i in range(0, 3):
-        for j in range(0, 3):
-            coords = str(i) + str(j)
-            controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
-            time.sleep(2)
-            controls.send_angles([0, 0, 0, 0, 0, 0], 70)
-            time.sleep(2)
-    return '''<h1>Success?<h1>'''
+# def test_all():
+#     for i in range(0, 3):
+#         for j in range(0, 3):
+#             coords = str(i) + str(j)
+#             controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
+#             time.sleep(2)
+#             controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+#             time.sleep(2)
+#     return '''<h1>Success?<h1>'''
 
 
 if __name__ == '__main__':
