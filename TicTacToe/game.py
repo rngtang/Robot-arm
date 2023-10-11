@@ -56,7 +56,7 @@ button1.grid(row=0,column=0)
 
 
 framePlayer1=tk.Frame(master=window,border=2,relief=tk.SUNKEN, bg='#00539B')
-framePlayer1.pack(padx=20, pady=20)
+framePlayer1.pack(padx=0, pady=0)
 
 # Create an inner frame within frame2 and use grid for it
 inner_frame1 = tk.Frame(framePlayer1, bg='#00539B')
