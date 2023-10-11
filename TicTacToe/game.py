@@ -20,7 +20,7 @@ screen_height = window.winfo_screenheight()
 print("Screen width:", screen_width)
 print("Screen height:", screen_height)
 
-frame1=tk.Frame(master=window,borderwidth=2,relief=tk.SUNKEN,bg='#00539B')
+frame1=tk.Frame(master=window,borderwidth=2,relief=tk.SUNKEN)
 frame1.pack(padx=2,pady=2)
 
 # Creates the buttons grid
