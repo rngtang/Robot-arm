@@ -21,36 +21,36 @@ print("Screen width:", screen_width)
 print("Screen height:", screen_height)
 
 frame1=tk.Frame(master=window,borderwidth=2,relief=tk.SUNKEN)
-frame1.pack(padx=0,pady=2)
+frame1.pack(padx=3,pady=2)
 
 # Creates the buttons grid
-button1=tk.Button(master=frame1,text='',width=17,height=4,bg='white',activebackground='white',command=lambda : buttonclick(1), highlightthickness=1, highlightbackground='black')
+button1=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(1), highlightthickness=2, highlightbackground='black')
 button1.grid(row=0,column=0)
 
-button2=tk.Button(master=frame1,text='',width=17,height=4,bg='white',activebackground='white',command=lambda : buttonclick(2), highlightthickness=1, highlightbackground='black')
+button2=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(2), highlightthickness=2, highlightbackground='black')
 button2.grid(row=0,column=1)
 
-button3=tk.Button(master=frame1,text='',width=17,height=4,bg='white',activebackground='white',command=lambda : buttonclick(3), highlightthickness=1, highlightbackground='black')
+button3=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(3), highlightthickness=2, highlightbackground='black')
 button3.grid(row=0,column=2)
 
-button4=tk.Button(master=frame1,text='',width=17,height=4,bg='white',activebackground='white',command=lambda : buttonclick(4), highlightthickness=1, highlightbackground='black')
+button4=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(4), highlightthickness=2, highlightbackground='black')
 button4.grid(row=1,column=0)
 
-button5=tk.Button(master=frame1,text='',width=17,height=4,bg='white',activebackground='white',command=lambda : buttonclick(5), highlightthickness=1, highlightbackground='black')
+button5=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(5), highlightthickness=2, highlightbackground='black')
 button5.grid(row=1,column=1)
 
-button6=tk.Button(master=frame1,text='',width=17,height=4,bg='white',activebackground='white',command=lambda : buttonclick(6), highlightthickness=1, highlightbackground='black')
+button6=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(6), highlightthickness=2, highlightbackground='black')
 button6.grid(row=1,column=2)
 
-button7=tk.Button(master=frame1,text='',width=17,height=4,bg='white',activebackground='white',command=lambda : buttonclick(7), highlightthickness=1, highlightbackground='black')
+button7=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(7), highlightthickness=2, highlightbackground='black')
 button7.grid(row=2,column=0)
 
-button8=tk.Button(master=frame1,text='',width=17,height=4,bg='white',activebackground='white',command=lambda : buttonclick(8), highlightthickness=1, highlightbackground='black')
+button8=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(8), highlightthickness=2, highlightbackground='black')
 button8.grid(row=2,column=1)
 
-button9=tk.Button(master=frame1,text='',width=17,height=4,bg='white',activebackground='white',command=lambda : buttonclick(9), highlightthickness=1, highlightbackground='black')
+button9=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(9), highlightthickness=2, highlightbackground='black')
 button9.grid(row=2,column=2)
-button1=tk.Button(master=frame1,text='',width=17,height=4,bg='white',activebackground='white',command=lambda : buttonclick(1), highlightthickness=1, highlightbackground='black')
+button1=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(1), highlightthickness=2, highlightbackground='black')
 button1.grid(row=0,column=0)
 
 
