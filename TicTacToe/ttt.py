@@ -5,6 +5,7 @@
 
 # This file contains the necessary functions to calculate the best move for the robot to do
 import requests
+import time
 player, robot = 'x', 'o'
 
 
@@ -18,7 +19,7 @@ def isMovesLeft(board):
 	return False
 
 
-# This is the evaluation function as discussed in the previous article ( http://goo.gl/sJgv68 )
+# This is the evaluation function as discussed in the previous article (http://goo.gl/sJgv68)
 def evaluate(b):
 	# Checking for Rows for X or O victory.
 	for row in range(3):
@@ -61,7 +62,7 @@ def minimax(board, depth, is_max):
 	if score == 10:
 		return score
 
-	# If Minimizer has won the game return his/her evaluated score
+    # If Minimizer has won the game return his/her evaluated score
 	if score == -10:
 		return score
 
@@ -113,7 +114,6 @@ def minimax(board, depth, is_max):
 
 # This will return the best possible move for the player
 def findBestMove(board):
-	# print("board", board)
 	bestVal = -1000
 	bestMove = (-1, -1)
 
@@ -143,10 +143,11 @@ def findBestMove(board):
 
 # Finds the best move and sends the POST request to the robot
 def updateBoard(board):
-	move = findBestMove(board)
-	url = "http://10.194.72.227:5000/move?pos={pos}".format(pos=str(move[0]) + str(move[1]))
 	try:
+		move = findBestMove(board)
+		url = "http://10.194.72.227:5000/move?pos={pos}".format(pos=str(move[0]) + str(move[1]))
 		response = requests.get(url)
+		time.sleep(0.1)
 		response.raise_for_status()  # Raise an error for HTTP codes other than 2xx
 		print("FROM TTT: Request successful")
 	except requests.exceptions.HTTPError as http_err:

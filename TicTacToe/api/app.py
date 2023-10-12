@@ -2,20 +2,23 @@ from flask import Flask, request
 import time
 import sys
 
-sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
-from controls import Controls
+try:
+    sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
+    from controls import Controls
 
-app = Flask(__name__)
-controls = Controls()
+    app = Flask(__name__)
+    controls = Controls()
+except Exception:
+    print("FROM APP: can't connect to controls")
 
 # start in default position (up)
 try:
+    time.sleep(2)
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
     print("Default position")
     time.sleep(1)
-
 except Exception:
-    print("Can't initialize in upright position")
+    print("FROM APP: can't initialize in upright position")
 
 # Coordinates dictionary
 TIC_TAC_TOE_COORDS = {
@@ -32,15 +35,15 @@ TIC_TAC_TOE_COORDS = {
 
 # Angles dictionary
 TIC_TAC_TOE_ANGLES = {
-    "00": [21.7, -100.54, -43.68, 55.63, -1.13, 0],
-    "10": [22.5, -95.62, -56.59, 61.52, -1.04, -2.98],
-    "20": [24.34, -92.45, -70.04, 71.88, -1.23, -5.17],
-    "01": [15.72, -100.54, -43.68, 55.63, -1.13, 0],
-    "11": [15.89, -96.84, -56.41, 64.02, -1.3, -6.15],
-    "21": [16.25, -92.45, -70.30, 72.41, -1.30, -5.17],
-    "02": [9.65, -100.54, -43.68, 55.63, -1.13, 6.94],
-    "12": [9.75, -96.84, -56.59, 65.2, -2.19, 2.27],
-    "22": [10.72, -92.45, -70.30, 72.5, -1.49, -5.53]
+    "00": [22.57, -71.44, -76.01, 55.88, -3.95, -11.06],
+    "10": [25.21, -73.3, -88.15, 79.62, -7.1, -11.06],
+    "20": [27.42, -70.83, -98.16, 86.04, -10.1, -11.06],
+    "01": [16.87, -73.3, -80.23, 67.58, -1.3, -11.15],
+    "11": [18.45, -70.30, -88.94, 72.5, -1, -11.06],
+    "21": [18.79, -69.69, -96.84, 81.29, -3.59, -11.6],
+    "02": [11.15, -71.8, -73.81, 51.31, -2.80, -11.25],
+    "12": [12.11, -70.48, -85.59, 66.34, -.13, 11.06],
+    "22": [11.85, -65.3, -93.25, 64.33, 1.65, -11.15]
 }
 
 
@@ -50,61 +53,64 @@ def hello_world():
     return "<p>Hello, World!</p>"
 
 
-# Route to move the robot
-@app.route("/move")
-def access_position():
-    try:
+try:
+    # Route to move the robot
+    @app.route("/move")
+    def access_position():
         # Gets the coordinates from the arguments
         position = request.args.get('pos')
 
+        # Fail safe?
+        controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+
         # Test all position
-        if position == "test":
-            result = test_all()
-            return result
+        # if(position == "test"):
+        #     result = test_all()
+        #     return result
 
         # Converts string into a list
         coords = [int(position[0]), int(position[1])]
         time.sleep(1)
+        result = robot_move(coords)
+        return result
 
-    except Exception:
-        print("Cannot get request from Flask")
+except Exception:
+    print("FROM APP: cannot get request from flask")
 
-    # Calls function to test all coordinates
-    result = robot_move(coords)
-    return result
+try:
+    def robot_move(coords):
+        coords = ''.join([str(coord) for coord in coords])
+        print(coords)
 
+        if coords not in TIC_TAC_TOE_COORDS:
+            return "<h1>This is not a valid coordinate, please try again</h1>"
 
-def robot_move(coords):
-    coords = ''.join([str(coord) for coord in coords])
-
-    if coords not in TIC_TAC_TOE_COORDS:
-        return "<h1>This is not a valid coordinate, please try again</h1>"
-
-    try:
         controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
-        time.sleep(2)
+        # will print "Angles Published" <- every time controls.send_angles() method is called
+        time.sleep(1)
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         time.sleep(1)
 
-    except Exception:
-        print("Cannot call ROS")
+        return '''<h1>The given position is: {}</h1>'''.format(coords)
 
-    return '''<h1>The given position is: {}</h1>'''.format(coords)
+except Exception:
+    print("FROM APP: cannot call on ROS")
 
 
 # Function to test all coordinates
 def test_all():
     for i in range(0, 3):
         for j in range(0, 3):
-            coords = f"{i}{j}"
+            coords = str(i) + str(j)
             controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
             time.sleep(2)
-
             controls.send_angles([0, 0, 0, 0, 0, 0], 70)
             time.sleep(2)
-
     return '''<h1>Success?<h1>'''
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    try:
+        app.run(host='10.194.72.227', port=5000, debug=False)
+    except Exception:
+        print("FROM APP: failed to run app.run LOL")

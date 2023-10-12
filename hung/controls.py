@@ -20,7 +20,7 @@ class Controls:
 
         # Subscriber to get the robot's state, which includes coords and angles
         rospy.Subscriber("mycobot/state", MycobotState, self._on_receive_state)
-        
+
         # Instance variables used to keep track of the robot's state, coords, and angles
         self.state = MycobotState()
         self.angles = MycobotAngles()
@@ -28,7 +28,7 @@ class Controls:
 
     def _on_receive_state(self, data):
         """
-        Upon receiving data from /mycobot/state, update the instance variables with the new state. 
+        Upon receiving data from /mycobot/state, update the instance variables with the new state.
         This allows us to keep track of the most current state of the robot.
         """
         self.state = data
@@ -47,7 +47,7 @@ class Controls:
         """
         # Initialize new MycobotSetCoords message
         coords_msg = MycobotSetCoords()
-        
+
         coords_msg.x = coords[0]
         coords_msg.y = coords[1]
         coords_msg.z = coords[2]
@@ -67,7 +67,8 @@ class Controls:
         Upon receiving data from /mycobot/angles_goal, ROS sends these desired joint angles to the robot (through
         the normal MyCobot interface).
 
-        :param: angles: List of desired angles. This should be in the form [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]. 
+        :param: angles: List of desired angles.
+        This should be in the form [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6].
         :param: speed: Desired speed for the robot's movements. Default is 70.
         """
         # Initialize new MycobotSetAngles message
@@ -81,7 +82,7 @@ class Controls:
         angles_msg.joint_6 = float(angles[5])
 
         angles_msg.speed = speed
-        
+
         # Publish the message to /mycobot/angles_goal
         self.angles_publisher.publish(angles_msg)
 
@@ -103,15 +104,15 @@ class Controls:
         :return: List of the robot's joint angles, in the form [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6].
         """
         return [
-            self.angles.joint_1, self.angles.joint_2, self.angles.joint_3, 
-            self.angles.joint_4, self.angles.joint_5, self.angles.joint_6, 
+            self.angles.joint_1, self.angles.joint_2, self.angles.joint_3,
+            self.angles.joint_4, self.angles.joint_5, self.angles.joint_6,
         ]
 
     def toggle_servo_released(self, status):
         """
-        Release or lock all servos of the robot arm. 
-        - For releasing all servos, we send a ROS Service call to the service release_servos. 
-        Upon receiving the service call, ROS calls the release_all_servos function from the MyCobot interface. 
+        Release or lock all servos of the robot arm.
+        - For releasing all servos, we send a ROS Service call to the service release_servos.
+        Upon receiving the service call, ROS calls the release_all_servos function from the MyCobot interface.
         - For locking all servos, we set the current coordinates of the robot as the desired coordinates.
         This locks all servos without moving the arm.
 
@@ -120,7 +121,7 @@ class Controls:
         # If True, calls the ROS Service
         if status:
             self.release_servos(True)
-        
+
         # If False, send current coordinates as the desired coordinates.
         else:
             coords = [
@@ -166,12 +167,11 @@ class Controls:
 
 def main():
     controls = Controls()
-    rate = rospy.Rate(2)
 
     while not rospy.is_shutdown():
-        # controls.test_controls()
+        controls.test_controls()
         rospy.spin()
-    
+
 
 if __name__ == "__main__":
     main()
