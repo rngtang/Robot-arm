@@ -113,6 +113,7 @@ except Exception:
 
 if __name__ == '__main__':
     try:
-        app.run(host='10.194.72.227', port=5000, debug=False)
+        # app.run(host='10.194.72.227', port=5000, debug=False)
+        app.run(host='0.0.0.0', port=5000, debug=False)
     except Exception:
         print("FROM APP: failed to run app.run LOL")
