@@ -15,7 +15,7 @@ except Exception:
 try:
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
     print("Default position")
-    time.sleep(1)
+    time.sleep(2)
 except Exception:
     print("FROM APP: can't initialize in upright position")
 
@@ -72,7 +72,7 @@ try:
         time.sleep(1)
         print("SEND")
         result = robot_move(coords)
-        time.sleep(1)
+        time.sleep(2)
         print("RETURN")
         return result
 
@@ -93,7 +93,8 @@ try:
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         time.sleep(1)
 
-        return '''<h1>The given position is: {}</h1>'''.format(coords)
+        # return '''<h1>The given position is: {}</h1>'''.format(coords)
+        return
 
 except Exception:
     print("FROM APP: cannot call on ROS")
