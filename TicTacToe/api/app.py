@@ -13,7 +13,6 @@ except Exception:
 
 # start in default position (up)
 try:
-    time.sleep(2)
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
     print("Default position")
     time.sleep(1)
@@ -71,7 +70,9 @@ try:
         # Converts string into a list
         coords = [int(position[0]), int(position[1])]
         time.sleep(1)
+        print("send to move function")
         result = robot_move(coords)
+        print("return from move function")
         return result
 
 except Exception:
@@ -98,15 +99,15 @@ except Exception:
 
 
 # Function to test all coordinates
-def test_all():
-    for i in range(0, 3):
-        for j in range(0, 3):
-            coords = str(i) + str(j)
-            controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
-            time.sleep(2)
-            controls.send_angles([0, 0, 0, 0, 0, 0], 70)
-            time.sleep(2)
-    return '''<h1>Success?<h1>'''
+# def test_all():
+#     for i in range(0, 3):
+#         for j in range(0, 3):
+#             coords = str(i) + str(j)
+#             controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
+#             time.sleep(2)
+#             controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+#             time.sleep(2)
+#     return '''<h1>Success?<h1>'''
 
 
 if __name__ == '__main__':
