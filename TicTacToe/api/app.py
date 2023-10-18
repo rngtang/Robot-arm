@@ -3,22 +3,22 @@ import time
 import sys
 
 try:
-    sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
-    from controls import Controls
+    # sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
+    # from controls import Controls
 
     app = Flask(__name__)
-    controls = Controls()
+    # controls = Controls()
 except Exception:
     print("FROM APP: can't connect to controls")
 
 # start in default position (up)
-try:
-    time.sleep(2)
-    controls.send_angles([0, 0, 0, 0, 0, 0], 70)
-    print("Default position")
-    time.sleep(1)
-except Exception:
-    print("FROM APP: can't initialize in upright position")
+# try:
+#     time.sleep(2)
+#     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+#     print("Default position")
+#     time.sleep(1)
+# except Exception:
+#     print("FROM APP: can't initialize in upright position")
 
 # Coordinates dictionary
 TIC_TAC_TOE_COORDS = {
@@ -111,9 +111,9 @@ except Exception:
 #     return '''<h1>Success?<h1>'''
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
-        # app.run(host='10.194.72.227', port=5000, debug=False)
-        app.run(host='0.0.0.0', port=5000, debug=False)
+        app.run(host='10.194.72.227', port=5000, debug=False)
+        # app.run(host='0.0.0.0', port=5000, debug=False)
     except Exception:
         print("FROM APP: failed to run app.run LOL")
