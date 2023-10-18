@@ -70,9 +70,10 @@ try:
         # Converts string into a list
         coords = [int(position[0]), int(position[1])]
         time.sleep(1)
-        print("send to move function")
+        print("SEND")
         result = robot_move(coords)
-        print("return from move function")
+        time.sleep(1)
+        print("RETURN")
         return result
 
 except Exception:
