@@ -19,6 +19,7 @@ controls = Controls()
 def hello_world():
     return "<p>Hello !!! </p>"
 
+
 # move to upright position
 @app.route("/default")
 def default_pos(): 
@@ -27,8 +28,20 @@ def default_pos():
     time.sleep(1)
     return '''<h1>default </h1>'''
 
+
 @app.route("/lights") 
-def change_lights(): # for no parameters, go through colors 
+def change_lights(): # given parameters
+    red = request.args.get('r', 0)
+    green = request.args.get('g', 0)
+    blue = request.args.get('b', 0)
+
+    mc.set_color(red,green,blue)
+    time.sleep(1)
+    return'''<h1>The given color is: {}, {}, {}</h1>'''.format(red, green, blue)
+
+@app.route("/lightshow")
+def light_gradient(): # given no parameters
+
     for count in range(0,3):
         #From red (255,0,0) to blue (0,0,255)
         for i in range(0,255):
