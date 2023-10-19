@@ -3,6 +3,16 @@ from flask import Flask, request, jsonify
 import time
 import sys
 
+# Imports the other functions
+from danai_twerk import dance
+from default import default
+from getAngles import getAngles
+from getCoordinates import getCoordinates
+from lights import lights
+from lightshow import lightshow
+from sendAngles import sendAngles
+from sendCoordinates import sendCoordinates
+
 # for lights and dance (asynch)
 from pymycobot.mycobot import MyCobot
 from pymycobot import PI_PORT, PI_BAUD
@@ -14,19 +24,13 @@ from controls import Controls
 app = Flask(__name__)
 controls = Controls()
 
-# routes
+# Default route
 @app.route("/")
 def hello_world():
     return "<p>Hello !!! </p>"
 
-
-# move to upright position
-@app.route("/default")
-def default_pos(): 
-    controls.send_angles([0, 0, 0, 0, 0, 0], 70)
-    mc.set_color(255, 255, 255) # start white
-    time.sleep(1)
-    return '''<h1>default </h1>'''
+# Register the blueprints
+app.register_blueprint(default, url_prefix='/default')
 
 
 @app.route("/lights") 
