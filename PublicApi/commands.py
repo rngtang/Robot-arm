@@ -39,9 +39,9 @@ def change_lights(): # given parameters
     time.sleep(1)
     return'''<h1>The given color is: {}, {}, {}</h1>'''.format(red, green, blue)
 
+
 @app.route("/lightshow")
 def light_gradient(): # given no parameters
-
     for count in range(0,3):
         #From red (255,0,0) to blue (0,0,255)
         for i in range(0,255):
