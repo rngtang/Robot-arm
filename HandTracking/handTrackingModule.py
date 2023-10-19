@@ -63,30 +63,28 @@ class handTracker():
                 if draw:
                     self.mpDraw.draw_landmarks(image, handLms, self.mpHands.HAND_CONNECTIONS)
         return image
-
-    def positionFinder(self,image, handNo=0, draw=True):
+    
+    def positionFinder(self, image, handNo=0):
         """
         Returns a list of landmark positions for the specified hand in the given image.
 
         Args:
-        image (numpy.ndarray): The image to detect hand landmarks in.
-        handNo (int): The index of the hand to detect landmarks for.
-        draw (bool): Whether to draw a circle around the detected landmarks.
+            image (numpy.ndarray): The image to detect hand landmarks in.
+            handNo (int): The index of the hand to detect landmarks for.
+            draw (bool): Whether to draw a circle around the detected landmarks.
 
         Returns:
-        list: A list of landmark positions for the specified hand.
+            list: A list of landmark positions for the specified hand.
         """
-        lmlist = []
+        lmList = []
         if self.results.multi_hand_landmarks:
-            Hand = self.results.multi_hand_landmarks[handNo]
-            for id, lm in enumerate(Hand.landmark):
-                h,w,c = image.shape
-                cx,cy = int(lm.x*w), int(lm.y*h)
-                lmlist.append([id,cx,cy])
-            if draw:
-                cv2.circle(image,(cx,cy), 15 , (255,0,255), cv2.FILLED)
-
-        return lmlist
+            hand = self.results.multi_hand_landmarks[handNo]
+            for id, landmark in enumerate(hand.landmark):
+                h, w, c = image.shape
+                cx, cy = int(landmark.x * w), int(landmark.y * h)
+                cz = landmark.z # add z-coordinate
+                lmList.append([id, cx, cy, cz]) # append x, y, and z coordinates to list
+        return lmList
     
 
 def main():
@@ -98,7 +96,7 @@ def main():
         image = tracker.handsFinder(image)
         lmList = tracker.positionFinder(image)
         if len(lmList) != 0:
-            print(lmList[4])
+            print("start", lmList[4][3], "end")
 
         cv2.imshow("Video",image)
         cv2.waitKey(1)
