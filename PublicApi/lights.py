@@ -1,6 +1,5 @@
-from flask import Flask, request, Blueprint
+from flask import request, Blueprint
 import time
-import sys
 
 # for lights and dance (asynch)
 from pymycobot.mycobot import MyCobot
