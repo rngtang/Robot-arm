@@ -144,15 +144,16 @@ def sendAngles():
     angles = request.json.get('angles')
     speed = request.json.get('speed')
 
-    # Checks if the parameters are in the correct format
+    # Checks if the parameters are in the correct format and within range
     if len(angles) != 6 or not speed or speed < 0 or speed > 100:
         return jsonify({"success": False,
-                        "message": "Invalid "})
+                        "message": "Invalid parameters"})
     
     # Tries to catch errors
     try:
         controls.send_angles(angles, speed)
-        return jsonify({"success": True})
+        return jsonify({"success": True,
+                        "message": "Angles sent successfully"})
     except:
         return jsonify({"success": False,
                         "message": "Failed to send angles"})
@@ -160,7 +161,30 @@ def sendAngles():
 # Send coordinates
 @app.route("/sendCoordinates", methods=['POST'])
 def sendCoordinates():
+    # Checks if the user is sending in JSON format
+    if not request.is_json():
+        return jsonify({"success": False,
+                        "message": "Parameter is not in JSON format"
+        })
+    
+    # Gets angles and speed from the parameters
+    coordinates = request.json.get('coords')
+    speed = request.json.get('speed')
+    mode =  request.json.get('mode')
 
+    # Checks if the parameters are in the correct format and within range
+    if len(coordinates) != 6 or not speed or speed < 0 or speed > 100 or not mode or (mode != 0 and mode != 1):
+        return jsonify({"success": False,
+                        "message": "Invalid parameters"})
+    
+    # Tries to catch errors
+    try:
+        controls.send_coords(coordinates, speed, mode)
+        return jsonify({"success": True,
+                        "message": "Coordinates sent successfully"})
+    except:
+        return jsonify({"success": False,
+                        "message": "Failed to send coordinates"})
 
 if __name__ == '__main__':
     app.run(host='10.194.72.227', port=5001, debug=False)
