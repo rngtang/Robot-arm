@@ -1,5 +1,5 @@
 # for flask app
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import time
 import sys
 
@@ -107,6 +107,59 @@ def danai_twerk():
         mc.set_color(0, 50, 0)
         time.sleep(0.7)
     return '''<h1>gonna go crazy </h1>'''
+
+# Returns the current angles of the robot
+@app.route("/getAngles")
+def getAngles():
+    # Tries to catch any errors
+    try:
+        angles = controls.get_angles()
+        return '''<h1>Joint 1: {0}\nJoint 2: {1}\nJoint 3: {2}\nJoint 4: {3}\nJoint 5: {4}\nJoint 6: {5}</h1>'''.format(
+            angles[0], angles[1], angles[2], angles[3],  angles[4], angles[5], angles[6]
+        )
+    except:
+        return '''<h1>Unable to get angles, try again</h1>'''
+
+# Returns the current coordinates of the robot
+@app.route("/getCoordinates")
+def getCoordinates():
+    try:
+        coordinates = controls.get_coords()
+        return '''<h1>x: {0}\ny: {1}\nz: {2}\nrx: {3}\nry: {4}\nrz: {5}</h1>'''.format(
+            coordinates[0], coordinates[1], coordinates[2], coordinates[3],  coordinates[4], coordinates[5],coordinates[6]
+        ) 
+    except:
+        return '''<h1>Unable to get coordinates, try again</h1>'''
+
+# Sends angles to the robot
+@app.route("/sendAngles", methods=['POST'])
+def sendAngles():
+    # Checks if the user is sending in JSON format
+    if not request.is_json():
+        return jsonify({"success": False,
+                        "message": "Parameter is not in JSON format"
+        })
+    
+    # Gets angles and speed from the parameters
+    angles = request.json.get('angles')
+    speed = request.json.get('speed')
+
+    # Checks if the parameters are in the correct format
+    if len(angles) != 6 or not speed or speed < 0 or speed > 100:
+        return jsonify({"success": False,
+                        "message": "Invalid "})
+    
+    # Tries to catch errors
+    try:
+        controls.send_angles(angles, speed)
+        return jsonify({"success": True})
+    except:
+        return jsonify({"success": False,
+                        "message": "Failed to send angles"})
+    
+# Send coordinates
+@app.route("/sendCoordinates", methods=['POST'])
+def sendCoordinates():
 
 
 if __name__ == '__main__':
