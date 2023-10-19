@@ -31,14 +31,17 @@ def default_pos():
 
 @app.route("/lights") 
 def change_lights(): # given parameters
-    red = request.args.get('r', 0)
-    green = request.args.get('g', 0)
-    blue = request.args.get('b', 0)
+    red = request.args.get('r', 10)
+    green = request.args.get('g', 10)
+    blue = request.args.get('b', 10)
 
-    mc.set_color(red,green,blue)
+    mc.set_color(int(red),int(green),int(blue))
+    print(red)
+    print(green)
+    print(blue)
+    # return '''<h1>what is GOING ON</h1>'''
     time.sleep(1)
-    return '''<h1>what is GOING ON</h1>'''
-    # return'''<h1>The given color is: {}, {}, {}</h1>'''.format(red, green, blue)
+    return'''<h1>The given color is: {}, {}, {}</h1>'''.format(red, green, blue)
 
 
 @app.route("/lightshow")
