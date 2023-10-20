@@ -29,4 +29,4 @@ app.register_blueprint(lights, url_prefix='/lights')
 # app.register_blueprint(sendCoordinates, url_prefix='sendCoordinates')
 
 if __name__ == '__main__':
-    app.run(host='10.194.72.227', port=5001, debug=False)
+    app.run(host='10.194.72.227', port=5000, debug=False)
