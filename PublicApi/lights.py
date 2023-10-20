@@ -3,8 +3,7 @@ import time
 
 # for lights and dance (asynch)
 from pymycobot.mycobot import MyCobot
-from pymycobot import PI_PORT, PI_BAUD
-mc = MyCobot(PI_PORT, PI_BAUD)
+mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 lights = Blueprint('lights', __name__)
 

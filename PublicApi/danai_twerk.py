@@ -2,8 +2,7 @@ from flask import Blueprint
 import time
 
 from pymycobot.mycobot import MyCobot
-from pymycobot import PI_PORT, PI_BAUD
-mc = MyCobot(PI_PORT, PI_BAUD)
+mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 dance = Blueprint('dance', __name__)
 
