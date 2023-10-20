@@ -7,17 +7,12 @@ from pymycobot.mycobot import MyCobot
 mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 # for ROS (self-made controls)
-try:
-    sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
-    from controls import Controls
-
-    default = Blueprint('default', __name__)
-    controls = Controls()
-except Exception:
-    print("FROM APP: can't connect to controls")
+sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280')
+from controls import Controls
+# controls = Controls()
 
 # Creates the blueprint
-# default = Blueprint('default', __name__)
+default = Blueprint('default', __name__)
 
 @default.route("/")
 def default_pos(): 
