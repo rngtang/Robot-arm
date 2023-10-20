@@ -9,7 +9,7 @@ mc = MyCobot("/dev/ttyAMA0", 1000000)
 # for ROS (self-made controls)
 sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
 # from controls import Controls
-controls = Controls()
+# controls = Controls()
 
 # Creates the blueprint
 default = Blueprint('default', __name__)
