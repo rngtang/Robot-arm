@@ -1,5 +1,7 @@
 # for flask app
 from flask import Flask
+import sys
+sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
 
 # Imports the other functions
 from danai_twerk import dance
