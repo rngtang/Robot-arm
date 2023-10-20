@@ -2,7 +2,7 @@
 from flask import Flask
 
 # Imports the other functions
-# from danai_twerk import dance
+from danai_twerk import dance
 # import default
 # from getAngles import getAngles
 # from getCoordinates import getCoordinates
@@ -22,7 +22,7 @@ def hello_world():
 # app.register_blueprint(default, url_prefix='/default')
 app.register_blueprint(lights, url_prefix='/lights')
 app.register_blueprint(show, url_prefix='/show')
-# app.register_blueprint(dance, url_prefix='/dance')
+app.register_blueprint(dance, url_prefix='/dance')
 # app.register_blueprint(getAngles, url_prefix='/getAngles')
 # app.register_blueprint(getCoordinates, url_prefix='/getCoordinates')
 # app.register_blueprint(sendAngles, url_prefix='sendAngles')
