@@ -30,4 +30,4 @@ app.register_blueprint(dance, url_prefix='/dance')
 # app.register_blueprint(sendCoordinates, url_prefix='sendCoordinates')
 
 if __name__ == '__main__':
-    app.run(host='10.194.72.227', port=5000, debug=False)
+    app.run(host='10.194.72.227', port=5000, debug=True)
