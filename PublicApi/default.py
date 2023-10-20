@@ -9,13 +9,13 @@ mc = MyCobot("/dev/ttyAMA0", 1000000)
 # for ROS (self-made controls)
 sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
 from controls import Controls
+controls = Controls()
 
 # Creates the blueprint
 default = Blueprint('default', __name__)
 
 @default.route("/")
 def default_pos():
-    controls = Controls()
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
     mc.set_color(255, 255, 255) # start white
     time.sleep(1)
