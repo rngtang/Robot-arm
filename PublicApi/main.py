@@ -19,7 +19,7 @@ def hello_world():
     return "<p>Hello !!! </p>"
 
 # Register the blueprints
-app.register_blueprint(default, url_prefix='/default')
+# app.register_blueprint(default, url_prefix='/default')
 # app.register_blueprint(lights, url_prefix='/lights')
 # app.register_blueprint(lightshow, url_prefix='/lightshow')
 # app.register_blueprint(dance, url_prefix='/dance')
