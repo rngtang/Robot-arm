@@ -7,7 +7,7 @@ from flask import Flask
 # from getAngles import getAngles
 # from getCoordinates import getCoordinates
 from lights import lights
-from lightshow import show
+from lightshow import lightshow
 # from sendAngles import sendAngles
 # from sendCoordinates import sendCoordinates
 
@@ -21,7 +21,7 @@ def hello_world():
 # Register the blueprints
 # app.register_blueprint(default, url_prefix='/default')
 app.register_blueprint(lights, url_prefix='/lights')
-app.register_blueprint(show, url_prefix='/lightshow')
+app.register_blueprint(lightshow, url_prefix='/lightshow')
 # app.register_blueprint(dance, url_prefix='/dance')
 # app.register_blueprint(getAngles, url_prefix='/getAngles')
 # app.register_blueprint(getCoordinates, url_prefix='/getCoordinates')
