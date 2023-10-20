@@ -4,9 +4,9 @@ import time
 from pymycobot.mycobot import MyCobot
 mc = MyCobot("/dev/ttyAMA0", 1000000)
 
-lightshow = Blueprint('lightshow', __name__)
+show = Blueprint('show', __name__)
 
-@lightshow.route("/")
+@show.route("/")
 def lightshow(): # given no parameters
     for count in range(0,3):
         #From red (255,0,0) to blue (0,0,255)
