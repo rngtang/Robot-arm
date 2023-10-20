@@ -3,7 +3,7 @@ from flask import Flask
 
 # Imports the other functions
 # from danai_twerk import dance
-import default
+# import default
 # from getAngles import getAngles
 # from getCoordinates import getCoordinates
 # from lights import lights
