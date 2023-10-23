@@ -2,6 +2,9 @@ from flask import Blueprint
 import time
 import sys
 
+# Creates the blueprint
+default = Blueprint('default', __name__)
+
 # for lights and dance (asynch)
 from pymycobot.mycobot import MyCobot
 mc = MyCobot("/dev/ttyAMA0", 1000000)
@@ -13,9 +16,6 @@ try:
     controls = Controls()
 except: 
     print("FROM DEFAULT: could not access Controls()")
-
-# Creates the blueprint
-default = Blueprint('default', __name__)
 
 @default.route("/")
 def default_pos():

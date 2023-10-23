@@ -6,6 +6,7 @@ import sys
 from danai_twerk import dance
 # from getAngles import getAngles
 # from getCoordinates import getCoordinates
+from default import default
 from lights import lights
 from lightshow import show
 # from sendAngles import sendAngles
