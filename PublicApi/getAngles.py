@@ -8,6 +8,7 @@ def getAngles():
     controls = current_app.config['controls']
     # Tries to catch any errors
     try:
+        time.sleep(2)
         angles = controls.get_angles()
         time.sleep(2)
         print(angles)
