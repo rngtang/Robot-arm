@@ -13,6 +13,7 @@ http://10.194.72.227:5000/<ROUTE>
 ## /default
 This route sets the robot to the default position and sets the color of the LED white. No parameters are necessary.
 
+
 ## /lights
 Allows the user to set an specific RGB color to the LED. This route taskes as a parameter the rgb colors. For example:
 ```bash
@@ -20,10 +21,13 @@ http://10.194.72.227:5000/lights?r=<RED COLOR>?g=<GREEN COLOR>?b=<Blue color>
 ``` 
 
 ## /show
+Displays a RGB color gradient on the LED. This process takes about 20 seconds to complete. 
 
 ## /dance
+Goes through a twerking dance, designed by Danai Adkisson, where the robot moves down and goes crazy. 
 
 ## /getAngles
+
 
 ## /getCoordinates
 
