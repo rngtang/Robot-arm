@@ -1,15 +1,11 @@
-from flask import Blueprint
+from flask import Blueprint, current_app
 import sys
-
-# for ROS (self-made controls)
-sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
-from controls import Controls
-controls = Controls()
 
 getAngles = Blueprint('getAngles', __name__)
 
 @getAngles.route("/")
 def getAngles():
+    controls = current_app.config['controls']
     # Tries to catch any errors
     try:
         angles = controls.get_angles()

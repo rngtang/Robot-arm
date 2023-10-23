@@ -1,15 +1,11 @@
-from flask import request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint, current_app
 import sys
-
-# for ROS (self-made controls)
-sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
-from controls import Controls
-controls = Controls()
 
 sendAngles = Blueprint('sendAngles', __name__)
 
 @sendAngles.route("/", methods=['POST'])
 def sendAngles():
+    controls = current_app.config['controls']
     # Checks if the user is sending in JSON format
     if not request.is_json():
         return jsonify({"success": False,
