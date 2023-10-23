@@ -11,10 +11,24 @@ http://10.194.72.227:5000/<ROUTE>
 # About the routes
 
 ## /default
-This route sets the robot to the default position and sets the color of the LED white. Currently doesn't work, testing with Controls.
+This route sets the robot to the default position and sets the color of the LED white. No parameters are necessary.
 
 ## /lights
+Allows the user to set an specific RGB color to the LED. This route taskes as a parameter the rgb colors. For example:
+```bash
+http://10.194.72.227:5000/lights?r=<RED COLOR>?g=<GREEN COLOR>?b=<Blue color>
+``` 
 
 ## /show
 
 ## /dance
+
+## /getAngles
+
+## /getCoordinates
+
+## /sendAngles
+
+## /sendCoordinates
+
+## /release
