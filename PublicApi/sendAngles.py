@@ -12,9 +12,9 @@ def sendAngles():
             "message": "Parameter is not in JSON format"
         }), 400
     
-    # # Gets angles and speed from the parameters
-    # angles = request.json.get('angles')
-    # speed = request.json.get('speed')
+    # Gets angles and speed from the parameters
+    angles = request.json.get('angles')
+    speed = request.json.get('speed')
 
     # # Checks if the parameters are in the correct format and within range
     # if len(angles) != 6 or not speed or speed < 0 or speed > 100:
