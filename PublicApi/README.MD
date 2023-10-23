@@ -11,7 +11,7 @@ http://10.194.72.227:5000/<ROUTE>
 # About the routes
 
 ## /default
-This route sets the robot to the default position and sets the color of the LED white
+This route sets the robot to the default position and sets the color of the LED white. Currently doesn't work, testing with Controls.
 
 ## /lights
 

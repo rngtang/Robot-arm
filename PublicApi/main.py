@@ -4,7 +4,7 @@ import sys
 
 # Imports the other functions
 from danai_twerk import dance
-from default import default
+# from default import default
 # from getAngles import getAngles
 # from getCoordinates import getCoordinates
 from lights import lights
@@ -20,7 +20,7 @@ def hello_world():
     return "<p>Hello !!! </p>"
 
 # Register the blueprints
-app.register_blueprint(default, url_prefix='/default')
+# app.register_blueprint(default, url_prefix='/default')
 app.register_blueprint(lights, url_prefix='/lights')
 app.register_blueprint(show, url_prefix='/show')
 app.register_blueprint(dance, url_prefix='/dance')
