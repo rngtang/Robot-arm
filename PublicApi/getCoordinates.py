@@ -1,9 +1,8 @@
 from flask import Blueprint, current_app
-import sys
 
-getCoordinates = Blueprint('getCoordinates', __name__)
+g_coordinates = Blueprint('getCoordinates', __name__)
 
-@getCoordinates.route("/")
+@g_coordinates.route("/")
 def getCoordinates():
     controls = current_app.config['controls']
     try:
