@@ -6,13 +6,17 @@ import sys
 from danai_twerk import dance
 # from getAngles import getAngles
 # from getCoordinates import getCoordinates
-from default import default
+# from default import default
 from lights import lights
 from lightshow import show
 # from sendAngles import sendAngles
 # from sendCoordinates import sendCoordinates
 
 app = Flask(__name__)
+
+sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
+from controls import Controls
+controls = Controls()
 
 # Default route
 @app.route("/")
