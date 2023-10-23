@@ -18,6 +18,8 @@ sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/
 from controls import Controls
 controls = Controls()
 
+app.config['controls'] = controls
+
 # Default route
 @app.route("/")
 def hello_world():
