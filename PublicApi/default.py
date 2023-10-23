@@ -11,12 +11,15 @@ mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 @default.route("/")
 def default_pos():
-    controls = current_app.config['controls']
+    try:
+        controls = current_app.config['controls']
+    except:
+
     # controls.send_angles([0, 0, 0, 0, 0, 0], 70)
     # try: 
     #     
     # except: 
         # print("FROM DEFAULT: could not send angle from Controls")
-    mc.set_color(255, 255, 255) # start white
+        mc.set_color(255, 255, 255) # start white
     time.sleep(1)
     return '''<h1>default </h1>'''
