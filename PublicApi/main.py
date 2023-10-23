@@ -4,7 +4,6 @@ import sys
 
 # Imports the other functions
 from danai_twerk import dance
-# from default import default
 # from getAngles import getAngles
 # from getCoordinates import getCoordinates
 from lights import lights
@@ -19,8 +18,7 @@ app = Flask(__name__)
 def hello_world():
     return "<p>Hello !!! </p>"
 
-# Register the blueprints
-# app.register_blueprint(default, url_prefix='/default')
+# Register the blueprints    
 app.register_blueprint(lights, url_prefix='/lights')
 app.register_blueprint(show, url_prefix='/show')
 app.register_blueprint(dance, url_prefix='/dance')
@@ -31,3 +29,14 @@ app.register_blueprint(dance, url_prefix='/dance')
 
 if __name__ == '__main__':
     app.run(host='10.194.72.227', port=5000, debug=False)
+
+
+# try: 
+#     from default import default
+# except: 
+#     print("FROM MAIN: could not import default")
+
+# try: 
+#     app.register_blueprint(default, url_prefix='/default')
+# except:
+#     print("FROM MAIN: could not register default")
