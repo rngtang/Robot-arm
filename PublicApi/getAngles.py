@@ -9,6 +9,7 @@ def getAngles():
     # Tries to catch any errors
     try:
         angles = controls.get_angles()
+        print(angles)
         return '''<h1>Joint 1: {0}<br>
         Joint 2: {1}<br>
         Joint 3: {2}<br>
