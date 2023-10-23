@@ -16,10 +16,10 @@ def sendAngles():
     angles = request.json.get('angles')
     speed = request.json.get('speed')
 
-    # # Checks if the parameters are in the correct format and within range
-    # if len(angles) != 6 or not speed or speed < 0 or speed > 100:
-    #     return jsonify({"success": False,
-    #                     "message": "Invalid parameters"})
+    # Checks if the parameters are in the correct format and within range
+    if len(angles) != 6 or not speed or speed < 0 or speed > 100:
+        return jsonify({"success": False,
+                        "message": "Invalid parameters"}), 400
     
     # # Tries to catch errors
     # try:
