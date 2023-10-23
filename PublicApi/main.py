@@ -10,7 +10,7 @@ from default import default
 from lights import lights
 from lightshow import show
 from sendAngles import s_angles
-# from sendCoordinates import sendCoordinates
+from sendCoordinates import sendCoordinates
 
 app = Flask(__name__)
 
@@ -31,7 +31,7 @@ app.register_blueprint(default, url_prefix='/default')
 app.register_blueprint(g_angles, url_prefix='/getAngles')
 app.register_blueprint(g_coordinates, url_prefix='/getCoordinates')
 app.register_blueprint(s_angles, url_prefix='/sendAngles')
-# app.register_blueprint(sendCoordinates, url_prefix='sendCoordinates')
+app.register_blueprint(sendCoordinates, url_prefix='sendCoordinates')
 
 if __name__ == '__main__':
     app.run(host='10.194.72.227', port=5000, debug=False)
