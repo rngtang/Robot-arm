@@ -9,11 +9,11 @@ def getAngles():
     # Tries to catch any errors
     try:
         angles = controls.get_angles()
-        return '''<h1>Joint 1: {0}
-        Joint 2: {1}
-        Joint 3: {2}
-        Joint 4: {3}
-        Joint 5: {4}
+        return '''<h1>Joint 1: {0}<br>
+        Joint 2: {1}<br>
+        Joint 3: {2}<br>
+        Joint 4: {3}<br>
+        Joint 5: {4}<br>
         Joint 6: {5}</h1>'''.format(
             angles[0], angles[1], angles[2], angles[3],  angles[4], angles[5]
         )
