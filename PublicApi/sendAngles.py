@@ -6,7 +6,7 @@ s_angles = Blueprint('sendAngles', __name__)
 def sendAngles():
     controls = current_app.config['controls']
     # Checks if the user is sending in JSON format
-    if not request.is_json():
+    if not request.is_json:
         return jsonify({"success": False,
                         "message": "Parameter is not in JSON format"
         }), 400
