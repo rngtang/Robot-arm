@@ -1,5 +1,4 @@
 from flask import request, jsonify, Blueprint, current_app
-import sys
 
 s_angles = Blueprint('sendAngles', __name__)
 
