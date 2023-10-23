@@ -21,12 +21,11 @@ def sendAngles():
         return jsonify({"success": False,
                         "message": "Invalid parameters"}), 400
     
-    # # Tries to catch errors
-    # try:
-    #     controls.send_angles(angles, speed)
-    #     return jsonify({"success": True,
-    #                     "message": "Angles sent successfully"})
-    # except:
-    #     return jsonify({"success": False,
-    #                     "message": "Failed to send angles"})
-    return 'test'
+    # Tries to catch errors
+    try:
+        controls.send_angles(angles, speed)
+        return jsonify({"success": True,
+                        "message": "Angles sent successfully"})
+    except:
+        return jsonify({"success": False,
+                        "message": "Failed to send angles"}), 400
