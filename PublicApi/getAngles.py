@@ -6,11 +6,11 @@ g_angles = Blueprint('getAngles', __name__)
 @g_angles.route("/")
 def getAngles():
     controls = current_app.config['controls']
+    controls.send_angles([0, 45, -45, 0, 0, 0], 70)
     # Tries to catch any errors
     try:
         time.sleep(2)
         angles = controls.get_angles()
-        time.sleep(2)
         print(angles)
         return '''<h1>Joint 1: {0}<br>
         Joint 2: {1}<br>
