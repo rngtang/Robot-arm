@@ -17,7 +17,7 @@ app = Flask(__name__)
 sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
 from controls import Controls
 controls = Controls()
-app.config['controls'] = controls
+app.config['arm'] = controls
 
 # Default route
 @app.route("/")

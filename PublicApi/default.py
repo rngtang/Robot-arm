@@ -11,8 +11,8 @@ mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 @default.route("/")
 def default_pos():
-    controls = current_app.config['controls']
-    controls.send_angles([0, 0, 0, 0, 0, 0], 70) 
+    # controls = current_app.config['controls']
+    # controls.send_angles([0, 0, 0, 0, 0, 0], 70) 
     # try: 
     #     
     # except: 
