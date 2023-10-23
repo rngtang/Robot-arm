@@ -27,12 +27,31 @@ Displays a RGB color gradient on the LED. This process takes about 20 seconds to
 Goes through a twerking dance, designed by Danai Adkisson, where the robot moves down and goes crazy. 
 
 ## /getAngles
-
+Returns a JSON with the angles for all the 6 joints. 
 
 ## /getCoordinates
+Returns a JSON with the coordinates for where the head of the robot is.
 
 ## /sendAngles
+POST request, moves robot to desired position, takes in a JSON file in the following format: 
+```bash
+{
+    "angles": [0, 0, 0, 0, 0, 0],
+    "speed": 70
+}
+```
+Angles refers to each of the 6 angles. Speed is the speed of the movement, with 50 being no speed and <50 being movement counter-clockwise, and >50 being movement clockwise. 
 
 ## /sendCoordinates
+POST request, moves robot's head to desired position, takes in a JSON file in the following format: 
+```bash 
+{
+    "coords": [0, 0, 0, 0, 0, 0],
+    "speed": 70,
+    "mode": 0
+}
+```
+Angles refers to each of the 6 angles. Speed is the speed of the movement, with 50 being no speed and <50 being movement counter-clockwise, and >50 being movement clockwise. Mode refers to how the robot moves to that coordinate and can either be 0 or 1, with 1 being linear and 0 being angular (non-linear). 
 
 ## /release
+Releases all servos of the robot, allowing for the robot to be easily manipulated into any position.
