@@ -9,7 +9,7 @@ def sendAngles():
     if not request.is_json():
         return jsonify({"success": False,
                         "message": "Parameter is not in JSON format"
-        })
+        }), 400
     
     # # Gets angles and speed from the parameters
     # angles = request.json.get('angles')
