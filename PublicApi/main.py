@@ -9,15 +9,14 @@ from getAngles import g_angles
 from default import default
 from lights import lights
 from lightshow import show
-# from sendAngles import sendAngles
+from sendAngles import s_angles
 # from sendCoordinates import sendCoordinates
 
 app = Flask(__name__)
 
 sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
 from controls import Controls
-controls = Controls()
-app.config['controls'] = controls
+app.config['controls'] = Controls()
 
 # Default route
 @app.route("/")
@@ -31,7 +30,7 @@ app.register_blueprint(dance, url_prefix='/dance')
 app.register_blueprint(default, url_prefix='/default')
 app.register_blueprint(g_angles, url_prefix='/getAngles')
 # app.register_blueprint(getCoordinates, url_prefix='/getCoordinates')
-# app.register_blueprint(sendAngles, url_prefix='sendAngles')
+app.register_blueprint(s_angles, url_prefix='sendAngles')
 # app.register_blueprint(sendCoordinates, url_prefix='sendCoordinates')
 
 if __name__ == '__main__':
