@@ -4,7 +4,7 @@ import sys
 
 # Imports the other functions
 from danai_twerk import dance
-from getAngles import getAngles
+from getAngles import get_angles
 # from getCoordinates import getCoordinates
 from default import default
 from lights import lights
@@ -29,7 +29,7 @@ app.register_blueprint(lights, url_prefix='/lights')
 app.register_blueprint(show, url_prefix='/show')
 app.register_blueprint(dance, url_prefix='/dance')
 app.register_blueprint(default, url_prefix='/default')
-app.register_blueprint(getAngles, url_prefix='/getAngles')
+app.register_blueprint(get_angles, url_prefix='/getAngles')
 # app.register_blueprint(getCoordinates, url_prefix='/getCoordinates')
 # app.register_blueprint(sendAngles, url_prefix='sendAngles')
 # app.register_blueprint(sendCoordinates, url_prefix='sendCoordinates')

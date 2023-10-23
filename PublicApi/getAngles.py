@@ -1,9 +1,9 @@
 from flask import Blueprint, current_app
 import sys
 
-getAngles = Blueprint('getAngles', __name__)
+get_angles = Blueprint('getAngles', __name__)
 
-@getAngles.route("/")
+@get_angles.route("/")
 def getAngles():
     controls = current_app.config['controls']
     # Tries to catch any errors
