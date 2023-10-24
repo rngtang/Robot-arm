@@ -10,7 +10,7 @@ def getAngles():
     controls = current_app.config['controls']
     # Tries to catch any errors
     try:
-        angles = mc.get_angles()
+        angles = controls.get_angles()
         return '''<h1>Joint 1: {0}<br>
         Joint 2: {1}<br>
         Joint 3: {2}<br>
