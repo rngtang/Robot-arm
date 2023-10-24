@@ -2,13 +2,15 @@ from flask import Blueprint, current_app
 import time
 
 g_angles = Blueprint('getAngles', __name__)
+from pymycobot.mycobot import MyCobot
+mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 @g_angles.route("/")
 def getAngles():
     controls = current_app.config['controls']
     # Tries to catch any errors
     try:
-        angles = controls.get_angles()
+        angles = mc.get_angles()
         return '''<h1>Joint 1: {0}<br>
         Joint 2: {1}<br>
         Joint 3: {2}<br>
