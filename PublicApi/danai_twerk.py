@@ -1,13 +1,11 @@
-from flask import Blueprint
+from flask import Blueprint, current_app
 import time
-
-from pymycobot.mycobot import MyCobot
-mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 dance = Blueprint('dance', __name__)
 
 @dance.route("/")
 def danai_twerk():
+    mc = current_app.config['mc']
     # set start start time
     start = time.time()
     # Let the robotic arm reach the specified position

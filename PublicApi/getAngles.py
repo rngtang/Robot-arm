@@ -2,8 +2,6 @@ from flask import Blueprint, current_app
 import time
 
 g_angles = Blueprint('getAngles', __name__)
-from pymycobot.mycobot import MyCobot
-mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 @g_angles.route("/")
 def getAngles():

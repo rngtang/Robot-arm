@@ -15,9 +15,14 @@ from release import release
 
 app = Flask(__name__)
 
+# imports the ROS package and attaches the controls object to the Flask instance
 sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
 from controls import Controls
 app.config['controls'] = Controls()
+
+# Creates MyCobot object and attaches it to the Flask instance
+from pymycobot.mycobot import MyCobot
+app.config['mc'] = MyCobot("/dev/ttyAMA0", 1000000)
 
 # Default route
 @app.route("/")

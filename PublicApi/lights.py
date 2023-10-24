@@ -1,14 +1,11 @@
-from flask import request, Blueprint
+from flask import request, Blueprint, current_app
 import time
-
-# for lights and dance (asynch)
-from pymycobot.mycobot import MyCobot
-mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 lights = Blueprint('lights', __name__)
 
 @lights.route("/")
 def change_lights(): # given parameters
+    mc = current_app.config['mc']
     red = request.args.get('r', 10)
     green = request.args.get('g', 10)
     blue = request.args.get('b', 10)
