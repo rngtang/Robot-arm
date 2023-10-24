@@ -17,10 +17,10 @@ def sendCoordinates():
     speed = request.json.get('speed')
     mode = request.json.get('mode')
 
-    print(mode)
+    print((mode != 0 and mode != 1))
 
     # Checks if the parameters are in the correct format and within range
-    if len(coordinates) != 6 or not speed or (speed < 0 or speed > 100) or not mode or not(0<=mode<=1):
+    if len(coordinates) != 6 or not speed or (speed < 0 or speed > 100) or not mode or (mode != 0 and mode != 1):
         return jsonify({"success": False,
                         "message": "Invalid parameters"}), 400
     
