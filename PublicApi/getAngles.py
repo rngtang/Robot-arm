@@ -1,5 +1,4 @@
 from flask import Blueprint, current_app
-import time
 
 g_angles = Blueprint('getAngles', __name__)
 
