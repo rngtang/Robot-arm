@@ -45,7 +45,7 @@ import random
 
 mc = MyCobot("/dev/ttyAMA0", 1000000)
 
-mc.send_angles([0, 0, 0, 0, 0, 0], 30)
+mc.send_angles([0, 90, 0, 0, 0, 0], 30)
 time.sleep(3)
 
 # mc.send_angles([0, 90, 20, 0, 0, 0], 30)
