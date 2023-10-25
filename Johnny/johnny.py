@@ -10,6 +10,7 @@ from pymycobot.genre import Coord
 
 import time
 
+
 import random
 
 # mc.send_angle(Angle.J2.value, 0, 100)
