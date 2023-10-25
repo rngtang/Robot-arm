@@ -96,7 +96,8 @@ def main():
         image = tracker.handsFinder(image)
         lmList = tracker.positionFinder(image)
         if len(lmList) != 0:
-            print("start", lmList[4][3], "end")
+            
+            print("------------", lmList[13], "------------")
 
         cv2.imshow("Video",image)
         cv2.waitKey(1)
