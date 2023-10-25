@@ -131,6 +131,7 @@ print(coords)
 # wait for 2 seconds
 # time.sleep(2)
 
+
 # To change only the x-coordinate of the head, set the x-coordinate of the head to 20.
 # Let it plan the route at random and move the head to the changed position at a speed of 70mm/s
 # mc.send_coord(Coord.X.value, 30, 10)
