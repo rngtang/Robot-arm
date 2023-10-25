@@ -1,0 +1,7 @@
+# .vscode
+.vscode
+settings.json
+
+# Python compiler files
+*.pyc
+TicTacToe/*.save*
