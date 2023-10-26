@@ -2,22 +2,31 @@ from flask import Flask, request
 import time
 import sys
 
-try:
-    sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
-    from controls import Controls
+sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
+from controls import Controls
 
-    app = Flask(__name__)
-    controls = Controls()
-except Exception:
-    print("FROM APP: can't connect to controls")
+app = Flask(__name__)
+controls = Controls()
+
+# try:
+#     sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
+#     from controls import Controls
+
+#     app = Flask(__name__)
+#     controls = Controls()
+# except Exception:
+#     print("FROM APP: can't connect to controls")
 
 # start in default position (up)
-try:
-    controls.send_angles([0, 0, 0, 0, 0, 0], 70)
-    print("Default position")
-    time.sleep(2)
-except Exception:
-    print("FROM APP: can't initialize in upright position")
+controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+print("Default position")
+time.sleep(2)
+# try:
+#     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+#     print("Default position")
+#     time.sleep(2)
+# except Exception:
+#     print("FROM APP: can't initialize in upright position")
 
 # Angles dictionary
 TIC_TAC_TOE_ANGLES = {
