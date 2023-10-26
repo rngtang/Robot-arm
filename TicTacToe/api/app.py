@@ -48,46 +48,80 @@ TIC_TAC_TOE_ANGLES = {
 def hello_world():
     return "<p>Hello, World!</p>"
 
-try:
-    # Route to move the robot
-    @app.route("/move")
-    def access_position():
-        # Gets the coordinates from the arguments
-        position = request.args.get('pos')
+@app.route("/move")
+def access_position():
+    # Gets the coordinates from the arguments
+    position = request.args.get('pos')
 
-        # Fail safe?
-        controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+    # Fail safe?
+    controls.send_angles([0, 0, 0, 0, 0, 0], 70)
 
-        # Converts string into a list
-        coords = [int(position[0]), int(position[1])]
-        time.sleep(1)
-        print("SEND")
-        result = robot_move(coords)
-        time.sleep(2)
-        print("RETURN")
-        return result
+    # Converts string into a list
+    coords = [int(position[0]), int(position[1])]
+    time.sleep(1)
+    print("SEND")
+    result = robot_move(coords)
+    time.sleep(2)
+    print("RETURN")
+    return result
 
-except Exception:
-    print("FROM APP: cannot get request from flask")
+# try:
+#     # Route to move the robot
+#     @app.route("/move")
+#     def access_position():
+#         # Gets the coordinates from the arguments
+#         position = request.args.get('pos')
 
-try:
-    def robot_move(coords):
-        coords = ''.join([str(coord) for coord in coords])
-        print(coords)
+#         # Fail safe?
+#         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
 
-        if coords not in TIC_TAC_TOE_ANGLES:
-            return "<h1>This is not a valid coordinate, please try again</h1>"
+#         # Converts string into a list
+#         coords = [int(position[0]), int(position[1])]
+#         time.sleep(1)
+#         print("SEND")
+#         result = robot_move(coords)
+#         time.sleep(2)
+#         print("RETURN")
+#         return result
 
+# except Exception:
+#     print("FROM APP: cannot get request from flask")
+
+def robot_move(coords):
+    coords = ''.join([str(coord) for coord in coords])
+    print(coords)
+
+    if coords not in TIC_TAC_TOE_ANGLES:
+        return "<h1>This is not a valid coordinate, please try again</h1>"
+
+    try:
         controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
         # will print "Angles Published" <- every time controls.send_angles() method is called
         time.sleep(1)
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         time.sleep(1)
-
         return
+    except:
+        print("FROM APP: cannot call on ROS")
 
-except Exception:
-    print("FROM APP: cannot call on ROS")
+# try:
+#     def robot_move(coords):
+#         coords = ''.join([str(coord) for coord in coords])
+#         print(coords)
+
+#         if coords not in TIC_TAC_TOE_ANGLES:
+#             return "<h1>This is not a valid coordinate, please try again</h1>"
+
+#         controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
+#         # will print "Angles Published" <- every time controls.send_angles() method is called
+#         time.sleep(1)
+#         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+#         time.sleep(1)
+
+#         return
+
+# except Exception:
+#     print("FROM APP: cannot call on ROS")
 
 if __name__ == '__main__':
     try:
