@@ -144,14 +144,17 @@ def findBestMove(board):
 import threading
 
 def updateBoard(board):
-    move = findBestMove(board)
-    url = "http://10.194.72.227:5000/move?pos={pos}".format(pos=str(move[0]) + str(move[1]))
+	move = findBestMove(board)
+	url = "http://10.194.72.227:5000/move?pos={pos}".format(pos=str(move[0]) + str(move[1]))
+	try: 
+		def send_request():
+			response = requests.get(url)
 
-    def send_request():
-        requests.get(url)
-
-    thread = threading.Thread(target=send_request)
-    thread.start()
+		thread = threading.Thread(target=send_request)
+		thread.start()
+		
+	except: 
+		print("FROM TTT: could not thread/send")
 
 
 # # Finds the best move and sends the POST request to the robot

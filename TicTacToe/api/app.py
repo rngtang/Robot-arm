@@ -72,7 +72,7 @@ try:
         time.sleep(1)
         print("SEND")
         result = robot_move(coords)
-        # time.sleep(2)
+        time.sleep(2)
         print("RETURN")
         return result
 
