@@ -184,8 +184,8 @@ def restartbutton():
 
 # When one of the buttons is clicked
 def buttonclick(x):
-    window.update()
-    # window.update_idletasks()
+    # window.update()
+    window.update_idletasks()
 
     global a,b,c
     global player1, player2, draw
@@ -341,8 +341,8 @@ def buttonclick(x):
         label2['text']='Player-1 Turn'
         a=1
 
-    window.update()
-    # window.update_idletasks()
+    # window.update()
+    window.update_idletasks()
     b+=1
 
     #checking winner
