@@ -26,7 +26,7 @@ def sendCoordinates():
     try:
         controls.send_coords(coordinates, speed, mode)
         return jsonify({"success": True,
-                        "message": "Coordinates sent successfully"})
+                        "message": "Coordinates sent successfully"}), 200
     except:
         return jsonify({"success": False,
-                        "message": "Failed to send coordinates"}), 400
+                        "message": "Failed to send coordinates"}), 500

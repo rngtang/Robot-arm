@@ -25,7 +25,7 @@ def sendAngles():
     try:
         controls.send_angles(angles, speed)
         return jsonify({"success": True,
-                        "message": "Angles sent successfully"})
+                        "message": "Angles sent successfully"}), 200
     except:
         return jsonify({"success": False,
-                        "message": "Failed to send angles"}), 400
+                        "message": "Failed to send angles"}), 500
