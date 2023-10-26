@@ -2,7 +2,6 @@ from ttt import updateBoard
 import tkinter as tk
 import tkinter.messagebox
 from tkinter.tix import COLUMN
-import requests
 import time
 
 # Creates the main window for the game

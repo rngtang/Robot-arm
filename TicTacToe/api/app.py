@@ -19,19 +19,6 @@ try:
 except Exception:
     print("FROM APP: can't initialize in upright position")
 
-# Coordinates dictionary
-TIC_TAC_TOE_COORDS = {
-    "00": [248, 30, -12, -180, 0, -68],
-    "10": [235, 28, -13, -180, 0, -67],
-    "20": [221, 30, -13, -180, -1, -65],
-    "01": [248, 4, -13, -180, 0, -75],
-    "11": [235, 2, -13, -180, 0, -74],
-    "21": [222, -2, -12, -180, -2, -73],
-    "02": [249, -23, -11, -177, -2, -80],
-    "12": [235, -23, -12, -176, -1, -80],
-    "22": [220, -23, -14, -179, -2, -79]
-}
-
 # Angles dictionary
 TIC_TAC_TOE_ANGLES = {
     "00": [22.57, -71.44, -76.01, 55.88, -3.95, -11.06],
@@ -62,11 +49,6 @@ try:
         # Fail safe?
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
 
-        # Test all position
-        # if(position == "test"):
-        #     result = test_all()
-        #     return result
-
         # Converts string into a list
         coords = [int(position[0]), int(position[1])]
         time.sleep(1)
@@ -84,7 +66,7 @@ try:
         coords = ''.join([str(coord) for coord in coords])
         print(coords)
 
-        if coords not in TIC_TAC_TOE_COORDS:
+        if coords not in TIC_TAC_TOE_ANGLES:
             return "<h1>This is not a valid coordinate, please try again</h1>"
 
         controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
@@ -98,19 +80,6 @@ try:
 
 except Exception:
     print("FROM APP: cannot call on ROS")
-
-
-# Function to test all coordinates
-# def test_all():
-#     for i in range(0, 3):
-#         for j in range(0, 3):
-#             coords = str(i) + str(j)
-#             controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
-#             time.sleep(2)
-#             controls.send_angles([0, 0, 0, 0, 0, 0], 70)
-#             time.sleep(2)
-#     return '''<h1>Success?<h1>'''
-
 
 if __name__ == '__main__':
     try:
