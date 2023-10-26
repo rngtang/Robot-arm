@@ -38,7 +38,6 @@ TIC_TAC_TOE_ANGLES = {
 def hello_world():
     return "<p>Hello, World!</p>"
 
-
 try:
     # Route to move the robot
     @app.route("/move")
@@ -75,7 +74,6 @@ try:
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         time.sleep(1)
 
-        # return '''<h1>The given position is: {}</h1>'''.format(coords)
         return
 
 except Exception:
