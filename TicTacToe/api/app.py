@@ -18,6 +18,7 @@ controls = Controls()
 #     print("FROM APP: can't connect to controls")
 
 # start in default position (up)
+time.sleep(2)
 controls.send_angles([0, 0, 0, 0, 0, 0], 70)
 print("Default position")
 time.sleep(2)
