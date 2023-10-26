@@ -181,8 +181,8 @@ def buttonclick(x):
     # a = 1 means player, a = 0 means robot
     
     # When is the Player's turn
-    # if(a == 1):
-    #     time.sleep(1)
+    if(a == 1):
+        time.sleep(1)
     if(x==1 and a==1 and button1['text']==''):
         currGame[0][0] = "x"
         button1['text']="X"
