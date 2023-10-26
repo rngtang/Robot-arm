@@ -2,7 +2,7 @@ from flask import jsonify, Blueprint, current_app
 import time
 
 # Creates blueprint
-hello = Blueprint('sendAngles', __name__)
+hello = Blueprint('hi', __name__)
 
 @hello.route("/")
 def hi():
