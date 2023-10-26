@@ -13,7 +13,7 @@ def hi():
         controls.send_angles([0, 90, -90, 0, 0, 0], 70)
         time.sleep(2)
         controls.send_angles([0, 90, -90, -60, 0, 0], 60)
-        time.sleep(2)
+        time.sleep(1)
         controls.send_angles([0, 90, -90, 0, 0, 0], 60)
 
         return jsonify({
