@@ -13,6 +13,7 @@ from sendAngles import s_angles
 from sendCoordinates import s_coordinates
 from release import release
 
+# Creates the flask app instance
 app = Flask(__name__)
 
 # imports the ROS package and attaches the controls object to the Flask instance
@@ -24,7 +25,7 @@ app.config['controls'] = Controls()
 from pymycobot.mycobot import MyCobot
 app.config['mc'] = MyCobot("/dev/ttyAMA0", 1000000)
 
-# Default route
+# Default route (home page)
 @app.route("/")
 def hello_world():
     return "<p>Hello !!! </p>"

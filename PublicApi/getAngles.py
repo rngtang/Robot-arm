@@ -1,9 +1,11 @@
 from flask import Blueprint, current_app
 
+# Creates blueprint
 g_angles = Blueprint('getAngles', __name__)
 
 @g_angles.route("/")
 def getAngles():
+    # Gets the controls object from the app instance
     controls = current_app.config['controls']
     # Tries to catch any errors
     try:
@@ -15,6 +17,6 @@ def getAngles():
         Joint 5: {4}<br>
         Joint 6: {5}</h1>'''.format(
             angles[0], angles[1], angles[2], angles[3],  angles[4], angles[5]
-        )
+        ), 200
     except:
-        return '''<h1>Unable to get angles, try again</h1>'''
+        return '''<h1>Unable to get angles, try again</h1>''', 400

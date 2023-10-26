@@ -5,6 +5,7 @@ dance = Blueprint('dance', __name__)
 
 @dance.route("/")
 def danai_twerk():
+    # Gets the myCobot object from the app instance
     mc = current_app.config['mc']
     # set start start time
     start = time.time()
@@ -36,4 +37,4 @@ def danai_twerk():
         # Set the color of the light to [0,50,0]
         mc.set_color(0, 50, 0)
         time.sleep(0.7)
-    return '''<h1>gonna go crazy </h1>'''
+    return '''<h1>gonna go crazy </h1>''', 200

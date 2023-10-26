@@ -1,9 +1,11 @@
 from flask import request, jsonify, Blueprint, current_app
 
+# Creates the blueprint
 s_coordinates = Blueprint('sendCoordinates', __name__)
 
 @s_coordinates.route("/", methods=['POST'])
 def sendCoordinates():
+    # Gets the controls object from the app instance
     controls = current_app.config['controls']
     # Checks if the user is sending in JSON format
     if not request.is_json:

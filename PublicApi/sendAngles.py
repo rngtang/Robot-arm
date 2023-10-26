@@ -1,9 +1,11 @@
 from flask import request, jsonify, Blueprint, current_app
 
+# Creates blueprint
 s_angles = Blueprint('sendAngles', __name__)
 
 @s_angles.route("/", methods=['POST'])
 def sendAngles():
+    # Gets the controls object from the app instance
     controls = current_app.config['controls']
     # Checks if the user is sending in JSON format
     if not request.is_json:
