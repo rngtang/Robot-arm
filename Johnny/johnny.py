@@ -99,7 +99,7 @@ print(coords)
 
 # mc.send_coords([38.6, -107.4, 276.7, 86.44, 69.83, -1.07], 30, 0) #spell J
 
-mc.send_coords([-57.3, -39.1, 145.1, -80.64, 25.52, 8.51], 30, 0)  # spell D
+#mc.send_coords([-57.3, -39.1, 145.1, -80.64, 25.52, 8.51], 30, 0)  # spell D
 
 # [37.7, -107.5, 276.8, 86.22, 69.65, -1.28] j
 # [38.6, -107.4, 276.7, 86.44, 69.83, -1.07] j
@@ -130,6 +130,7 @@ mc.send_coords([-57.3, -39.1, 145.1, -80.64, 25.52, 8.51], 30, 0)  # spell D
 # mc.send_coords([207.9, 47, 49.3,-159.69], 30, 0)
 # wait for 2 seconds
 # time.sleep(2)
+
 
 # To change only the x-coordinate of the head, set the x-coordinate of the head to 20.
 # Let it plan the route at random and move the head to the changed position at a speed of 70mm/s
