@@ -178,19 +178,11 @@ def buttonclick(x):
     global a,b,c
     global player1, player2, draw
     runScript = a
-    # a = 1 means 
-
-    # robot moves first ? 
-    if runScript == 1:  # run the script to call robot move if the player made their move and game is not over
-        try: 
-            updateBoard(currGame)
-        except: 
-            print("FROM GAME: can't call on ttt.py ??")
-        time.sleep(1)
+    # a = 1 means player, a = 0 means robot
     
     # When is the Player's turn
-    if(a == 1):
-        time.sleep(1)
+    # if(a == 1):
+    #     time.sleep(1)
     if(x==1 and a==1 and button1['text']==''):
         currGame[0][0] = "x"
         button1['text']="X"
@@ -378,5 +370,12 @@ def buttonclick(x):
         frame1.pack_forget()
         c=1
         # tkinter.messagebox.showinfo("Tic Tac Toe","Match is Draw.")
+
+    if runScript == 1:  # run the script to call robot move if the player made their move and game is not over
+        try: 
+            updateBoard(currGame)
+        except: 
+            print("FROM GAME: can't call on ttt.py ??")
+        time.sleep(1)
     
 window.mainloop()
