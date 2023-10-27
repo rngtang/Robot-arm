@@ -43,9 +43,9 @@ def access_position():
     # Fail safe?
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
 
-    print(coords)
+    print(position)
     # Checks if coords are valid
-    if coords not in TIC_TAC_TOE_ANGLES:
+    if position not in TIC_TAC_TOE_ANGLES:
         return "<h1>This is not a valid coordinate, please try again</h1>"
 
     # Converts string into a list
