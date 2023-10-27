@@ -43,6 +43,11 @@ def access_position():
     # Fail safe?
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
 
+    print(coords)
+    # Checks if coords a valid
+    if coords not in TIC_TAC_TOE_ANGLES:
+        return "<h1>This is not a valid coordinate, please try again</h1>"
+
     # Converts string into a list
     coords = [int(position[0]), int(position[1])]
     time.sleep(1)
@@ -54,12 +59,6 @@ def access_position():
 
 # Moves the robot
 def robot_move(coords):
-    coords = ''.join([str(coord) for coord in coords])
-    print(coords)
-
-    if coords not in TIC_TAC_TOE_ANGLES:
-        return "<h1>This is not a valid coordinate, please try again</h1>"
-
     # Tries catching any errors when sending the coordinates
     try:
         controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
