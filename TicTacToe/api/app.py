@@ -38,13 +38,11 @@ def hello_world():
 @app.route("/move")
 def access_position():
     # Gets the coordinates from the arguments
-    position = request.args.get('pos')
+    coords = request.args.get('pos')
 
     # Fail safe?
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
 
-    # Converts string into a list
-    coords = [int(position[0]), int(position[1])]
     time.sleep(1)
     print("SEND")
     result = robot_move(coords)
@@ -54,7 +52,6 @@ def access_position():
 
 # Moves the robot
 def robot_move(coords):
-    coords = ''.join([str(coord) for coord in coords])
     print(coords)
 
     if coords not in TIC_TAC_TOE_ANGLES:
