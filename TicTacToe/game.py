@@ -375,6 +375,6 @@ def buttonclick(x):
             updateBoard(currGame)
         except: 
             print("FROM GAME: can't call on ttt.py ??")
-        time.sleep(1)
+        # time.sleep(1)
     
 window.mainloop()
