@@ -61,9 +61,9 @@ def robot_move(coords):
     try:
         controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
         # will print "Angles Published" <- every time controls.send_angles() method is called
-        # time.sleep(1)
-        controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         time.sleep(1)
+        controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+        # time.sleep(1)
         return
     except:
         print("FROM APP: cannot call on ROS")
