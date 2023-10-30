@@ -371,6 +371,7 @@ def buttonclick(x):
         # tkinter.messagebox.showinfo("Tic Tac Toe","Match is Draw.")
 
     if runScript == 1:  # run the script to call robot move if the player made their move and game is not over
+        window.update_idletasks()
         try: 
             updateBoard(currGame)
         except: 
