@@ -44,10 +44,10 @@ def access_position():
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
 
     time.sleep(1)
-    print("SEND")
+    # print("SEND")
     result = robot_move(coords)
-    time.sleep(2)
-    print("RETURN")
+    # time.sleep(2)
+    # print("RETURN")
     return result
 
 # Moves the robot
@@ -61,7 +61,7 @@ def robot_move(coords):
     try:
         controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
         # will print "Angles Published" <- every time controls.send_angles() method is called
-        time.sleep(1)
+        # time.sleep(1)
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         time.sleep(1)
         return
