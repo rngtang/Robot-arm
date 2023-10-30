@@ -44,10 +44,7 @@ def access_position():
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
 
     time.sleep(1)
-    # print("SEND")
     result = robot_move(coords)
-    # time.sleep(2)
-    # print("RETURN")
     return result
 
 # Moves the robot
