@@ -2,6 +2,21 @@
 from flask import Flask
 import sys
 
+# # judy testing 
+# import os
+# import rospy
+# import threading
+
+# from std_msgs.msg import UInt32
+
+# def ros_callback(msg):
+#     print(msg)
+
+# threading.Thread(target=lambda: rospy.init_node('controls', disable_signals=True)).start()
+# rospy.Subscriber('/listener', UInt32, ros_callback)
+# pub = rospy.Publisher('/talker', UInt32, queue_size=10)
+############################
+
 # Imports the other functions
 from danai_twerk import dance
 from getAngles import g_angles
@@ -17,9 +32,14 @@ from hi import hello
 # Creates the flask app instance
 app = Flask(__name__)
 
-# imports the ROS package and attaches the controls object to the Flask instance
-sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
-from controls import Controls
+
+try: 
+    # imports the ROS package and attaches the controls object to the Flask instance
+    sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
+    from controls import Controls
+except: 
+    print("FROM MAIN: cannot import Controls")
+
 try: 
     app.config['controls'] = Controls()
 except: 
@@ -48,4 +68,8 @@ app.register_blueprint(hello, url_prefix='/hi')
 
 if __name__ == '__main__':
     # app.run(host='10.194.72.227', port=5000, debug=False)
+    # app.run(host=os.environ['ROS_IP'], port=5000, debug=False)
+
+    # new IP
     app.run(host='10.194.29.175', port=5000, debug=False)
+
