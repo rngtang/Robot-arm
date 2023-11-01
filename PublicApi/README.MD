@@ -23,7 +23,7 @@ This route sets the robot to the default position and sets the color of the LED 
 ## /lights
 Allows the user to set an specific RGB color to the LED. This route taskes as a parameter the rgb colors. For example:
 ```bash
-http://10.194.72.227:5000/lights?r=<RED COLOR>?g=<GREEN COLOR>?b=<Blue color>
+http://10.194.72.227:5000/lights?r=<RED COLOR>&g=<GREEN COLOR>&b=<Blue color>
 ``` 
 
 ## /show
