@@ -6,7 +6,10 @@ g_coordinates = Blueprint('getCoordinates', __name__)
 @g_coordinates.route("/")
 def getCoordinates():
     # Gets the controls object from the app instance
-    controls = current_app.config['controls']
+    try: 
+        controls = current_app.config['controls']
+    except: 
+        return '''<h1>Unable to connect to Controls</h1>''', 500
     # Tries to catch any errors
     try:
         coordinates = controls.get_coords()

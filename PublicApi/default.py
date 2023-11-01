@@ -8,7 +8,12 @@ default = Blueprint('default', __name__)
 def default_pos():
     # Gets the myCobot and controls object from the app instance
     mc = current_app.config['mc']
-    controls = current_app.config['controls']
+
+    try: 
+        controls = current_app.config['controls']
+    except: 
+        return '''<h1>Unable to connect to Controls</h1>''', 500
+
     # Sends robot to the default position
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
     mc.set_color(255, 255, 255) # start white

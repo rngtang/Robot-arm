@@ -18,7 +18,7 @@ def danai_twerk():
         # Let the robotic arm move for 0.5s
         time.sleep(0.5)
         # Pause arm movement
-        mc.pause()
+        mc.resume()
         # Determine if the move timed out
         if time.time() - start > 3:
             break

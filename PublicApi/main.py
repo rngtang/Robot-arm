@@ -20,7 +20,10 @@ app = Flask(__name__)
 # imports the ROS package and attaches the controls object to the Flask instance
 sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
 from controls import Controls
-# app.config['controls'] = Controls()
+try: 
+    app.config['controls'] = Controls()
+except: 
+    print("FROM MAIN: cannot connect to Controls")
 
 # Creates MyCobot object and attaches it to the Flask instance
 from pymycobot.mycobot import MyCobot
@@ -44,4 +47,5 @@ app.register_blueprint(release, url_prefix='/release')
 app.register_blueprint(hello, url_prefix='/hi')
 
 if __name__ == '__main__':
-    app.run(host='10.194.72.227', port=5000, debug=False)
+    # app.run(host='10.194.72.227', port=5000, debug=False)
+    app.run(host='10.194.29.175', port=5000, debug=False)

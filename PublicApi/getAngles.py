@@ -6,7 +6,10 @@ g_angles = Blueprint('getAngles', __name__)
 @g_angles.route("/")
 def getAngles():
     # Gets the controls object from the app instance
-    controls = current_app.config['controls']
+    try: 
+        controls = current_app.config['controls']
+    except: 
+        return '''<h1>Unable to connect to Controls</h1>''', 500
     # Tries to catch any errors
     try:
         angles = controls.get_angles()

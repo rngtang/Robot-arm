@@ -6,7 +6,11 @@ s_angles = Blueprint('sendAngles', __name__)
 @s_angles.route("/", methods=['POST'])
 def sendAngles():
     # Gets the controls object from the app instance
-    controls = current_app.config['controls']
+    try: 
+        controls = current_app.config['controls']
+    except: 
+        return '''<h1>Unable to connect to Controls</h1>''', 500
+    
     # Checks if the user is sending in JSON format
     if not request.is_json:
         return jsonify({

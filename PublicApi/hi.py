@@ -7,7 +7,11 @@ hello = Blueprint('hi', __name__)
 @hello.route("/")
 def hi():
     # Gets the controls object from the app instance
-    controls = current_app.config['controls']
+    try: 
+        controls = current_app.config['controls']
+    except: 
+        return '''<h1>Unable to connect to Controls</h1>''', 500
+    
     try:
         # Goes to default position
         controls.send_angles([0, 90, -90, 0, 0, 0], 70)
