@@ -44,4 +44,7 @@ app.register_blueprint(release, url_prefix='/release')
 app.register_blueprint(hello, url_prefix='/hi')
 
 if __name__ == '__main__':
-    app.run(host='10.194.72.227', port=5000, debug=False)
+    # app.run(host='10.194.72.227', port=5000, debug=False)
+
+    # new IP
+    app.run(host='10.194.29.175', port=5000, debug=False)
