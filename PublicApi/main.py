@@ -32,16 +32,31 @@ from hi import hello
 # Creates the flask app instance
 app = Flask(__name__)
 
+print("FROM MAIN: APP RUNNING")
+
+try: 
+    sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
+except:
+    print("FROM MAIN: cannot sys.path.append")
 
 try: 
     # imports the ROS package and attaches the controls object to the Flask instance
-    sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
     from controls import Controls
 except: 
     print("FROM MAIN: cannot import Controls")
 
+if "controls" not in sys.modules: 
+    print("FROM MAIN: do not have controls in sys.modules")
+
+print("FROM MAIN: right before ")
 try: 
-    app.config['controls'] = Controls()
+    c = Controls()
+except Exception as error:
+    # handle the exception
+    print("FROM MAIN: An exception occurred:", error) # An exception occurred: division by zero
+
+try: 
+    app.config['controls'] = c
 except: 
     print("FROM MAIN: cannot connect to Controls")
 
