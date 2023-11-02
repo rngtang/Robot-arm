@@ -1,6 +1,7 @@
 # for flask app
 from flask import Flask
 import sys
+import threading 
 
 # Imports the other functions
 from danai_twerk import dance
@@ -25,10 +26,11 @@ from controls import Controls
 
 print("FROM MAIN: right before")
 
-try: 
-    c = Controls()
-except: 
-    print("FROM MAIN: cannot create Controls object")
+# try: 
+# threading.Thread(c = Controls()).start()
+c = Controls();
+# except: 
+#     print("FROM MAIN: cannot create Controls object")
 
 print("FROM MAIN: right after")
 
