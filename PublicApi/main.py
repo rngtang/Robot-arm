@@ -2,21 +2,6 @@
 from flask import Flask
 import sys
 
-# # judy testing : https://github.com/RobotWebTools/rosbridge_suite
-# import os
-# import rospy
-# import threading
-
-# from std_msgs.msg import UInt32
-
-# def ros_callback(msg):
-#     print(msg)
-
-# threading.Thread(target=lambda: rospy.init_node('controls', disable_signals=True)).start()
-# rospy.Subscriber('/listener', UInt32, ros_callback)
-# pub = rospy.Publisher('/talker', UInt32, queue_size=10)
-############################
-
 # Imports the other functions
 from danai_twerk import dance
 from getAngles import g_angles
@@ -33,29 +18,19 @@ from hi import hello
 app = Flask(__name__)
 
 print("FROM MAIN: APP RUNNING")
+sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
+
+# imports the ROS package and attaches the controls object to the Flask instance
+from controls import Controls
+
+print("FROM MAIN: right before")
 
 try: 
-    sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
-except:
-    print("FROM MAIN: cannot sys.path.append")
-
-try: 
-    # imports the ROS package and attaches the controls object to the Flask instance
-    from controls import Controls
+    c = Controls()
 except: 
-    print("FROM MAIN: cannot import Controls")
+    print("FROM MAIN: cannot create Controls object")
 
-# if "controls" not in sys.modules: 
-#     print("FROM MAIN: do not have controls in sys.modules")
-
-print("FROM MAIN: right before ")
-# try: 
-c = Controls()
-# except Exception as error:
-    # handle the exception
-    # print("FROM MAIN: An exception occurred:", error) # An exception occurred: division by zero
-
-print("FROM MAIN: right after ")
+print("FROM MAIN: right after")
 
 try: 
     app.config['controls'] = c
@@ -85,7 +60,6 @@ app.register_blueprint(hello, url_prefix='/hi')
 
 if __name__ == '__main__':
     # app.run(host='10.194.72.227', port=5000, debug=False)
-    # app.run(host=os.environ['ROS_IP'], port=5000, debug=False)
 
     # new IP
     app.run(host='10.194.29.175', port=5000, debug=False)
