@@ -45,15 +45,17 @@ try:
 except: 
     print("FROM MAIN: cannot import Controls")
 
-if "controls" not in sys.modules: 
-    print("FROM MAIN: do not have controls in sys.modules")
+# if "controls" not in sys.modules: 
+#     print("FROM MAIN: do not have controls in sys.modules")
 
 print("FROM MAIN: right before ")
-try: 
-    c = Controls()
-except Exception as error:
+# try: 
+c = Controls()
+# except Exception as error:
     # handle the exception
-    print("FROM MAIN: An exception occurred:", error) # An exception occurred: division by zero
+    # print("FROM MAIN: An exception occurred:", error) # An exception occurred: division by zero
+
+print("FROM MAIN: right after ")
 
 try: 
     app.config['controls'] = c

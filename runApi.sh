@@ -1,4 +1,4 @@
-./launch_controls.sh
+# ./launch_controls.sh
 
 cd PublicApi/
-gunicorn -c gunicorn_config.py main:app
+gunicorn -c gunicorn_config.py main:app --log-level debug 
