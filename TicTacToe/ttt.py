@@ -142,7 +142,7 @@ def findBestMove(board):
 
 def updateBoard(board):
 	move = findBestMove(board)
-	url = "http://10.194.72.227:5000/move?pos={pos}".format(pos=str(move[0]) + str(move[1]))
+	url = "http://10.194.29.175:5000/move?pos={pos}".format(pos=str(move[0]) + str(move[1]))
 	try: 
 		def send_request():
 			response = requests.get(url)
