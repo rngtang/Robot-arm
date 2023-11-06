@@ -67,6 +67,6 @@ def robot_move(coords):
 
 if __name__ == '__main__':
     try:
-        app.run(host='10.194.72.227', port=5000, debug=False)
+        app.run(host='10.194.29.175', port=5000, debug=False)
     except Exception:
         print("FROM APP: failed to run app.run LOL")
