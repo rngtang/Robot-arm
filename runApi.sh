@@ -3,6 +3,7 @@
 
 cd PublicApi/
 # gunicorn -c gunicorn_config.py main:app --log-level debug 
-python main.py
+nohup python main.py & 
+sleep 3
 cd ..
 ./launch_controls.sh
