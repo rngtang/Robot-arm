@@ -7,6 +7,16 @@ gunicorn -b 10.194.72.227:5000 main.wsgi:app
 gunicorn -c gunicorn_config.py main:app
 ```
 
+# How to run the API
+To run the API, you will first need to the /robotic-arm directory
+```bash
+cd robotic-arm/
+```
+The run the following command
+```bash
+./runApi.sh
+```
+
 # How to send an HTTP request to the robot
 To send an HTTP request to the robot it is recommended to use an API developed platform like Insomnia since some of the API endpoints take a JSON format as its input.
 To use the API, all of the endpoints have the following format, where <ROUTE> is the route the you are using:
