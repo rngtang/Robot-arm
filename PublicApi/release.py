@@ -7,7 +7,7 @@ release = Blueprint('release', __name__)
 def releaseJoints():
     lock = current_app.config['lock']
     if lock.locked():
-        return "A request is already in progress"
+        return "A request is already in progress"d
     
     with lock:
         # Gets the controls object from the app instance
