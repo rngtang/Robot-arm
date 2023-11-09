@@ -1,11 +1,11 @@
 # ./launch_controls.sh
 # ^^ commented out because it potentially takes some time for ./launch_controls.py to execute, just run ./launch_controls.sh manually
 
-# cd PublicApi/
+cd PublicApi/
 nohup gunicorn -c gunicorn_config.py main:app --log-level debug > out.txt &
 # nohup python main.py &
 sleep 5
-cd PublicApi/
+# cd PublicApi/
 nohup python main.py
 # cd ..
 # ./launch_controls.sh
