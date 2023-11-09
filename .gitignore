@@ -7,4 +7,4 @@ settings.json
 TicTacToe/*.save*
 
 # Public API
-PublicApi/nohup.out
+PublicApi/nohup.out*
