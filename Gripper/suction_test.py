@@ -16,13 +16,11 @@ GPIO.setup(20, GPIO.OUT)
 def pump_on():
      # open suction pump
     GPIO.output(20, 0)
-    #GPIO.output(21，0)
 
 # Stop suction pump
 def pump_off():
     # Shut down the suction pump
     GPIO.output(20, 1)
-    #GPIO.output(21，1)
 
 pump_off()
 time.sleep(3)
