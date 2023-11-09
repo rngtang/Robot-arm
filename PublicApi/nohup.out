@@ -436,3 +436,36 @@ FROM MAIN: right after
     self.socket.connect((dest_addr, dest_port))
 AttributeError: 'NoneType' object has no attribute 'connect'
 
+FROM MAIN: APP RUNNING
+FROM MAIN: right before
+FROM CONTROLS: ZHICHEN AND FRIENDS
+ROS MASTER is Offline
+Unable to register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+[DEBUG] [1699561438.417076]: init_node, name[/controls], pid[3973]
+[DEBUG] [1699561438.421140]: binding to 127.0.0.1 0
+[DEBUG] [1699561438.424898]: bound to 127.0.0.1 45033
+[DEBUG] [1699561438.429383]: ... service URL is rosrpc://localhost:45033
+[DEBUG] [1699561438.432891]: [/controls/get_loggers]: new Service instance
+[DEBUG] [1699561438.445360]: ... service URL is rosrpc://localhost:45033
+[DEBUG] [1699561438.450379]: [/controls/set_logger_level]: new Service instance
+Node Created
+publisher done
+[DEBUG] [1699561440.600369]: connecting to ('localhost', 42513)
+servos released
+Sets subscriber
+Instance variables created
+FROM MAIN: right after
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+04:28:53.016 WARN [rospy.internal] Unknown error initiating TCP/IP socket to localhost:33989 (http://localhost:42927/): Traceback (most recent call last):
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rospy/impl/tcpros_base.py", line 562, in connect
+    self.read_header()
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rospy/impl/tcpros_base.py", line 657, in read_header
+    self._validate_header(read_ros_handshake_header(sock, self.read_buff, self.protocol.buff_size))
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rosgraph/network.py", line 357, in read_ros_handshake_header
+    d = sock.recv(buff_size)
+error: [Errno 104] Connection reset by peer
+
