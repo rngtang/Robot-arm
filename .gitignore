@@ -5,3 +5,6 @@ settings.json
 # Python compiler files
 *.pyc
 TicTacToe/*.save*
+
+# Public API
+*.out
