@@ -28,7 +28,7 @@ def sendAngles():
                         "message": "Invalid parameters"}), 400
     
     for value in angles:
-        if value < -160 or value > 160:
+        if value < -165 or value > 165:
             return jsonify({"success": False,
                         "message": "Invalid parameters"}), 400
         
