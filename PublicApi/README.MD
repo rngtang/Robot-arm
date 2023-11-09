@@ -21,7 +21,7 @@ The run the following command
 It is recommended to use an API developed platform like Insomnia to send an HTTP request to the robot since some of the API endpoints take a JSON format as its input.
 To use the API, all of the endpoints have the following format, where <ROUTE> is the route the you are using:
 ```bash
-http://10.194.72.227:5000/<ROUTE>
+http://10.194.29.175:5000/<ROUTE>
 ```  
 
 # About the routes
@@ -32,7 +32,7 @@ GET request. This route sets the robot to the default position and sets the colo
 ## /lights
 GET request. Allows the user to set an specific RGB color to the LED. This route can take in RGB values (0-255) as parameters. For example:
 ```bash
-http://10.194.72.227:5000/lights?r=<RED COLOR>&g=<GREEN COLOR>&b=<Blue color>
+http://10.194.29.175:5000/lights?r=<RED COLOR>&g=<GREEN COLOR>&b=<Blue color>
 ``` 
 If no parameters are given, the default RGB values are (10, 10, 10), and no light will be displayed on the robot.
 
