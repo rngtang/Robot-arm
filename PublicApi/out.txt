@@ -1,0 +1,134 @@
+[2023-11-09 22:44:40 +0000] [4929] [DEBUG] Current configuration:
+  proxy_protocol: False
+  worker_connections: 1000
+  accesslog: None
+  disable_redirect_access_to_syslog: False
+  statsd_host: None
+  max_requests_jitter: 0
+  post_fork: <function post_fork at 0x7fb10958d0>
+  errorlog: -
+  enable_stdio_inheritance: False
+  worker_class: sync
+  ssl_version: 2
+  suppress_ragged_eofs: True
+  syslog_facility: user
+  when_ready: <function when_ready at 0x7fb10956d0>
+  pre_fork: <function pre_fork at 0x7fb10957d0>
+  cert_reqs: 0
+  preload_app: False
+  keepalive: 2
+  sendfile: None
+  reuse_port: False
+  group: 1000
+  umask: 0
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  workers: 1
+  graceful_timeout: 30
+  do_handshake_on_connect: False
+  spew: False
+  proc_name: None
+  pre_exec: <function pre_exec at 0x7fb1095cd0>
+  worker_tmp_dir: None
+  strip_header_spaces: False
+  limit_request_fields: 100
+  pythonpath: None
+  on_exit: <function on_exit at 0x7fb10a82d0>
+  logconfig: None
+  logconfig_dict: {}
+  config: gunicorn_config.py
+  pidfile: None
+  check_config: False
+  statsd_prefix: 
+  on_reload: <function on_reload at 0x7fb10955d0>
+  reload_engine: auto
+  reload_extra_files: []
+  user: 1000
+  proxy_allow_ips: ['127.0.0.1']
+  pre_request: <function pre_request at 0x7fb1095dd0>
+  post_request: <function post_request at 0x7fb1095e50>
+  forwarded_allow_ips: ['*']
+  worker_int: <function worker_int at 0x7fb1095ad0>
+  chdir: /home/ubuntu/robotic-arm/PublicApi
+  daemon: False
+  paste: None
+  raw_paste_global_conf: []
+  threads: 1
+  max_requests: 0
+  limit_request_line: 4094
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  certfile: None
+  on_starting: <function on_starting at 0x7fb10954d0>
+  post_worker_init: <function post_worker_init at 0x7fb10959d0>
+  worker_abort: <function worker_abort at 0x7fb1095bd0>
+  worker_exit: <function worker_exit at 0x7fb10a80d0>
+  default_proc_name: main:app
+  loglevel: debug
+  capture_output: False
+  syslog_addr: udp://localhost:514
+  syslog_prefix: None
+  ciphers: TLSv1
+  syslog: False
+  bind: ['0.0.0.0:5000']
+  raw_env: []
+  initgroups: False
+  reload: False
+  limit_request_field_size: 8190
+  child_exit: <function child_exit at 0x7fb1095f50>
+  nworkers_changed: <function nworkers_changed at 0x7fb10a81d0>
+  timeout: 30
+  keyfile: None
+  ca_certs: None
+  tmp_upload_dir: None
+  backlog: 2048
+  logger_class: gunicorn.glogging.Logger
+[2023-11-09 22:44:40 +0000] [4929] [INFO] Starting gunicorn 19.10.0
+[2023-11-09 22:44:40 +0000] [4929] [DEBUG] Arbiter booted
+[2023-11-09 22:44:40 +0000] [4929] [INFO] Listening at: http://0.0.0.0:5000 (4929)
+[2023-11-09 22:44:40 +0000] [4929] [INFO] Using worker: sync
+[2023-11-09 22:44:40 +0000] [4935] [INFO] Booting worker with pid: 4935
+[2023-11-09 22:44:40 +0000] [4929] [DEBUG] 1 workers
+[2023-11-09 22:45:11 +0000] [4929] [CRITICAL] WORKER TIMEOUT (pid:4935)
+[ERROR] [1699541111.015919]: Unable to immediately register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+[2023-11-09 22:45:11 +0000] [4935] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 586, in spawn_worker
+    worker.init_process()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/workers/base.py", line 135, in init_process
+    self.load_wsgi()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/workers/base.py", line 144, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py", line 52, in load
+    return self.load_wsgiapp()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py", line 41, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/util.py", line 350, in import_app
+    __import__(module)
+  File "/home/ubuntu/robotic-arm/PublicApi/main.py", line 31, in <module>
+    c = Controls();
+  File "/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts/controls.py", line 41, in __init__
+    rospy.wait_for_service("release_servos")
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rospy/impl/tcpros_service.py", line 163, in wait_for_service
+    rospy.core.logwarn_throttle(10, "wait_for_service(%s): failed to contact, will keep trying"%resolved_name)
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rospy/core.py", line 243, in logwarn_throttle
+    _base_logger(msg, args, kwargs, throttle=period, level='warn')
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rospy/core.py", line 180, in _base_logger
+    if _logging_throttle(caller_id, throttle):
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rospy/core.py", line 218, in __call__
+    now = rospy.Time.now()
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rospy/rostime.py", line 155, in now
+    return get_rostime()
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rospy/rostime.py", line 190, in get_rostime
+    raise rospy.exceptions.ROSInitException("time is not initialized. Have you called init_node()?")
+ROSInitException: time is not initialized. Have you called init_node()?
+[2023-11-09 22:45:11 +0000] [4935] [INFO] Worker exiting (pid: 4935)
+FROM MAIN: APP RUNNING
+FROM MAIN: right before
+FROM CONTROLS: ZHICHEN AND FRIENDS
+ROS MASTER is Offline
+FROM CONTROLS: was error but couldn't print exception
+Node Created
+publisher done
+[2023-11-09 22:45:11 +0000] [4929] [INFO] Shutting down: Master
+[2023-11-09 22:45:11 +0000] [4929] [INFO] Reason: Worker failed to boot.
