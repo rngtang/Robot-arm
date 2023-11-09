@@ -9,6 +9,9 @@ def lightshow(): # given no parameters
     # Gets the myCobot object from the app instance
     mc = current_app.config['mc']
     lock = current_app.config['lock']
+    if lock.locked():
+        return "A request is already in progress"
+    
     with lock:
         for count in range(0,3):
             #From red (255,0,0) to blue (0,0,255)
