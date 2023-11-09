@@ -8,3 +8,4 @@ TicTacToe/*.save*
 
 # Public API
 *.out
+*.txt
