@@ -2,7 +2,6 @@ from ttt import updateBoard
 import tkinter as tk
 import tkinter.messagebox
 from tkinter.tix import COLUMN
-import requests
 import time
 
 # Creates the main window for the game
@@ -26,38 +25,26 @@ frame1.pack(padx=0,pady=0)
 # Creates the buttons grid
 button1=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(1), highlightthickness=2, highlightbackground='black')
 button1.grid(row=0,column=0)
-
 button2=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(2), highlightthickness=2, highlightbackground='black')
 button2.grid(row=0,column=1)
-
 button3=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(3), highlightthickness=2, highlightbackground='black')
 button3.grid(row=0,column=2)
-
 button4=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(4), highlightthickness=2, highlightbackground='black')
 button4.grid(row=1,column=0)
-
 button5=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(5), highlightthickness=2, highlightbackground='black')
 button5.grid(row=1,column=1)
-
 button6=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(6), highlightthickness=2, highlightbackground='black')
 button6.grid(row=1,column=2)
-
 button7=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(7), highlightthickness=2, highlightbackground='black')
 button7.grid(row=2,column=0)
-
 button8=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(8), highlightthickness=2, highlightbackground='black')
 button8.grid(row=2,column=1)
-
 button9=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(9), highlightthickness=2, highlightbackground='black')
 button9.grid(row=2,column=2)
-button1=tk.Button(master=frame1,text='',width=16,height=4,bg='white',activebackground='white',command=lambda : buttonclick(1), highlightthickness=2, highlightbackground='black')
-button1.grid(row=0,column=0)
-
 
 
 framePlayer1=tk.Frame(master=window,border=2,relief=tk.SUNKEN, bg='#00539B')
 framePlayer1.pack(padx=0, pady=0)
-
 # Create an inner frame within frame2 and use grid for it
 inner_frame1 = tk.Frame(framePlayer1, bg='#00539B')
 inner_frame1.grid(row=0, column=0)
@@ -184,15 +171,15 @@ def restartbutton():
 
 # When one of the buttons is clicked
 def buttonclick(x):
-    window.update()
+    # window.update()
+    window.update_idletasks()
 
     global a,b,c
     global player1, player2, draw
     runScript = a
-
+    # a = 1 means player, a = 0 means robot
+    
     # When is the Player's turn
-    if(a == 1):
-        time.sleep(1)
     if(x==1 and a==1 and button1['text']==''):
         currGame[0][0] = "x"
         button1['text']="X"
@@ -340,7 +327,8 @@ def buttonclick(x):
         label2['text']='Player-1 Turn'
         a=1
 
-    window.update()
+    # window.update()
+    window.update_idletasks()
     b+=1
 
     #checking winner
@@ -380,12 +368,12 @@ def buttonclick(x):
         c=1
         # tkinter.messagebox.showinfo("Tic Tac Toe","Match is Draw.")
 
-    elif runScript == 1:  # run the script to call robot move if the player made their move and game is not over
+    if runScript == 1:  # run the script to call robot move if the player made their move and game is not over
+        window.update_idletasks()
         try: 
             updateBoard(currGame)
         except: 
             print("FROM GAME: can't call on ttt.py ??")
-
         time.sleep(1)
     
 window.mainloop()
