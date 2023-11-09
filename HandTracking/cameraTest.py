@@ -1,4 +1,3 @@
-export DISPLAY=:0.0
 import cv2
 
 cv2.namedWindow("preview")
