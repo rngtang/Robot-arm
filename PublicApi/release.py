@@ -5,7 +5,12 @@ release = Blueprint('release', __name__)
 
 @release.route("/")
 def releaseJoints():
-    controls = current_app.config['controls']
+    # Gets the controls object from the app instance
+    try: 
+        controls = current_app.config['controls']
+    except: 
+        return '''<h1>Unable to connect to Controls</h1>''', 500
+    # Tries to catch any errors
     try: 
         controls.toggle_servo_released(True)
         return '''<h1>release </h1>''', 200

@@ -1,0 +1,329 @@
+FROM MAIN: APP RUNNING
+FROM MAIN: right before
+FROM CONTROLS: ZHICHEN AND FRIENDS
+ROS MASTER is Offline
+Unable to register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+[DEBUG] [1699374942.069746]: init_node, name[/controls], pid[3461]
+[DEBUG] [1699374942.082864]: binding to 127.0.0.1 0
+[DEBUG] [1699374942.092234]: bound to 127.0.0.1 39457
+[DEBUG] [1699374942.101850]: ... service URL is rosrpc://localhost:39457
+[DEBUG] [1699374942.111815]: [/controls/get_loggers]: new Service instance
+[DEBUG] [1699374942.133486]: ... service URL is rosrpc://localhost:39457
+[DEBUG] [1699374942.147394]: [/controls/set_logger_level]: new Service instance
+Node Created
+publisher done
+[DEBUG] [1699374945.880541]: connecting to ('localhost', 37249)
+servos released
+Sets subscriber
+Instance variables created
+FROM MAIN: right after
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+00:36:48.383 WARN [rospy.internal] Unknown error initiating TCP/IP socket to localhost:45641 (http://localhost:39935/): Traceback (most recent call last):
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rospy/impl/tcpros_base.py", line 560, in connect
+    self.socket.connect((dest_addr, dest_port))
+  File "/usr/lib/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+error: [Errno 111] Connection refused
+
+FROM MAIN: APP RUNNING
+FROM MAIN: right before
+FROM CONTROLS: ZHICHEN AND FRIENDS
+ROS MASTER is Offline
+Unable to register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+[DEBUG] [1699480410.686092]: init_node, name[/controls], pid[2249]
+[DEBUG] [1699480410.689982]: binding to 127.0.0.1 0
+[DEBUG] [1699480410.693305]: bound to 127.0.0.1 46141
+[DEBUG] [1699480410.697000]: ... service URL is rosrpc://localhost:46141
+[DEBUG] [1699480410.700232]: [/controls/get_loggers]: new Service instance
+[DEBUG] [1699480410.705947]: ... service URL is rosrpc://localhost:46141
+[DEBUG] [1699480410.709673]: [/controls/set_logger_level]: new Service instance
+Node Created
+publisher done
+[DEBUG] [1699480412.589745]: connecting to ('localhost', 34271)
+servos released
+Sets subscriber
+Instance variables created
+FROM MAIN: right after
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+[2023-11-09 05:57:12,296] ERROR in app: Exception on /dance/ [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/ubuntu/robotic-arm/PublicApi/danai_twerk.py", line 15, in danai_twerk
+    while not mc.is_in_position([-1.49, 115, -153.45, 30, -33.42, 137.9], 0):
+  File "/usr/local/lib/python2.7/dist-packages/pymycobot/generate.py", line 312, in is_in_position
+    return self._mesg(ProtocolCode.IS_IN_POSITION, data_list, id, has_reply=True)
+  File "/usr/local/lib/python2.7/dist-packages/pymycobot/mycobot.py", line 86, in _mesg
+    data = self._read(genre)
+  File "/usr/local/lib/python2.7/dist-packages/pymycobot/common.py", line 319, in read
+    data = self._serial_port.read()
+  File "/usr/local/lib/python2.7/dist-packages/serial/serialposix.py", line 596, in read
+    'device reports readiness to read but returned no data '
+SerialException: device reports readiness to read but returned no data (device disconnected or multiple access on port?)
+05:57:12.296 ERRO [main] Exception on /dance/ [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/ubuntu/robotic-arm/PublicApi/danai_twerk.py", line 15, in danai_twerk
+    while not mc.is_in_position([-1.49, 115, -153.45, 30, -33.42, 137.9], 0):
+  File "/usr/local/lib/python2.7/dist-packages/pymycobot/generate.py", line 312, in is_in_position
+    return self._mesg(ProtocolCode.IS_IN_POSITION, data_list, id, has_reply=True)
+  File "/usr/local/lib/python2.7/dist-packages/pymycobot/mycobot.py", line 86, in _mesg
+    data = self._read(genre)
+  File "/usr/local/lib/python2.7/dist-packages/pymycobot/common.py", line 319, in read
+    data = self._serial_port.read()
+  File "/usr/local/lib/python2.7/dist-packages/serial/serialposix.py", line 596, in read
+    'device reports readiness to read but returned no data '
+SerialException: device reports readiness to read but returned no data (device disconnected or multiple access on port?)
+[2023-11-09 05:57:20,085] ERROR in app: Exception on /dance/ [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/ubuntu/robotic-arm/PublicApi/danai_twerk.py", line 15, in danai_twerk
+    while not mc.is_in_position([-1.49, 115, -153.45, 30, -33.42, 137.9], 0):
+  File "/usr/local/lib/python2.7/dist-packages/pymycobot/generate.py", line 312, in is_in_position
+    return self._mesg(ProtocolCode.IS_IN_POSITION, data_list, id, has_reply=True)
+  File "/usr/local/lib/python2.7/dist-packages/pymycobot/mycobot.py", line 86, in _mesg
+    data = self._read(genre)
+  File "/usr/local/lib/python2.7/dist-packages/pymycobot/common.py", line 319, in read
+    data = self._serial_port.read()
+  File "/usr/local/lib/python2.7/dist-packages/serial/serialposix.py", line 596, in read
+    'device reports readiness to read but returned no data '
+SerialException: device reports readiness to read but returned no data (device disconnected or multiple access on port?)
+05:57:20.085 ERRO [main] Exception on /dance/ [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/ubuntu/robotic-arm/PublicApi/danai_twerk.py", line 15, in danai_twerk
+    while not mc.is_in_position([-1.49, 115, -153.45, 30, -33.42, 137.9], 0):
+  File "/usr/local/lib/python2.7/dist-packages/pymycobot/generate.py", line 312, in is_in_position
+    return self._mesg(ProtocolCode.IS_IN_POSITION, data_list, id, has_reply=True)
+  File "/usr/local/lib/python2.7/dist-packages/pymycobot/mycobot.py", line 86, in _mesg
+    data = self._read(genre)
+  File "/usr/local/lib/python2.7/dist-packages/pymycobot/common.py", line 319, in read
+    data = self._serial_port.read()
+  File "/usr/local/lib/python2.7/dist-packages/serial/serialposix.py", line 596, in read
+    'device reports readiness to read but returned no data '
+SerialException: device reports readiness to read but returned no data (device disconnected or multiple access on port?)
+FROM MAIN: APP RUNNING
+FROM MAIN: right before
+FROM CONTROLS: ZHICHEN AND FRIENDS
+ROS MASTER is Offline
+Unable to register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+[DEBUG] [1699482381.822490]: init_node, name[/controls], pid[4074]
+[DEBUG] [1699482381.826402]: binding to 127.0.0.1 0
+[DEBUG] [1699482381.833967]: bound to 127.0.0.1 39303
+[DEBUG] [1699482381.837977]: ... service URL is rosrpc://localhost:39303
+[DEBUG] [1699482381.841592]: [/controls/get_loggers]: new Service instance
+[DEBUG] [1699482381.847636]: ... service URL is rosrpc://localhost:39303
+[DEBUG] [1699482381.850873]: [/controls/set_logger_level]: new Service instance
+Node Created
+publisher done
+[DEBUG] [1699482383.686268]: connecting to ('localhost', 33413)
+servos released
+Sets subscriber
+Instance variables created
+FROM MAIN: right after
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+FROM MAIN: APP RUNNING
+FROM MAIN: right before
+FROM CONTROLS: ZHICHEN AND FRIENDS
+ROS MASTER is Offline
+Unable to register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+[DEBUG] [1699489872.680538]: init_node, name[/controls], pid[2782]
+[DEBUG] [1699489872.684624]: binding to 127.0.0.1 0
+[DEBUG] [1699489872.689581]: bound to 127.0.0.1 37245
+[DEBUG] [1699489872.693948]: ... service URL is rosrpc://localhost:37245
+[DEBUG] [1699489872.697844]: [/controls/get_loggers]: new Service instance
+[DEBUG] [1699489872.705225]: ... service URL is rosrpc://localhost:37245
+[DEBUG] [1699489872.708807]: [/controls/set_logger_level]: new Service instance
+Node Created
+publisher done
+[DEBUG] [1699489874.858588]: connecting to ('localhost', 39307)
+servos released
+Sets subscriber
+Instance variables created
+FROM MAIN: right after
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+FROM MAIN: APP RUNNING
+FROM MAIN: right before
+FROM CONTROLS: ZHICHEN AND FRIENDS
+ROS MASTER is Offline
+Unable to register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+[DEBUG] [1699490578.719523]: init_node, name[/controls], pid[3083]
+[DEBUG] [1699490578.723619]: binding to 127.0.0.1 0
+[DEBUG] [1699490578.727320]: bound to 127.0.0.1 42123
+[DEBUG] [1699490578.731628]: ... service URL is rosrpc://localhost:42123
+[DEBUG] [1699490578.735139]: [/controls/get_loggers]: new Service instance
+[DEBUG] [1699490578.741591]: ... service URL is rosrpc://localhost:42123
+[DEBUG] [1699490578.745164]: [/controls/set_logger_level]: new Service instance
+Node Created
+publisher done
+[DEBUG] [1699490580.582934]: connecting to ('localhost', 36987)
+servos released
+Sets subscriber
+Instance variables created
+FROM MAIN: right after
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+08:44:21.349 WARN [rospy.internal] Unknown error initiating TCP/IP socket to localhost:40767 (http://localhost:33703/): Traceback (most recent call last):
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rospy/impl/tcpros_base.py", line 560, in connect
+    self.socket.connect((dest_addr, dest_port))
+  File "/usr/lib/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+error: [Errno 111] Connection refused
+
+FROM MAIN: APP RUNNING
+FROM MAIN: right before
+FROM CONTROLS: ZHICHEN AND FRIENDS
+ROS MASTER is Offline
+Unable to register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+[DEBUG] [1699490671.409862]: init_node, name[/controls], pid[4105]
+[DEBUG] [1699490671.416069]: binding to 127.0.0.1 0
+[DEBUG] [1699490671.419936]: bound to 127.0.0.1 37509
+[DEBUG] [1699490671.424182]: ... service URL is rosrpc://localhost:37509
+[DEBUG] [1699490671.427792]: [/controls/get_loggers]: new Service instance
+[DEBUG] [1699490671.434002]: ... service URL is rosrpc://localhost:37509
+[DEBUG] [1699490671.437502]: [/controls/set_logger_level]: new Service instance
+Node Created
+publisher done
+[DEBUG] [1699490673.275088]: connecting to ('localhost', 46767)
+servos released
+Sets subscriber
+Instance variables created
+FROM MAIN: right after
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+Traceback (most recent call last):
+  File "main.py", line 67, in <module>
+    app.run(host='10.194.29.175', port=5000, debug=False)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 990, in run
+    run_simple(host, port, self, **options)
+  File "/usr/local/lib/python2.7/dist-packages/werkzeug/serving.py", line 1052, in run_simple
+    inner()
+  File "/usr/local/lib/python2.7/dist-packages/werkzeug/serving.py", line 1005, in inner
+    fd=fd,
+  File "/usr/local/lib/python2.7/dist-packages/werkzeug/serving.py", line 848, in make_server
+    host, port, app, request_handler, passthrough_errors, ssl_context, fd=fd
+  File "/usr/local/lib/python2.7/dist-packages/werkzeug/serving.py", line 740, in __init__
+    HTTPServer.__init__(self, server_address, handler)
+  File "/usr/lib/python2.7/SocketServer.py", line 420, in __init__
+    self.server_bind()
+  File "/usr/lib/python2.7/BaseHTTPServer.py", line 108, in server_bind
+    SocketServer.TCPServer.server_bind(self)
+  File "/usr/lib/python2.7/SocketServer.py", line 434, in server_bind
+    self.socket.bind(self.server_address)
+  File "/usr/lib/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 98] Address already in use
+[DEBUG] [1699490673.348183]: connecting to localhost 37821
+[DEBUG] [1699490673.373232]: TCPServer[37509] shutting down
+FROM MAIN: APP RUNNING
+FROM MAIN: right before
+FROM CONTROLS: ZHICHEN AND FRIENDS
+ROS MASTER is Offline
+Unable to register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+[DEBUG] [1699490713.663593]: init_node, name[/controls], pid[4742]
+[DEBUG] [1699490713.667458]: binding to 127.0.0.1 0
+[DEBUG] [1699490713.673150]: bound to 127.0.0.1 35943
+[DEBUG] [1699490713.677092]: ... service URL is rosrpc://localhost:35943
+[DEBUG] [1699490713.680530]: [/controls/get_loggers]: new Service instance
+[DEBUG] [1699490713.686584]: ... service URL is rosrpc://localhost:35943
+[DEBUG] [1699490713.689836]: [/controls/set_logger_level]: new Service instance
+Node Created
+publisher done
+[DEBUG] [1699490715.537706]: connecting to ('localhost', 43647)
+servos released
+Sets subscriber
+Instance variables created
+FROM MAIN: right after
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+08:50:32.873 WARN [rospy.internal] Unknown error initiating TCP/IP socket to localhost:41117 (http://localhost:36553/): Traceback (most recent call last):
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rospy/impl/tcpros_base.py", line 560, in connect
+    self.socket.connect((dest_addr, dest_port))
+  File "/usr/lib/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+error: [Errno 111] Connection refused
+
+FROM MAIN: APP RUNNING
+FROM MAIN: right before
+FROM CONTROLS: ZHICHEN AND FRIENDS
+ROS MASTER is Offline
+Unable to register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+[DEBUG] [1699491064.227613]: init_node, name[/controls], pid[8660]
+[DEBUG] [1699491064.231516]: binding to 127.0.0.1 0
+[DEBUG] [1699491064.235318]: bound to 127.0.0.1 38417
+[DEBUG] [1699491064.239578]: ... service URL is rosrpc://localhost:38417
+[DEBUG] [1699491064.243126]: [/controls/get_loggers]: new Service instance
+[DEBUG] [1699491064.249400]: ... service URL is rosrpc://localhost:38417
+[DEBUG] [1699491064.253042]: [/controls/set_logger_level]: new Service instance
+Node Created
+publisher done
+[DEBUG] [1699491066.087976]: connecting to ('localhost', 46753)
+servos released
+Sets subscriber
+Instance variables created
+FROM MAIN: right after
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off

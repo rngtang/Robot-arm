@@ -1,10 +1,16 @@
 from flask import request, jsonify, Blueprint, current_app
 
+# Creates blueprint
 s_angles = Blueprint('sendAngles', __name__)
 
 @s_angles.route("/", methods=['POST'])
 def sendAngles():
-    controls = current_app.config['controls']
+    # Gets the controls object from the app instance
+    try: 
+        controls = current_app.config['controls']
+    except: 
+        return '''<h1>Unable to connect to Controls</h1>''', 500
+    
     # Checks if the user is sending in JSON format
     if not request.is_json:
         return jsonify({
@@ -21,11 +27,16 @@ def sendAngles():
         return jsonify({"success": False,
                         "message": "Invalid parameters"}), 400
     
+    for value in angles:
+        if value < -165 or value > 165:
+            return jsonify({"success": False,
+                        "message": "Invalid parameters"}), 400
+        
     # Tries to catch errors
     try:
         controls.send_angles(angles, speed)
         return jsonify({"success": True,
-                        "message": "Angles sent successfully"})
+                        "message": "Angles sent successfully"}), 200
     except:
         return jsonify({"success": False,
-                        "message": "Failed to send angles"}), 400
+                        "message": "Failed to send angles"}), 500

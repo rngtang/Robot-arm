@@ -1,0 +1,11 @@
+nohup: ignoring input
+[2023-10-31 06:59:50 +0000] [4095] [INFO] Starting gunicorn 19.10.0
+[2023-10-31 06:59:50 +0000] [4095] [INFO] Listening at: http://10.194.72.227:5000 (4095)
+[2023-10-31 06:59:50 +0000] [4095] [INFO] Using worker: sync
+[2023-10-31 06:59:50 +0000] [4099] [INFO] Booting worker with pid: 4099
+[2023-10-31 07:00:20 +0000] [4095] [CRITICAL] WORKER TIMEOUT (pid:4099)
+[2023-10-31 07:00:20 +0000] [4099] [INFO] Worker exiting (pid: 4099)
+[2023-10-31 07:00:21 +0000] [4314] [INFO] Booting worker with pid: 4314
+[2023-10-31 07:00:51 +0000] [4095] [CRITICAL] WORKER TIMEOUT (pid:4314)
+[2023-10-31 07:00:51 +0000] [4314] [INFO] Worker exiting (pid: 4314)
+[2023-10-31 07:00:52 +0000] [4531] [INFO] Booting worker with pid: 4531

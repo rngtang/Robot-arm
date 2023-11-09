@@ -12,14 +12,6 @@ import time
 
 import random
 
-import sys
-
-sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
-
-from controls import Controls
-
-controls = Controls()
-
 # mc.send_angle(Angle.J2.value, 0, 100)
 
 # mc = MyCobot("COM3", 115200)
@@ -53,19 +45,13 @@ controls = Controls()
 
 mc = MyCobot("/dev/ttyAMA0", 1000000)
 
-mc.send_angles([180, 0, 0, 0, 0, 0], 30)
-time.sleep(1)
-
-angles = controls.get_angles()
-
-coords = controls.get_coords()
-
-controls.send_coords(coords, 30, 0)
+mc.send_angles([0, 0, 0, 0, 0, 0], 30)
+time.sleep(3)
 
 # mc.send_angles([0, 90, 20, 0, 0, 0], 30)
 
-#time.sleep(1)
-#mc.set_color(0, 0, 255)  # blue light on
+time.sleep(3)
+mc.set_color(0, 0, 255)  # blue light on
 
 # Magic eightBall
 # for i in range(1):
@@ -105,8 +91,8 @@ controls.send_coords(coords, 30, 0)
 # mc = MyPalletizer("COM3", 115200)
 
 # Get the current coordinates and pose of the head
-#coords = mc.get_coords()
-#print(coords)
+coords = mc.get_coords()
+print(coords)
 
 # mc.send_coords([-91.8, -27.9, 159.4, 89.98, 3.51, -172.0], 30, 0) #spell n
 
@@ -149,4 +135,3 @@ controls.send_coords(coords, 30, 0)
 # To change only the x-coordinate of the head, set the x-coordinate of the head to 20.
 # Let it plan the route at random and move the head to the changed position at a speed of 70mm/s
 # mc.send_coord(Coord.X.value, 30, 10)
-
