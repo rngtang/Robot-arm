@@ -15,13 +15,25 @@ def check(mc):
 def grab(mc):
     print("grabbing")
 
+    # ready position
+    controls.send_angles([4.21000003815, 1.23000001907, -90.6100006104, -3.16000008583, 96.4100036621, -149.940002441], 60)
+    time.sleep(1)
+
+    # go to grab
+    controls.send_angles([4.21000003815, -58.9700012207, -78.9199981689, 31.9899997711, 86.6600036621, -152.660003662], 60)
+    time.sleep(2)
+
+    # grab
     print("open")
     mc.set_gripper_state(0, 70)
     time.sleep(2)
-
     print("close")
     mc.set_gripper_state(1, 70)
     time.sleep(2)
+
+    # finished
+    controls.send_angles([4.13000011444, 32.25, -79.3600006104, 48.8600006104, -0.610000014305, -40.7799987793], 60)
+    time.sleep(1)
 
 if __name__ == "__main__":
     print("hello world")
@@ -29,15 +41,9 @@ if __name__ == "__main__":
     # make it move to zero position
     # mc.set_encoders([2048, 2048, 2048, 2048, 2048, 2048], 20)
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
-    time.sleep(1)
-    controls.send_angles([0.519999980927, -126.379997253, 17.3099994659, 103.349998474, 39.5499992371, -44.7299995422], 70)
-    time.sleep(1)
+    time.sleep(2)
+    
     grab(mc)
 
 
-# Joint 1: 0.519999980927
-# Joint 2: -126.379997253
-# Joint 3: 17.3099994659
-# Joint 4: 103.349998474
-# Joint 5: 39.5499992371
-# Joint 6: -44.7299995422
+
