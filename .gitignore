@@ -7,5 +7,4 @@ settings.json
 TicTacToe/*.save*
 
 # Public API
-*.out
-*.txt
+nohup.out
