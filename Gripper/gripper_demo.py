@@ -1,3 +1,5 @@
+# code from Elephant Robotics: https://docs.elephantrobotics.com/docs/gitbook-en/7-ApplicationBasePython/7.7_example.html
+
 from pymycobot.mycobot import MyCobot
 from pymycobot import PI_PORT, PI_BAUD  # When using the Raspberry Pi version of mycobot, these two variables can be referenced to initialize MyCobot
 import time
