@@ -1,6 +1,8 @@
 from pymycobot.mycobot import MyCobot
 from pymycobot import PI_PORT, PI_BAUD  # When using the Raspberry Pi version of mycobot, these two variables can be referenced to initialize MyCobot
 import time
+
+
 def gripper_test(mc):
     print("Start check IO part of api\n")
     # Check if the gripper is moving

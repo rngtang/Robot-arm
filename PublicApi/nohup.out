@@ -327,3 +327,51 @@ FROM MAIN: right after
     return getattr(self._sock,name)(*args)
 error: [Errno 111] Connection refused
 
+FROM MAIN: APP RUNNING
+FROM MAIN: right before
+FROM CONTROLS: ZHICHEN AND FRIENDS
+ROS MASTER is Offline
+Unable to register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+[DEBUG] [1699556186.669262]: init_node, name[/controls], pid[5484]
+[DEBUG] [1699556186.673814]: binding to 127.0.0.1 0
+[DEBUG] [1699556186.677478]: bound to 127.0.0.1 42695
+[DEBUG] [1699556186.681632]: ... service URL is rosrpc://localhost:42695
+[DEBUG] [1699556186.685632]: [/controls/get_loggers]: new Service instance
+[DEBUG] [1699556186.692475]: ... service URL is rosrpc://localhost:42695
+[DEBUG] [1699556186.696428]: [/controls/set_logger_level]: new Service instance
+Node Created
+publisher done
+[DEBUG] [1699556188.841562]: connecting to ('localhost', 34551)
+servos released
+Sets subscriber
+Instance variables created
+FROM MAIN: right after
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+FROM MAIN: APP RUNNING
+FROM MAIN: right before
+FROM CONTROLS: ZHICHEN AND FRIENDS
+ROS MASTER is Offline
+Unable to register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+[DEBUG] [1699557155.789535]: init_node, name[/controls], pid[7430]
+[DEBUG] [1699557155.794316]: binding to 127.0.0.1 0
+[DEBUG] [1699557155.799158]: bound to 127.0.0.1 40435
+[DEBUG] [1699557155.806314]: ... service URL is rosrpc://localhost:40435
+[DEBUG] [1699557155.809794]: [/controls/get_loggers]: new Service instance
+[DEBUG] [1699557155.816105]: ... service URL is rosrpc://localhost:40435
+[DEBUG] [1699557155.819775]: [/controls/set_logger_level]: new Service instance
+Node Created
+publisher done
+[DEBUG] [1699557157.965525]: connecting to ('localhost', 41151)
+servos released
+Sets subscriber
+Instance variables created
+FROM MAIN: right after
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
