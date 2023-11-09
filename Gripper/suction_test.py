@@ -14,7 +14,7 @@ GPIO.setup(21, GPIO.OUT)
 
 # Turn on the suction pump
 def pump_on():
-     # open suction pump
+    # open suction pump
     # GPIO.output(20, 0)
     GPIO.output(21, 0)
 
