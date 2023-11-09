@@ -17,6 +17,7 @@ from hi import hello
 
 # Creates the flask app instance
 app = Flask(__name__)
+app.config['lock'] = threading.Lock()
 
 print("FROM MAIN: APP RUNNING")
 sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
@@ -28,7 +29,7 @@ print("FROM MAIN: right before")
 
 # try: 
 # threading.Thread(c = Controls()).start()
-c = Controls();
+c = Controls()
 # except: 
 #     print("FROM MAIN: cannot create Controls object")
 
