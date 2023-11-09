@@ -375,3 +375,64 @@ FROM MAIN: right after
    WARNING: This is a development server. Do not use it in a production deployment.
    Use a production WSGI server instead.
  * Debug mode: off
+FROM MAIN: APP RUNNING
+FROM MAIN: right before
+FROM CONTROLS: ZHICHEN AND FRIENDS
+ROS MASTER is Offline
+Unable to register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+[DEBUG] [1699557578.677642]: init_node, name[/controls], pid[4148]
+[DEBUG] [1699557578.681530]: binding to 127.0.0.1 0
+[DEBUG] [1699557578.684972]: bound to 127.0.0.1 33801
+[DEBUG] [1699557578.688832]: ... service URL is rosrpc://localhost:33801
+[DEBUG] [1699557578.692046]: [/controls/get_loggers]: new Service instance
+[DEBUG] [1699557578.698092]: ... service URL is rosrpc://localhost:33801
+[DEBUG] [1699557578.702972]: [/controls/set_logger_level]: new Service instance
+Node Created
+publisher done
+[DEBUG] [1699557581.159118]: connecting to ('localhost', 37137)
+servos released
+Sets subscriber
+Instance variables created
+FROM MAIN: right after
+[DEBUG] [1699557581.213574]: connecting to localhost 39237
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+03:25:29.085 WARN [rospy.internal] Unknown error initiating TCP/IP socket to localhost:39237 (http://localhost:36713/): Traceback (most recent call last):
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rospy/impl/tcpros_base.py", line 562, in connect
+    self.read_header()
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rospy/impl/tcpros_base.py", line 657, in read_header
+    self._validate_header(read_ros_handshake_header(sock, self.read_buff, self.protocol.buff_size))
+AttributeError: 'NoneType' object has no attribute 'buff_size'
+
+FROM MAIN: APP RUNNING
+FROM MAIN: right before
+FROM CONTROLS: ZHICHEN AND FRIENDS
+ROS MASTER is Offline
+Unable to register with master node [http://localhost:11311]: master may not be running yet. Will keep trying.
+[DEBUG] [1699558254.442518]: init_node, name[/controls], pid[2294]
+[DEBUG] [1699558254.446640]: binding to 127.0.0.1 0
+[DEBUG] [1699558254.450576]: bound to 127.0.0.1 45977
+[DEBUG] [1699558254.464880]: ... service URL is rosrpc://localhost:45977
+[DEBUG] [1699558254.468475]: [/controls/get_loggers]: new Service instance
+[DEBUG] [1699558254.474841]: ... service URL is rosrpc://localhost:45977
+[DEBUG] [1699558254.478371]: [/controls/set_logger_level]: new Service instance
+Node Created
+publisher done
+[DEBUG] [1699558256.632618]: connecting to ('localhost', 44887)
+servos released
+Sets subscriber
+Instance variables created
+FROM MAIN: right after
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+03:31:33.289 WARN [rospy.internal] Unknown error initiating TCP/IP socket to localhost:34141 (http://localhost:36039/): Traceback (most recent call last):
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/rospy/impl/tcpros_base.py", line 560, in connect
+    self.socket.connect((dest_addr, dest_port))
+AttributeError: 'NoneType' object has no attribute 'connect'
+
