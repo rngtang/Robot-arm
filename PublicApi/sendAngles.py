@@ -27,6 +27,11 @@ def sendAngles():
         return jsonify({"success": False,
                         "message": "Invalid parameters"}), 400
     
+    for value in angles:
+        if value < -160 or value > 160:
+            return jsonify({"success": False,
+                        "message": "Invalid parameters"}), 400
+        
     # Tries to catch errors
     try:
         controls.send_angles(angles, speed)
