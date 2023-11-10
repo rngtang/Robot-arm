@@ -48,7 +48,7 @@ def pump_on():
 # Stop the suction pump
 def pump_off():
     # Stop the 20 from working
-    GPIO.output(21, 1)
+    GPIO.output(20, 1)
     # Stop the 21 from working
     # GPIO.output(21, 1)
 
