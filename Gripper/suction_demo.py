@@ -20,6 +20,6 @@ def pump_on():
 def pump_off():
     GPIO.output(20, 0)
 
-pump_on()
+# pump_on()
 time.sleep(3)
 pump_off()
