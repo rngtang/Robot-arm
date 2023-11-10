@@ -18,8 +18,8 @@ def pump_on():
 
 # Turns the pump off
 def pump_off():
-    GPIO.output(21, 0)
+    GPIO.output(21, 1)
 
-pump_on()
+pump_off()
 time.sleep(3)
 pump_off()
