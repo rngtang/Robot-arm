@@ -10,15 +10,15 @@ controls = Controls()
 # Sets the what is the numbering of the pins
 GPIO.setmode(GPIO.BCM)
 # Sets pin 20 as an output
-GPIO.setup(21, GPIO.OUT)
+GPIO.setup(20, GPIO.OUT)
 
 # Turns the pump on
 def pump_on():
-    GPIO.output(21, 0)
+    GPIO.output(20, 0)
 
 # Turns the pump off
 def pump_off():
-    GPIO.output(21, 1)
+    GPIO.output(20, 1)
 
 pump_on()
 time.sleep(3)
