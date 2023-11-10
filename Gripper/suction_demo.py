@@ -10,7 +10,7 @@ controls = Controls()
 # Sets the what is the numbering of the pins
 GPIO.setmode(GPIO.BCM)
 # Sets pin 20 as an output
-GPIO.setup(20, GPIO.OUT)
+GPIO.setup(21, GPIO.OUT)
 
 # Turns the pump on
 def pump_on():
@@ -20,7 +20,6 @@ def pump_on():
 def pump_off():
     GPIO.output(20, 0)
 
-if __name__ == "__main__":
-    pump_on()
-    time.sleep(3)
-    pump_off()
+pump_on()
+time.sleep(3)
+pump_off()
