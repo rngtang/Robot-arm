@@ -36,21 +36,21 @@ angles = [
 # Initialize the suction pump
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(20, GPIO.OUT)
-GPIO.setup(21, GPIO.OUT)
+# GPIO.setup(21, GPIO.OUT)
 
 # Turn on the suction pump
 def pump_on():
     # Make the 20 work
     GPIO.output(20, 0)
     # Make the 21 work
-    GPIO.output(21, 0)
+    # GPIO.output(21, 0)
 
 # Stop the suction pump
 def pump_off():
     # Stop the 20 from working
     GPIO.output(21, 1)
     # Stop the 21 from working
-    GPIO.output(21, 1)
+    # GPIO.output(21, 1)
 
 
 # Robotic arm recovery
