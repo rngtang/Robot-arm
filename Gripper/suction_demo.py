@@ -1,7 +1,7 @@
 from pymycobot.mycobot import MyCobot
-from pymycobot import PI_PORT, PI_BAUD
-import time, sys
+from pymycobot import PI_PORT, PI_BAUD  # # When using the Raspberry Pi version of mycobot, these two variables can be referenced to initialize MyCobot
 import RPi.GPIO as GPIO
+import time, sys
 
 sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
 from controls import Controls
