@@ -24,9 +24,9 @@ def pump_off():
     GPIO.output(20, 1)
     # GPIO.output(21, 1)
 
-pump_off()
+# pump_off()
 time.sleep(3)
 pump_on()
-time.sleep(3)
-pump_off()
-time.sleep(3)
+# time.sleep(3)
+# pump_off()
+# time.sleep(3)
