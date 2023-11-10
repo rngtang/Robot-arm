@@ -36,7 +36,7 @@ angles = [
 # Initialize the suction pump
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(20, GPIO.OUT)
-# GPIO.setup(21, GPIO.OUT)
+GPIO.setup(21, GPIO.OUT)
 
 # Turn on the suction pump
 def pump_on():
