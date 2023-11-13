@@ -1,18 +1,18 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 
 import rospy
 from geometry_msgs.msg import Pose, PoseStamped
 from controls import Controls
-from tf import TransformListener
+import tf
 from tf.transformations import quaternion_from_euler, euler_from_quaternion
 from mycobot_communication.msg import MycobotState
 
 
 class HandTracker:
-    def __init__(self) -> None:
+    def __init__(self):
         rospy.init_node("hand_tracker")
 
-        self.listener = TransformListener()
+        self.listener = tf.TransformListener()
         self.listener.waitForTransform('odom', 'base_link', rospy.Time(), rospy.Duration(10))
 
         self.controls = Controls()
@@ -58,6 +58,9 @@ class HandTracker:
 
 def main():
     hand_tracker = HandTracker()
+    while rospy.spin():
+        hand_tracker.transform_and_publish_target([0, 0, 0, 0, 0, 0])
+        rospy.sleep(0)
 
 
 if __name__ == '__main__':
