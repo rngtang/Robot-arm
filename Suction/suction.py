@@ -23,3 +23,4 @@ def pump_off():
 pump_on()
 time.sleep(3)
 pump_off()
+time.sleep(3)
