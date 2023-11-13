@@ -11,6 +11,7 @@ down = [15.98, -59.98, -78.91, 47.45, -1.23, 0]
 default = [0, 0, 0, 0, 0, 0]
 
 # Sets the what is the numbering of the pins
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 # Sets pins 20 and 21 as an output
 GPIO.setup(20, GPIO.OUT)
