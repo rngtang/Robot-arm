@@ -7,6 +7,9 @@ sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/
 from controls import Controls
 controls = Controls()
 
+down = [15.98, -59.98, -78.91, 47.45, -1.23, 13.27]
+default = [0, 0, 0, 0, 0, 0]
+
 # Sets the what is the numbering of the pins
 GPIO.setmode(GPIO.BCM)
 # Sets pin 20 as an output
@@ -20,7 +23,8 @@ def pump_on():
 def pump_off():
     GPIO.output(21, 1)
 
+controls.send_angles(down, 65)
 pump_on()
-time.sleep(3)
+controls.send_angles(default, 65)
+time.sleep(5)
 pump_off()
-time.sleep(3)
