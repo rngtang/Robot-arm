@@ -13,7 +13,7 @@ class HandTracker:
         rospy.init_node("hand_tracker")
 
         self.listener = tf.TransformListener()
-        self.listener.waitForTransform('odom', 'base_link', rospy.Time(), rospy.Duration(10))
+        self.listener.waitForTransform('head', 'base', rospy.Time(), rospy.Duration(10))
 
         self.controls = Controls()
 
@@ -43,9 +43,9 @@ class HandTracker:
 
         pose_stamped = PoseStamped()
         pose_stamped.pose = target_local_pose
-        pose_stamped.header.frame_id = "base_link"
+        pose_stamped.header.frame_id = "base"
 
-        target_transformed_pose = self.listener.transformPose("odom", pose_stamped).pose
+        target_transformed_pose = self.listener.transformPose("head", pose_stamped).pose
 
         quaternion_list = [target_transformed_pose.orientation.x, target_transformed_pose.orientation.y,
                            target_transformed_pose.orientation.z, target_transformed_pose.orientation.w]
@@ -60,7 +60,7 @@ def main():
     hand_tracker = HandTracker()
     while rospy.spin():
         hand_tracker.transform_and_publish_target([0, 0, 0, 0, 0, 0])
-        rospy.sleep(0)
+        rospy.sleep(0.1)
 
 
 if __name__ == '__main__':
