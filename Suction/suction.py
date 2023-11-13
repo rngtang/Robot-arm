@@ -13,7 +13,7 @@ default = [0, 0, 0, 0, 0, 0]
 # Sets the what is the numbering of the pins
 GPIO.setmode(GPIO.BCM)
 # Sets pins 20 and 21 as an output
-GPIO.setup(21, GPIO.OUT)
+GPIO.setup(20, GPIO.OUT)
 GPIO.setup(21, GPIO.OUT)
 
 # Turns the pump on
