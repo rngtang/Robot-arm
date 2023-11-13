@@ -10,6 +10,13 @@ controls = Controls()
 down = [15.98, -59.98, -78.91, 47.45, -1.23, 0]
 default = [0, 0, 0, 0, 0, 0]
 
+# Sets the what is the numbering of the pins
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+# Sets pins 20 and 21 as an output
+GPIO.setup(20, GPIO.OUT)
+GPIO.setup(21, GPIO.OUT)
+
 # Turns the pump on
 def pump_on():
     GPIO.output(20, 0)
@@ -21,13 +28,6 @@ def pump_off():
     GPIO.output(21, 1)
 
 if __name__ == "__main__":
-
-    # Sets the what is the numbering of the pins
-    GPIO.setwarnings(False)
-    GPIO.setmode(GPIO.BCM)
-    # Sets pins 20 and 21 as an output
-    GPIO.setup(20, GPIO.OUT)
-    GPIO.setup(21, GPIO.OUT)
 
     controls.send_angles(default, 65)
     time.sleep(4.5)
