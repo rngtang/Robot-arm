@@ -23,6 +23,8 @@ def pump_on():
 def pump_off():
     GPIO.output(21, 1)
 
+controls.send_angles(default, 65)
+time.sleep(4.5)
 controls.send_angles(down, 65)
 pump_on()
 controls.send_angles(default, 65)
