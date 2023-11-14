@@ -21,7 +21,7 @@ Press B to print the current angle of each of the joints press
 
 Press O to reset the arm to the default position
 
-Press P to open the gripper or L to close it
+Press P to pump on or L to pump off
 
 """
 
