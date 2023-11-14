@@ -4,6 +4,7 @@ import sys
 import termios
 import tty
 import time
+import RPi.GPIO as GPIO
 
 msg = """
 With this teleop program you will be able to move all of the 6 joints using the keyboard
@@ -36,6 +37,22 @@ class Raw(object):
         termios.tcsetattr(self.stream, termios.TCSANOW, self.original_stty)
 
 arm = MyCobot("/dev/ttyAMA0", 1000000)
+
+# Initialize
+GPIO.setmode(GPIO.BCM)
+# Either pin 20/21 can control the switch of the suction pump. Note: the switch should use the same pin Foot control
+GPIO.setup(23, GPIO.OUT)
+GPIO.setup(24, GPIO.OUT)
+
+# Turn on the suction pump
+def pump_on():
+    GPIO.output(23, 0)
+    GPIO.output(24, 0)
+
+# Stop suction pump
+def pump_off():
+    GPIO.output(23, 1)
+    GPIO.output(24, 1)
 
 # Current position of the joints
 j1 = 0
@@ -102,5 +119,7 @@ while True:
     if key == 'h':
         j6 -= change
         arm.send_angle(6, j6, 10)
-
-arm.release_all_servos()
+    if key == 'p':
+        pump_on()
+    if key == 'l':
+        pump_off()
