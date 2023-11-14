@@ -14,18 +14,18 @@ default = [0, 0, 0, 0, 0, 0]
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 # Sets pins 20 and 21 as an output
-GPIO.setup(20, GPIO.OUT)
-GPIO.setup(21, GPIO.OUT)
+GPIO.setup(23, GPIO.OUT)
+GPIO.setup(24, GPIO.OUT)
 
 # Turns the pump on
 def pump_on():
-    GPIO.output(20, 0)
-    GPIO.output(21, 0)
+    GPIO.output(23, 0)
+    GPIO.output(24, 0)
 
 # Turns the pump off
 def pump_off():
-    GPIO.output(20, 1)
-    GPIO.output(21, 1)
+    GPIO.output(23, 1)
+    GPIO.output(24, 1)
 
 if __name__ == "__main__":
 
