@@ -85,39 +85,51 @@ while True:
         arm.send_angles([0, 0, 0, 0, 0, 0], 70)
     if key == 'q':
         j1+=change
+        if j1 > 165: j1 = 165
         arm.send_angle(1, j1, 90)
     if key == 'a':
         j1 -= change
+        if j1 < -165: j1 = -165
         arm.send_angle(1, j1, 10)
     if key == 'w':
         j2+=change
+        if j2 > 165: j2 = 165
         arm.send_angle(2, j2, 90)
     if key == 's':
         j2 -= change
+        if j2 < -165: j2 = -165
         arm.send_angle(2, j2, 10)
     if key == 'e':
         j3+=change
+        if j3 > 165: j3 = 165
         arm.send_angle(3, j3, 90)
     if key == 'd':
         j3 -= change
+        if j3 < -165: j3 = -165
         arm.send_angle(3, j3, 10)
     if key == 'r':
         j4+=change
+        if j4 > 165: j4 = 165
         arm.send_angle(4, j4, 90)
     if key == 'f':
         j4 -= change
+        if j4 < -165: j4 = -165
         arm.send_angle(4, j4, 10)
     if key == 't':
         j5+=change
+        if j5 > 165: j5 = 165
         arm.send_angle(5, j5, 90)
     if key == 'g':
         j5 -= change
+        if j5 < -165: j5 = -165
         arm.send_angle(5, j5, 10)
     if key == 'y':
         j6+=change
+        if j6 > 165: j6 = 165
         arm.send_angle(6, j6, 90)
     if key == 'h':
         j6 -= change
+        if j6 < -165: j6 = -165
         arm.send_angle(6, j6, 10)
     if key == 'p':
         pump_on()
