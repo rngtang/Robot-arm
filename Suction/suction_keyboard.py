@@ -21,6 +21,8 @@ Press B to print the current angle of each of the joints press
 
 Press O to reset the arm to the default position
 
+Press P to open the gripper or L to close it
+
 """
 
 # Takes input from keyboard
