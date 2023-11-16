@@ -30,7 +30,7 @@ python ~/robotic-arm/TicTacToe/api/app.py
 
 ## Remote Server Setup
 For the robot (`Ubuntu`): 
-* IP: 10.194.72.227
+* IP: 10.194.29.175
 * Password: Elephant
 * To SSH into the robot from your local terminal: 
   ```bash
