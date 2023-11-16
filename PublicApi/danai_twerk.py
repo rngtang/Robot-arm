@@ -4,13 +4,13 @@ import time
 dance = Blueprint('dance', __name__)
 
 # testing -> why can't it be called as a config ? 
-from pymycobot.mycobot import MyCobot
-mc = MyCobot("/dev/ttyAMA0", 1000000)
+# from pymycobot.mycobot import MyCobot
+# mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 @dance.route("/")
 def danai_twerk():
     # Gets the myCobot object from the app instance
-    # mc = current_app.config['mc']
+    mc = current_app.config['mc']
     lock = current_app.config['lock']
     if lock.locked():
         return "A request is already in progress"
