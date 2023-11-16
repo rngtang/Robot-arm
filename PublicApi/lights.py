@@ -2,14 +2,15 @@ from flask import request, Blueprint, current_app
 import time
 
 # testing -> why can't it be called as a config ? 
-from pymycobot.mycobot import MyCobot
-mc = MyCobot("/dev/ttyAMA0", 1000000)
+# from pymycobot.mycobot import MyCobot
+# mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 # Creates the blueprint
 lights = Blueprint('lights', __name__)
 
 @lights.route("/")
 def change_lights(): # given parameters
+    mc = current_app.config['mc']
     lock = current_app.config['lock']
     if lock.locked():
         return "A request is already in progress"
