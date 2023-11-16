@@ -7,7 +7,7 @@ kill -9 `jobs -ps`
 
 cd PublicApi/
 # nohup gunicorn -c gunicorn_config.py main:app --log-level debug &
-nohup python3 main.py &
+python3 main.py &
 sleep 5
 cd ..
 ./launch_controls.sh
