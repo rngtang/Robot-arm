@@ -94,8 +94,8 @@ The JSON file should have the following format:
 Moves robot's head to desired position by taking in a JSON file body.
 
 **Parameters:**
-* **coords:** a list of coords value(List[float]), length 6.
-* **speed:** (int) 0 ~ 100
+* **coords:** a list of coords value(List**[float]**), length 6.
+* **speed: (int)** 0 ~ 100
 * **mode: (int):** 0 - angular, 1 - linear
 
 'angles' refers to each of the 6 angles. 'speed' is the speed of the movement, with 50 being no speed and <50 being movement counter-clockwise, and >50 being movement clockwise. 'mode' refers to how the robot moves to that coordinate and can either be 0 or 1, with 1 being linear and 0 being angular (non-linear). 
