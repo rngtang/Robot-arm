@@ -50,30 +50,30 @@ http://10.194.29.175:5000/<ROUTE>
 
 The following documentation contains some information about the routes. If you would like to have detailed information about each route, such as responses or parameters, checkout the [SwaggerHub documentation](https://app.swaggerhub.com/apis/RAULNGTANG/robotAPI/1.0.0)
 
-## /default
-GET request. This route sets the robot to the default position and sets the color of the LED white. No parameters are necessary.
+## GET /default
+This route sets the robot to the default position and sets the color of the LED white. No parameters are necessary.
 
-## /lights
-GET request. Allows the user to set a specific RGB color to the LED. This route can take in RGB values (0-255) as parameters. For example:
+## GET /lights
+Allows the user to set a specific RGB color to the LED. This route can take in RGB values (0-255) as parameters. For example:
 ```bash
 http://10.194.29.175:5000/lights?r=<RED COLOR>&g=<GREEN COLOR>&b=<Blue color>
 ``` 
 If no parameters are given, the default RGB values are (10, 10, 10), and no light will be displayed on the robot.
 
-## /show
-GET request. Displays a RGB color gradient on the LED. This process takes about 20 seconds to complete. 
+## GET /show
+Displays a RGB color gradient on the LED. This process takes about 20 seconds to complete. 
 
-## /dance
-GET request. Goes through a twerking dance, designed by Danai Adkisson, where the robot gets down and goes crazy. 
+## GET /dance
+Goes through a twerking dance, designed by Danai Adkisson, where the robot gets down and goes crazy. 
 
-## /getAngles
-GET request. Returns a JSON with the angles for all the 6 joints. 
+## GET /getAngles
+Returns a JSON with the angles for all the 6 joints. 
 
-## /getCoordinates
-GET request. Returns a JSON with the coordinates for where the head of the robot is. The robot uses a 6-value coordinate system: [x,y,z,rx,ry,rz]. 
+## GET /getCoordinates
+Returns a JSON with the coordinates for where the head of the robot is. The robot uses a 6-value coordinate system: [x,y,z,rx,ry,rz]. 
 
-## /sendAngles
-POST request. Moves robot to desired position by taking in a JSON file in the following format: 
+## POST /sendAngles
+Moves robot to desired position by taking in a JSON file in the following format: 
 ```bash
 {
     "angles": [0, 0, 0, 0, 0, 0],
@@ -86,8 +86,16 @@ Parameters
 
 'angles' refers to each of the 6 joints. 'speed' is the speed of the movement, with 50 being no speed and <50 being movement counter-clockwise, and >50 being movement clockwise. 
 
-## /sendCoordinates
-POST request. Moves robot's head to desired position by taking in a JSON file in the following format: 
+## POST /sendCoordinates
+Moves robot's head to desired position by taking in a JSON file body.
+
+**Parameters:**
+* coords: a list of coords value(List[float]), length 6.
+* speed: (int) 0 ~ 100
+* mode: (int): 0 - angular, 1 - linear
+
+'angles' refers to each of the 6 angles. 'speed' is the speed of the movement, with 50 being no speed and <50 being movement counter-clockwise, and >50 being movement clockwise. 'mode' refers to how the robot moves to that coordinate and can either be 0 or 1, with 1 being linear and 0 being angular (non-linear). 
+
 ```bash 
 {
     "coords": [0, 0, 0, 0, 0, 0],
@@ -95,12 +103,6 @@ POST request. Moves robot's head to desired position by taking in a JSON file in
     "mode": 0
 }
 ```
-Parameters:
-* coords: a list of coords value(List[float]), length 6.
-* speed: (int) 0 ~ 100
-* mode: (int): 0 - angular, 1 - linear
 
-'angles' refers to each of the 6 angles. 'speed' is the speed of the movement, with 50 being no speed and <50 being movement counter-clockwise, and >50 being movement clockwise. 'mode' refers to how the robot moves to that coordinate and can either be 0 or 1, with 1 being linear and 0 being angular (non-linear). 
-
-## /release
-GET request. Releases all servos of the robot, allowing for the robot to be easily manipulated into any position.
+## GET /release
+Releases all servos of the robot, allowing for the robot to be easily manipulated into any position.
