@@ -11,7 +11,7 @@ For the robot (`Ubuntu`):
 * IP: 10.194.29.175
 * Password: Elephant
 * To SSH into the robot from your local terminal: 
-  ```bash
+```bash
   ssh ubuntu@10.194.29.175
 ```
 
