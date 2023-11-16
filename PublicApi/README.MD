@@ -1,21 +1,19 @@
 # Co-Lab Robotics Team! Robot API project
 This API allows users to interact with the robot without using any python code. By just sending an HTTP request, the user will be able to use different programmed functions. The following document contains the necessary information about the developed API.
 
-# Starting the Server
-First, make sure the robot is connected to a power outlet. Then, turn on the robot using the **red button** at the bottom.
+## Starting the Server
+First, make sure the robot is connected to a power outlet. Then, turn on the robot using the **red button** at the bottom. You may have to wait approximately 30s before proceding to the next step.
 
-<!-- # Testing with gunicorn 
-```
-gunicorn -b 10.194.72.227:5000 main.wsgi:app
-gunicorn -c gunicorn_config.py main:app
-``` -->
 # Remote Server Setup
-For the robot (`Ubuntu`): 
-* IP: 10.194.29.175
-* Password: Elephant
-* To SSH into the robot from your local terminal: 
+Now, your next tast is to stablish a SSH connection with the robot. To do so, you will need to open a **Linux/Unix/WSL terminal** and run the following command:
+
 ```bash
   ssh ubuntu@10.194.29.175
+```
+
+When prompted, enter the following password:
+```bash
+  Password: Elephant
 ```
 
 # How to run the API
