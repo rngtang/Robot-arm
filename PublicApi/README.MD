@@ -40,13 +40,15 @@ Run the following command
 ```
 
 # How to send an HTTP request to the robot
-It is recommended to use an API developed platform like Insomnia to send an HTTP request to the robot since some of the API endpoints take a JSON format as its input.
+It is recommended to use an API developed platform like Insomnia to send an HTTP request to the robot since some of the API endpoints take a JSON format as its input. If not using one of these platforms, then you should use your browser.
 To use the API, all of the endpoints have the following format, where <ROUTE> is the route the you are using:
 ```bash
 http://10.194.29.175:5000/<ROUTE>
 ```  
 
 # About the routes
+
+The following documentation contains some information about the routes. If you would like to have detailed information about each route, such as responses or parameters, checkout the [SwaggerHub documentation](https://app.swaggerhub.com/apis/RAULNGTANG/robotAPI/1.0.0)
 
 ## /default
 GET request. This route sets the robot to the default position and sets the color of the LED white. No parameters are necessary.
