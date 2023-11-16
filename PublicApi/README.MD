@@ -6,6 +6,14 @@ This API allows users to interact with the robot without using any python code. 
 gunicorn -b 10.194.72.227:5000 main.wsgi:app
 gunicorn -c gunicorn_config.py main:app
 ``` -->
+# Remote Server Setup
+For the robot (`Ubuntu`): 
+* IP: 10.194.29.175
+* Password: Elephant
+* To SSH into the robot from your local terminal: 
+```bash
+  ssh ubuntu@10.194.29.175
+```
 
 # How to run the API
 First, to run the API, you will need to cd into the /robotic-arm directory of the robot.
@@ -21,7 +29,7 @@ The run the following command
 It is recommended to use an API developed platform like Insomnia to send an HTTP request to the robot since some of the API endpoints take a JSON format as its input.
 To use the API, all of the endpoints have the following format, where <ROUTE> is the route the you are using:
 ```bash
-http://10.194.72.227:5000/<ROUTE>
+http://10.194.29.175:5000/<ROUTE>
 ```  
 
 # About the routes
@@ -30,9 +38,9 @@ http://10.194.72.227:5000/<ROUTE>
 GET request. This route sets the robot to the default position and sets the color of the LED white. No parameters are necessary.
 
 ## /lights
-GET request. Allows the user to set an specific RGB color to the LED. This route can take in RGB values (0-255) as parameters. For example:
+GET request. Allows the user to set a specific RGB color to the LED. This route can take in RGB values (0-255) as parameters. For example:
 ```bash
-http://10.194.72.227:5000/lights?r=<RED COLOR>&g=<GREEN COLOR>&b=<Blue color>
+http://10.194.29.175:5000/lights?r=<RED COLOR>&g=<GREEN COLOR>&b=<Blue color>
 ``` 
 If no parameters are given, the default RGB values are (10, 10, 10), and no light will be displayed on the robot.
 
