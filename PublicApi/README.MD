@@ -27,14 +27,14 @@ In order to run the API correctly, confirm you are on branch **build_apis_produc
 ```bash
 git branch
 ```
-You should see a star next to the branch build_apis_production. 
+You should see a star next to the branch **build_apis_production**. 
 
 If you are not on this branch, run
 ```bash
 git checkout build_apis_production
 ```
-
-The run the following command
+Now, you should be able to run the API.
+Run the following command
 ```bash
 ./runApi.sh
 ```
