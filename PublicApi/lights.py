@@ -1,6 +1,10 @@
 from flask import request, Blueprint, current_app
 import time
 
+# testing -> why can't it be called as a config ? 
+from pymycobot.mycobot import MyCobot
+mc = MyCobot("/dev/ttyAMA0", 1000000)
+
 # Creates the blueprint
 lights = Blueprint('lights', __name__)
 
@@ -12,7 +16,7 @@ def change_lights(): # given parameters
     
     with lock:
         # Gets the myCobot object from the app instance
-        mc = current_app.config['mc']
+        # mc = current_app.config['mc']
         red = request.args.get('r', 10)
         green = request.args.get('g', 10)
         blue = request.args.get('b', 10)

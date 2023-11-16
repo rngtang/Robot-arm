@@ -4,10 +4,14 @@ import time
 # Creates the blueprint
 default = Blueprint('default', __name__)
 
+# testing -> why can't it be called as a config ? 
+from pymycobot.mycobot import MyCobot
+mc = MyCobot("/dev/ttyAMA0", 1000000)
+
 @default.route("/")
 def default_pos():
     # Gets the myCobot and controls object from the app instance
-    mc = current_app.config['mc']
+    # mc = current_app.config['mc']
     lock = current_app.config['lock']
     if lock.locked():
         return "A request is already in progress"

@@ -18,31 +18,23 @@ from hi import hello
 # Creates the flask app instance
 app = Flask(__name__)
 app.config['lock'] = threading.Lock()
-
 print("FROM MAIN: APP RUNNING")
-sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
 
+# USING CONTROLS
+sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
 # imports the ROS package and attaches the controls object to the Flask instance
 from controls import Controls
-
 print("FROM MAIN: right before")
-
-# try: 
-# threading.Thread(c = Controls()).start()
 c = Controls()
-# except: 
-#     print("FROM MAIN: cannot create Controls object")
-
 print("FROM MAIN: right after")
-
 try: 
     app.config['controls'] = c
 except: 
     print("FROM MAIN: cannot connect to Controls")
 
-# Creates MyCobot object and attaches it to the Flask instance
-from pymycobot.mycobot import MyCobot
-app.config['mc'] = MyCobot("/dev/ttyAMA0", 1000000)
+# USING MYCOBOT
+# from pymycobot.mycobot import MyCobot
+# app.config['mc'] = MyCobot("/dev/ttyAMA0", 1000000)
 
 # Default route (home page)
 @app.route("/")
@@ -62,8 +54,6 @@ app.register_blueprint(release, url_prefix='/release')
 app.register_blueprint(hello, url_prefix='/hi')
 
 if __name__ == '__main__':
-    # app.run(host='10.194.72.227', port=5000, debug=False)
-
     # new IP
     app.run(host='10.194.29.175', port=5000, debug=False)
 
