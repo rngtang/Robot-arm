@@ -73,18 +73,22 @@ Returns a JSON with the angles for all the 6 joints.
 Returns a JSON with the coordinates for where the head of the robot is. The robot uses a 6-value coordinate system: [x,y,z,rx,ry,rz]. 
 
 ## POST /sendAngles
-Moves robot to desired position by taking in a JSON file in the following format: 
+Moves robot to desired position by taking in a JSON file body.
+
+**Parameters**
+* angles:  a list of degree value(List[float]), length 6 -160 ~ 160
+* speed: 0 ~ 100
+
+'angles' refers to each of the 6 joints. 'speed' is the speed of the movement, with 50 being no speed and <50 being movement counter-clockwise, and >50 being movement clockwise. 
+
+The JSON file should have the following format:
+
 ```bash
 {
     "angles": [0, 0, 0, 0, 0, 0],
     "speed": 70
 }
 ```
-Parameters
-* angles:  a list of degree value(List[float]), length 6 -160 ~ 160
-* speed: 0 ~ 100
-
-'angles' refers to each of the 6 joints. 'speed' is the speed of the movement, with 50 being no speed and <50 being movement counter-clockwise, and >50 being movement clockwise. 
 
 ## POST /sendCoordinates
 Moves robot's head to desired position by taking in a JSON file body.
@@ -95,6 +99,8 @@ Moves robot's head to desired position by taking in a JSON file body.
 * mode: (int): 0 - angular, 1 - linear
 
 'angles' refers to each of the 6 angles. 'speed' is the speed of the movement, with 50 being no speed and <50 being movement counter-clockwise, and >50 being movement clockwise. 'mode' refers to how the robot moves to that coordinate and can either be 0 or 1, with 1 being linear and 0 being angular (non-linear). 
+
+The JSON file should have the following format:
 
 ```bash 
 {
