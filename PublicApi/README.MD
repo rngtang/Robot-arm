@@ -2,10 +2,10 @@
 This API allows users to interact with the robot without using any python code. By just sending an HTTP request, the user will be able to use different programmed functions. The following document contains the necessary information about the developed API.
 
 ## Starting the Server
-First, make sure the robot is connected to a power outlet. Then, turn on the robot using the **red button** at the bottom. You may have to wait approximately 30s before proceding to the next step.
+First, make sure the robot is connected to a power outlet. Then, turn on the robot using the **red button** at the bottom. You may have to wait approximately 30s before proceeding to the next step.
 
 # Remote Server Setup
-Now, your next tast is to stablish a SSH connection with the robot. To do so, you will need to open a **Linux/Unix/WSL terminal** and run the following command:
+Now, your next task is to establish an SSH connection with the robot. To do so, you will need to open a **Linux/Unix/WSL terminal** and run the following command:
 
 ```bash
   ssh ubuntu@10.194.29.175
@@ -17,10 +17,23 @@ When prompted, enter the following password:
 ```
 
 # How to run the API
-First, to run the API, you will need to cd into the /robotic-arm directory of the robot.
+By now, you should have turned on and established an SSH connection with the robot. 
+The next step is running the API. First, enter the local git branch by running the following command:
 ```bash
 cd robotic-arm/
 ```
+
+In order to run the API correctly, confirm you are on branch **build_apis_production** by using the command:
+```bash
+git branch
+```
+You should see a star next to the branch build_apis_production. 
+
+If you are not on this branch, run
+```bash
+git checkout build_apis_production
+```
+
 The run the following command
 ```bash
 ./runApi.sh
