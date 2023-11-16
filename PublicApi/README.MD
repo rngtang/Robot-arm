@@ -76,7 +76,7 @@ Returns a JSON with the coordinates for where the head of the robot is. The robo
 Moves robot to desired position by taking in a JSON file body.
 
 **Parameters**
-* **angles:**  a list of degree value(List**[float]**), length 6 -160 ~ 160
+* **angles:**  a list of degree value(List[float]), length 6 -160 ~ 160
 * **speed (int):** 0 ~ 100
 
 'angles' refers to each of the 6 joints. 'speed' is the speed of the movement, with 50 being no speed and <50 being movement counter-clockwise, and >50 being movement clockwise. 
@@ -94,7 +94,7 @@ The JSON file should have the following format:
 Moves robot's head to desired position by taking in a JSON file body.
 
 **Parameters:**
-* **coords:** a list of coords value(List**[float]**), length 6.
+* **coords:** a list of coords value(List[float]), length 6.
 * **speed: (int)** 0 ~ 100
 * **mode: (int):** 0 - angular, 1 - linear
 
