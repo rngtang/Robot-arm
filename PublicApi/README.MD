@@ -38,7 +38,7 @@ http://10.194.29.175:5000/<ROUTE>
 GET request. This route sets the robot to the default position and sets the color of the LED white. No parameters are necessary.
 
 ## /lights
-GET request. Allows the user to set an specific RGB color to the LED. This route can take in RGB values (0-255) as parameters. For example:
+GET request. Allows the user to set a specific RGB color to the LED. This route can take in RGB values (0-255) as parameters. For example:
 ```bash
 http://10.194.29.175:5000/lights?r=<RED COLOR>&g=<GREEN COLOR>&b=<Blue color>
 ``` 
