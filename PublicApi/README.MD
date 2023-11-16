@@ -6,7 +6,7 @@ This API allows users to interact with the robot without using any python code. 
 gunicorn -b 10.194.72.227:5000 main.wsgi:app
 gunicorn -c gunicorn_config.py main:app
 ``` -->
-## Remote Server Setup
+# Remote Server Setup
 For the robot (`Ubuntu`): 
 * IP: 10.194.29.175
 * Password: Elephant
