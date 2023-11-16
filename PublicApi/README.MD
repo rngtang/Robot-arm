@@ -1,6 +1,9 @@
 # Co-Lab Robotics Team! Robot API project
 This API allows users to interact with the robot without using any python code. By just sending an HTTP request, the user will be able to use different programmed functions. The following document contains the necessary information about the developed API.
 
+# Starting the Server
+First, make sure the robot is connected to a power outlet. Then, turn on the robot using the **red button** at the bottom.
+
 <!-- # Testing with gunicorn 
 ```
 gunicorn -b 10.194.72.227:5000 main.wsgi:app
