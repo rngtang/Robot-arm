@@ -33,8 +33,8 @@ except:
     print("FROM MAIN: cannot connect to Controls")
 
 # USING MYCOBOT
-# from pymycobot.mycobot import MyCobot
-# app.config['mc'] = MyCobot("/dev/ttyAMA0", 1000000)
+from pymycobot.mycobot import MyCobot
+app.config['mc'] = MyCobot("/dev/ttyAMA0", 1000000)
 
 # Default route (home page)
 @app.route("/")
