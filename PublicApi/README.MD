@@ -13,7 +13,7 @@ Now, your next tast is to stablish a SSH connection with the robot. To do so, yo
 
 When prompted, enter the following password:
 ```bash
-  Password: Elephant
+  Elephant
 ```
 
 # How to run the API
