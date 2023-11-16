@@ -30,11 +30,11 @@ python ~/robotic-arm/TicTacToe/api/app.py
 
 ## Remote Server Setup
 For the robot (`Ubuntu`): 
-* IP: 10.194.72.227
+* IP: 10.194.29.175
 * Password: Elephant
 * To SSH into the robot from your local terminal: 
   ```bash
-  ssh ubuntu@10.194.72.227
+  ssh ubuntu@10.194.29.175
   ```
 
 For the LCD (`swipe`): 
@@ -63,7 +63,7 @@ This example is for if you want to edit VSCode on your own device but still have
 In RealVNC, go to terminal (linux) and type command:
 
 ```bash
-ssh ubuntu@10.194.72.227
+ssh ubuntu@10.194.29.175
 ```
 
 After typing command, enter password (from 'Remove Server Setup').
@@ -71,7 +71,7 @@ After typing command, enter password (from 'Remove Server Setup').
 Then, go to VSCode on your personal laptop and make sure you have the remote server extension installed. Open a new VSCode project and then choose the "SSH connection from another host". Enter the host:
 
 ```bash
-ubuntu@10.194.72.227
+ubuntu@10.194.29.175
 ```
 Then, enter password.
 
@@ -83,7 +83,7 @@ Open a new VS Code window, then click on the blue "><" button. Choose "Connect t
 
 ```
 Host <your_chosen_hostname>
-  HostName 10.197.171.134
+  HostName 10.194.29.175
   User er
 ```
 
