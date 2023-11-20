@@ -58,7 +58,7 @@ Allows the user to set a specific RGB color to the LED. This route can take in R
 ```bash
 http://10.194.29.175:5000/lights?r=<RED COLOR>&g=<GREEN COLOR>&b=<Blue color>
 ``` 
-If no parameters are given, the default RGB values are (10, 10, 10), and no light will be displayed on the robot.
+If no parameters are given, the default RGB values are (10, 10, 10), and a very dim red light (almost nothing) will be displayed on the robot. 
 
 ## GET /show
 Displays a RGB color gradient on the LED. This process takes about 20 seconds to complete. 
@@ -112,3 +112,6 @@ The JSON file should have the following format:
 
 ## GET /release
 Releases all servos of the robot, allowing for the robot to be easily manipulated into any position.
+
+# Known Errors 
+One important thing to keep in mind when running these APIs is that the robot rejects SSH connection after 10 minutes. Because of this, about every 10 minutes, the SSH connection to the robot will break, and no requests will be able to be sent through. When this happens, you must go through the process of turning off/on the robot, SSH connecting into it, and running the API script all over again. 
