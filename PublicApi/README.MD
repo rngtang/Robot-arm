@@ -40,7 +40,7 @@ Run the following command
 ```
 
 # How to send an HTTP request to the robot
-It is recommended to use an API developed platform like Insomnia to send an HTTP request to the robot since some of the API endpoints take a JSON format as its input. If not using one of these platforms, then you should use your **browser**.
+It is recommended to use an API developed platform like **Insomnia** to send an HTTP request to the robot since some of the API endpoints take a JSON format as its input. If not using one of these platforms, then you should use your **browser**.
 To use the API, all of the endpoints have the following format, where <ROUTE> is the route the you are using:
 ```bash
 http://10.194.29.175:5000/<ROUTE>
