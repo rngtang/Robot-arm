@@ -96,8 +96,8 @@ You can also use the following example:
 
 ```bash
 {
-	"angles": [0, 90, -90, 0 , 0, 0],
-	"speed": 30
+    "angles": [0, 90, -90, 0 , 0, 0],
+    "speed": 30
 }
 ```
 
@@ -129,9 +129,9 @@ You can use the following example:
 
 ```bash
 {
-	"coords": [160, 160, 160, 0, 0, 0],
-	"speed": 70,
-	"mode": 0
+    "coords": [160, 160, 160, 0, 0, 0],
+    "speed": 70,
+    "mode": 0
 }
 ```
 
