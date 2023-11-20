@@ -92,6 +92,15 @@ The JSON file should have the following format:
 }
 ```
 
+You can also use the following example:
+
+```bash
+{
+	"angles": [0, 90, -90, 0 , 0, 0],
+	"speed": 30
+}
+```
+
 ## POST /sendCoordinates
 Moves robot's head to desired position by taking in a JSON file body.
 
