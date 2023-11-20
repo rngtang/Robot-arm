@@ -117,7 +117,7 @@ The JSON file should have the following format:
 ```
 
 ## GET /release
-Releases all servos of the robot, allowing for the robot to be easily manipulated into any position.
+Releases all servos of the robot, allowing for the robot to be easily manipulated into any position. *Your can now move the robot with your hands*
 
 # Known Errors 
 One important thing to keep in mind when running these APIs is that the robot rejects SSH connection after 10 minutes. Because of this, about every 10 minutes, the SSH connection to the robot will break, and no requests will be able to be sent through. When this happens, you must go through the process of turning off/on the robot, SSH connecting into it, and running the API script all over again. 
