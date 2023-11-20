@@ -81,6 +81,8 @@ Moves robot to desired position by taking in a JSON file body.
 
 'angles' refers to each of the 6 joints. 'speed' is the speed of the movement, with 50 being no speed and <50 being movement counter-clockwise, and >50 being movement clockwise. 
 
+A recommended speed is 30/70 or 60/40. **Please** note that the robot will move fast, so do not give it a position that will cause it to hurt itself.  
+
 The JSON file should have the following format:
 
 ```bash
@@ -99,6 +101,8 @@ Moves robot's head to desired position by taking in a JSON file body.
 * **mode: (int):** 0 - angular, 1 - linear
 
 'angles' refers to each of the 6 angles. 'speed' is the speed of the movement, with 50 being no speed and <50 being movement counter-clockwise, and >50 being movement clockwise. 'mode' refers to how the robot moves to that coordinate and can either be 0 or 1, with 1 being linear and 0 being angular (non-linear). 
+
+A recommended speed is 30/70 or 60/40. **Please** note that the robot will move fast, so do not give it a position that will cause it to hurt itself.  
 
 The JSON file should have the following format:
 

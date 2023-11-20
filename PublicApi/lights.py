@@ -22,13 +22,13 @@ def change_lights(): # given parameters
         green = request.args.get('g', 10)
         blue = request.args.get('b', 10)
 
-        if red < 0 or red > 255:
+        if int(red) < 0 or int(red) > 255:
             return jsonify({"success": False,
                         "message": "Invalid parameters"}), 400
-        if green < 0 or green > 255:
+        if int(green) < 0 or int(green) > 255:
             return jsonify({"success": False,
                         "message": "Invalid parameters"}), 400
-        if blue < 0 or blue > 255:
+        if int(blue) < 0 or int(blue) > 255:
             return jsonify({"success": False,
                         "message": "Invalid parameters"}), 400
 
