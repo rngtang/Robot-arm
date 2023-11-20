@@ -76,12 +76,12 @@ Returns a JSON with the coordinates for where the head of the robot is. The robo
 Moves robot to desired position by taking in a JSON file body.
 
 **Parameters**
-* **angles:**  a list of degree value(List[float]), length 6 -160 ~ 160
+* **angles (List[float]):**  a list of degrees, length 6. Valid values range from -160 ~ 160
 * **speed (int):** 0 ~ 100
 
-'angles' refers to each of the 6 joints. 'speed' is the speed of the movement, with 50 being no speed and <50 being movement counter-clockwise, and >50 being movement clockwise. 
+'angles' refers to each of the 6 joints. The last "joint" is the gray wheel at the top of the robot where lego pins can attach.
 
-A recommended speed is 30/70 or 60/40. **Please** note that the robot will move fast, so do not give it a position that will cause it to hurt itself.  
+'speed' is the speed of the movement in mm/s, with 50 being no speed, <50 being movement counter-clockwise, and >50 being movement clockwise. A recommended speed is 30/70 or 60/40. **Please** note that the robot will move fast, so do not give it a position that will cause it to hurt itself.  
 
 The JSON file should have the following format:
 
@@ -96,13 +96,15 @@ The JSON file should have the following format:
 Moves robot's head to desired position by taking in a JSON file body.
 
 **Parameters:**
-* **coords:** a list of coords value(List[float]), length 6.
+* **coords (List[float]):** a list of coordinates, length 6. Valid values range from -280 ~ 280 for the first 3 coordinates, and -314 ~ 314 for the last 3. 
 * **speed: (int)** 0 ~ 100
 * **mode: (int):** 0 - angular, 1 - linear
 
-'angles' refers to each of the 6 angles. 'speed' is the speed of the movement, with 50 being no speed and <50 being movement counter-clockwise, and >50 being movement clockwise. 'mode' refers to how the robot moves to that coordinate and can either be 0 or 1, with 1 being linear and 0 being angular (non-linear). 
+'coords' refers to values in a coordinate system with the following format: [x, y, z, rx, ry, rz]. The [x, y, z] coordinates represent the coordinates of the robot’s head in space. [rx, ry, rz] coordinates represent the posture of the head at the point. Because of this, some coordinates positions may appear the same as others. 
 
-A recommended speed is 30/70 or 60/40. **Please** note that the robot will move fast, so do not give it a position that will cause it to hurt itself.  
+'speed' is the speed of the movement in mm/s, with 50 being no speed, <50 being movement counter-clockwise, and >50 being movement clockwise. A recommended speed is 30/70 or 60/40. **Please** note that the robot will move fast, so do not give it a position that will cause it to hurt itself. 
+
+'mode' refers to how the robot moves to that coordinate and can either be 0 or 1, with 1 being linear and 0 being angular (non-linear).  
 
 The JSON file should have the following format:
 

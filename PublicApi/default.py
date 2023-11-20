@@ -24,6 +24,7 @@ def default_pos():
 
         # Sends robot to the default position
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
+        time.sleep(1)
         mc.set_color(255, 255, 255) # start white
         time.sleep(1)
         return '''<h1>default </h1>''', 200
