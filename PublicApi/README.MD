@@ -125,6 +125,16 @@ The JSON file should have the following format:
 }
 ```
 
+You can use the following example:
+
+```bash
+{
+	"coords": [160, 160, 160, 0, 0, 0],
+	"speed": 70,
+	"mode": 0
+}
+```
+
 ## GET /release
 Releases all servos of the robot, allowing for the robot to be easily manipulated into any position. **You can now move the robot with your hands**
 
