@@ -2,12 +2,14 @@ from flask import Flask, request
 import time
 import sys
 
-sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
-from controls import Controls
+# sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
+# from controls import Controls
 
 # Creates the controls object and the instance of the flask app 
 app = Flask(__name__)
-controls = Controls()
+# controls = Controls()
+from pymycobot.mycobot import MyCobot
+controls = MyCobot("/dev/ttyAMA0", 1000000)
 
 # start in default position (up)
 time.sleep(2)
@@ -39,6 +41,7 @@ def hello_world():
 def access_position():
     # Gets the coordinates from the arguments
     coords = request.args.get('pos')
+    print(coords)
 
     # Fail safe?
     controls.send_angles([0, 0, 0, 0, 0, 0], 70)
@@ -56,12 +59,13 @@ def robot_move(coords):
 
     # Tries catching any errors when sending the coordinates
     try:
+        print("moving to", coords)
         controls.send_angles(TIC_TAC_TOE_ANGLES[coords], 70)
         # will print "Angles Published" <- every time controls.send_angles() method is called
         time.sleep(1)
         controls.send_angles([0, 0, 0, 0, 0, 0], 70)
         # time.sleep(1)
-        return
+        return "okay"
     except:
         print("FROM APP: cannot call on ROS")
 

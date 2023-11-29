@@ -6,18 +6,21 @@ g_angles = Blueprint('getAngles', __name__)
 @g_angles.route("/")
 def getAngles():
     lock = current_app.config['lock']
+    mc = current_app.config['mc']
     if lock.locked():
         return "A request is already in progress"
 
     with lock:
         # Gets the controls object from the app instance
-        try: 
-            controls = current_app.config['controls']
-        except: 
-            return '''<h1>Unable to connect to Controls</h1>''', 500
+        # try: 
+        #     controls = current_app.config['controls']
+        # except: 
+        #     return '''<h1>Unable to connect to Controls</h1>''', 500
         # Tries to catch any errors
         try:
-            angles = controls.get_angles()
+            # angles = controls.get_angles()
+            angles = mc.get_angles()
+            print(angles[0])
             return '''<h1>Joint 1: {0}<br>
             Joint 2: {1}<br>
             Joint 3: {2}<br>

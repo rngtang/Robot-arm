@@ -20,17 +20,17 @@ app = Flask(__name__)
 app.config['lock'] = threading.Lock()
 print("FROM MAIN: APP RUNNING")
 
-# USING CONTROLS
-sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
-# imports the ROS package and attaches the controls object to the Flask instance
-from controls import Controls
-print("FROM MAIN: right before")
-c = Controls()
-print("FROM MAIN: right after")
-try: 
-    app.config['controls'] = c
-except: 
-    print("FROM MAIN: cannot connect to Controls")
+# # USING CONTROLS
+# sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
+# # imports the ROS package and attaches the controls object to the Flask instance
+# from controls import Controls
+# print("FROM MAIN: right before")
+# c = Controls()
+# print("FROM MAIN: right after")
+# try: 
+#     app.config['controls'] = c
+# except: 
+#     print("FROM MAIN: cannot connect to Controls")
 
 # USING MYCOBOT
 from pymycobot.mycobot import MyCobot

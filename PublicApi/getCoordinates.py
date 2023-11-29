@@ -6,18 +6,21 @@ g_coordinates = Blueprint('getCoordinates', __name__)
 @g_coordinates.route("/")
 def getCoordinates():
     lock = current_app.config['lock']
+    mc = current_app.config['mc']
     if lock.locked():
         return "A request is already in progress"
     
     with lock:
-        # Gets the controls object from the app instance
-        try: 
-            controls = current_app.config['controls']
-        except: 
-            return '''<h1>Unable to connect to Controls</h1>''', 500
-        # Tries to catch any errors
+        # # Gets the controls object from the app instance
+        # try: 
+        #     controls = current_app.config['controls']
+        # except: 
+        #     return '''<h1>Unable to connect to Controls</h1>''', 500
+        # # Tries to catch any errors
         try:
-            coordinates = controls.get_coords()
+            # coordinates = controls.get_coords()
+            coordinates = mc.get_coords()
+            print(coordinates[0])
             return '''<h1>x: {0}<br>
             y: {1}<br>
             z: {2}<br>
