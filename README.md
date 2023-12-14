@@ -1,5 +1,3 @@
-FINAL TEST
-
 # Co-Lab Robotics Team! Tic-Tac-Toe Project
 
 This project allows a student to play Tic-Tac-Toe on an LCD touchscreen against our MyCobot robotic arm. This setup uses two Raspberry Pis (one for the LCD, one for the robotic arm) as well as Python to run the game and ROS to control the movement of the arm.
