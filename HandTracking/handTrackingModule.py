@@ -116,12 +116,15 @@ def main():
         image = tracker.handsFinder(image)
         lmList = tracker.positionFinder(image)
         # using index 13 for palm data point
+        xCord = 0
         if len(lmList) != 0:
             if lmList[13][1] < 240:
-                mc.send_angles([5, 0, 0, 0, 0, 45], 30)
+                xCord =+ 5
+                mc.send_angles([xCord, 0, 0, 0, 0, 45], 30)
                 time.sleep(1)
             if lmList[13][1] > 280:
-                mc.send_angles([-5, 0, 0, 0, 0, 45], 30)
+                xCord =- 5
+                mc.send_angles([xCord, 0, 0, 0, 0, 45], 30)
                 time.sleep(1)
             print("------------", lmList, "------------")
 
