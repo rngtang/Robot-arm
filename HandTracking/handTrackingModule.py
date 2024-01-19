@@ -119,8 +119,8 @@ def main():
         print(xCord)
         if len(lmList) != 0:
             if lmList[13][1] < 240:
-                xCord =+ 5
-                print(xCord)
+                xCord = xCord + 5
+                print(xCord, "test")
                 mc.send_angles([xCord, 0, 0, 0, 0, 45], 30)
             # if lmList[13][1] > 280:
             #     xCord =- 5
