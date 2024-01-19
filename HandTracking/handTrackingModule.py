@@ -105,6 +105,7 @@ class handTracker():
                 lmList.append([id, cx, cy, cz]) # append x, y, and z coordinates to list
         return lmList
     
+xCord = 0
 
 def main():
     mc = MyCobot("/dev/ttyAMA0", 1000000)
@@ -130,5 +131,4 @@ def main():
         cv2.waitKey(1)
 
 if __name__ == "__main__":
-    xCord = 0
     main()
