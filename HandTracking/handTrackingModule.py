@@ -105,13 +105,12 @@ class handTracker():
                 lmList.append([id, cx, cy, cz]) # append x, y, and z coordinates to list
         return lmList
     
-xCord = 0
-
 def main():
     mc = MyCobot("/dev/ttyAMA0", 1000000)
     mc.send_angles([0, 0, 0, 0, 0, 45], 30)
     cap = cv2.VideoCapture(0)
     tracker = handTracker()
+    xCord = 0
     while True:
         success,image = cap.read()
         image = tracker.handsFinder(image)
