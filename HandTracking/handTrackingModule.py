@@ -109,7 +109,7 @@ class handTracker():
     
 def main():
     mc = MyCobot("/dev/ttyAMA0", 1000000)
-    mc.send_angles([190, 0, 0, 0, 0, 45], 30)
+    mc.send_angles([360, 0, 0, 0, 0, 45], 30)
     cap = cv2.VideoCapture(0)
     tracker = handTracker()
     xCord = 0
