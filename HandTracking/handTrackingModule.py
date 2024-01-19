@@ -120,6 +120,7 @@ def main():
         # using index 13 for palm data point
         if len(lmList) != 0:
             if lmList[13][1] < 240:
+                print(xCord)
                 if xCord >= 360:
                     xCord = 0
                 xCord = xCord + 5
