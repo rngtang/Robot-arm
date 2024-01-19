@@ -121,9 +121,9 @@ def main():
             if lmList[13][1] < 240:
                 xCord =+ 5
                 mc.send_angles([xCord, 0, 0, 0, 0, 45], 30)
-            if lmList[13][1] > 280:
-                xCord =- 5
-                mc.send_angles([xCord, 0, 0, 0, 0, 45], 30)
+            # if lmList[13][1] > 280:
+            #     xCord =- 5
+            #     mc.send_angles([xCord, 0, 0, 0, 0, 45], 30)
             # print("------------", lmList, "------------")
 
         cv2.imshow("Video",image)
