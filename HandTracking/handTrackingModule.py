@@ -129,6 +129,7 @@ def main():
 
         cv2.imshow("Video",image)
         cv2.waitKey(1)
+        
 
 if __name__ == "__main__":
     main()
