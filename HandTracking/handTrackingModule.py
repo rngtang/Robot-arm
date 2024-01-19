@@ -116,10 +116,10 @@ def main():
         image = tracker.handsFinder(image)
         lmList = tracker.positionFinder(image)
         if len(lmList) != 0:
-            if (lmList[13][0] < 240):
+            if lmList[13][0] < 240:
                 mc.send_angles([5, 0, 0, 0, 0, 0], 30)
-	    if (lmList[13][0] > 280):
-	   	mc.send_angles([-5, 0, 0, 0, 0, 0], 30)
+            if lmList[13][0] > 280:
+                mc.send_angles([-5, 0, 0, 0, 0, 0], 30)
             print("------------", lmList, "------------")
 
         cv2.imshow("Video",image)
