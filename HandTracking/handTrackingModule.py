@@ -9,6 +9,7 @@ from pymycobot import PI_PORT, PI_BAUD
 from pymycobot.mypalletizer import MyPalletizer
 from pymycobot.genre import Coord
 
+#test commit
 
 # import sys
 # sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
