@@ -1,7 +1,14 @@
+
 import cv2
 import mediapipe as mp
 import time
 import random
+from pymycobot.mycobot import MyCobot
+from pymycobot.genre import Angle
+from pymycobot import PI_PORT, PI_BAUD
+from pymycobot.mypalletizer import MyPalletizer
+from pymycobot.genre import Coord
+
 # import sys
 # sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
 # from pymycobot.mycobot import MyCobot
@@ -100,16 +107,20 @@ class handTracker():
     
 
 def main():
+    mc = MyCobot("/dev/ttyAMA0", 1000000)
+    mc.send_angles([0, 0, 0, 0, 0, 45], 30)
     cap = cv2.VideoCapture(0)
     tracker = handTracker()
-    # mc = MyCobot("/dev/ttyAMA0", 1000000)
     while True:
         success,image = cap.read()
         image = tracker.handsFinder(image)
         lmList = tracker.positionFinder(image)
         if len(lmList) != 0:
-            
-            print("------------", lmList[13], "------------")
+            if (lmList[13][0] < 240):
+                mc.send_angles([5, 0, 0, 0, 0, 0], 30)
+	    if (lmList[13][0] > 280):
+	   	mc.send_angles([-5, 0, 0, 0, 0, 0], 30)
+            print("------------", lmList, "------------")
 
         cv2.imshow("Video",image)
         cv2.waitKey(1)
