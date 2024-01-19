@@ -115,11 +115,14 @@ def main():
         success,image = cap.read()
         image = tracker.handsFinder(image)
         lmList = tracker.positionFinder(image)
+        # using index 13 for palm data point
         if len(lmList) != 0:
-            if lmList[13][0] < 240:
-                mc.send_angles([5, 0, 0, 0, 0, 0], 30)
-            if lmList[13][0] > 280:
-                mc.send_angles([-5, 0, 0, 0, 0, 0], 30)
+            if lmList[13][1] < 240:
+                mc.send_angles([5, 0, 0, 0, 0, 45], 30)
+                time.sleep(1)
+            if lmList[13][1] > 280:
+                mc.send_angles([-5, 0, 0, 0, 0, 45], 30)
+                time.sleep(1)
             print("------------", lmList, "------------")
 
         cv2.imshow("Video",image)
