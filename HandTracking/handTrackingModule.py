@@ -111,7 +111,6 @@ def main():
     mc.send_angles([0, 0, 0, 0, 0, 45], 30)
     cap = cv2.VideoCapture(0)
     tracker = handTracker()
-    xCord = 0
     while True:
         success,image = cap.read()
         image = tracker.handsFinder(image)
@@ -131,4 +130,5 @@ def main():
         cv2.waitKey(1)
 
 if __name__ == "__main__":
+    xCord = 0
     main()
