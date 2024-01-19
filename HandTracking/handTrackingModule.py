@@ -117,6 +117,7 @@ def main():
         image = tracker.handsFinder(image)
         lmList = tracker.positionFinder(image)
         # using index 13 for palm data point
+        print(xCord)
         if len(lmList) != 0:
             if lmList[13][1] < 240:
                 xCord =+ 5
