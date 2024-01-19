@@ -111,12 +111,12 @@ def main():
     mc.send_angles([0, 0, 0, 0, 0, 45], 30)
     cap = cv2.VideoCapture(0)
     tracker = handTracker()
+    xCord = 0
     while True:
         success,image = cap.read()
         image = tracker.handsFinder(image)
         lmList = tracker.positionFinder(image)
         # using index 13 for palm data point
-        xCord = 0
         if len(lmList) != 0:
             if lmList[13][1] < 240:
                 xCord =- 5
