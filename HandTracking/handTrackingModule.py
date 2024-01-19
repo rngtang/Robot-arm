@@ -122,7 +122,7 @@ def main():
         if len(lmList) != 0:
             if lmList[13][1] < 240:
                 xCord = xCord + 5
-                print(xCord, "test")
+                print(lmList[13][1], xCord, "test")
                 mc.send_angles([xCord, 0, 0, 0, 0, 45], 30)
             # if lmList[13][1] > 280:
             #     xCord =- 5
@@ -131,7 +131,6 @@ def main():
 
         cv2.imshow("Video",image)
         cv2.waitKey(1)
-        
 
 if __name__ == "__main__":
     main()
