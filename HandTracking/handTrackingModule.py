@@ -119,18 +119,14 @@ def main():
         lmList = tracker.positionFinder(image)
         # using index 13 for palm data point
         if len(lmList) != 0:
-            if lmList[13][1] < 240:
-                print(xCord)
-                if xCord >= 360:
-                    xCord = 0
+            if lmList[13][1] < 240 and xCord < 325:
                 xCord = xCord + 5
+                mc.send_angles([xCord, 0, 0, 0, 0, 45], 30)
+            if lmList[13][1] > 280:
+                xCord = xCord - 5
                 print(xCord)
                 mc.send_angles([xCord, 0, 0, 0, 0, 45], 30)
-            # if lmList[13][1] > 280:
-            #     xCord =- 5
-            #     mc.send_angles([xCord, 0, 0, 0, 0, 45], 30)
             # print("------------", lmList, "------------")
-
         cv2.imshow("Video",image)
         cv2.waitKey(1)
 
