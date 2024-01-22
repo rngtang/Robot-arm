@@ -127,14 +127,14 @@ def main():
             # if lmList[13][1] > 280 and j1 > -325:
             #     j1 = j1 - 2
             #     mc.send_angles([j1, 0, 0, 0, 0, 45], 30)
-            if lmList[13][3] < -0.1 and lmList[13][3] < -0.03:
+            if lmList[13][3] < -0.1 and lmList[13][3] < -0.05:
                 j2 = j2 + 2
                 j3 = j3 - 2
-                mc.send_angles([j1, j2, j3, 0, 0, 45], 30)
-            if lmList[13][3] > -0.03:
+                mc.send_angles([j1, j2, j3, 0, 0, 45], 40)
+            if lmList[13][3] > -0.05:
                 j2 = j2 - 2
                 j3 = j3 + 2
-                mc.send_angles([j1, j2, j3, 0, 0, 45], 30)
+                mc.send_angles([j1, j2, j3, 0, 0, 45], 40)
             # print("------------", lmList, "------------")
         cv2.imshow("Video",image)
         cv2.waitKey(1)
