@@ -120,10 +120,10 @@ def main():
         # using index 13 for palm data point
         if len(lmList) != 0:
             if lmList[13][1] < 240 and xCord < 325:
-                xCord = xCord + 5
+                xCord = xCord + 2
                 mc.send_angles([xCord, 0, 0, 0, 0, 45], 30)
-            if lmList[13][1] > 280:
-                xCord = xCord - 5
+            if lmList[13][1] > 280 and xCord > -325:
+                xCord = xCord - 2
                 print(xCord)
                 mc.send_angles([xCord, 0, 0, 0, 0, 45], 30)
             # print("------------", lmList, "------------")
