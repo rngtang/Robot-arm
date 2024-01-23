@@ -121,7 +121,7 @@ def main():
         lmList = tracker.positionFinder(image)
         # using index 13 for palm data point
         if len(lmList) != 0:
-            x = (lmList[9][1] + lmList[0][1]) / 2
+            x = (lmList[13][1] + lmList[0][1]) / 2
             if x < 220 and j1 < 325:
                 j1 = j1 + 1
                 #mc.send_angles([j1, j2, j3, j4, 0, 45], 30)
