@@ -115,26 +115,38 @@ def main():
     j1 = 0
     j2 = 0
     j3 = 0
+    j4 = 0
     while True:
         success,image = cap.read()
         image = tracker.handsFinder(image)
         lmList = tracker.positionFinder(image)
         # using index 13 for palm data point
+	x = (lmlist[9][1]+lmlist[0][1])/2
+        y = (lmlist[9][2]+lmlist[0][2])/2
+        z = (lmlist[9][3]+lmlist[0][3])/2
         if len(lmList) != 0:
-            # if lmList[13][1] < 240 and j1 < 325:
-            #     j1 = j1 + 2
-            #     mc.send_angles([j1, 0, 0, 0, 0, 45], 30)
-            # if lmList[13][1] > 280 and j1 > -325:
-            #     j1 = j1 - 2
-            #     mc.send_angles([j1, 0, 0, 0, 0, 45], 30)
-            if lmList[13][3] < -0.1 and lmList[13][3] < -0.06:
-                j2 = j2 + 4
-                j3 = j3 - 4
-                mc.send_angles([j1, j2, j3, 0, 0, 45], 60)
-            if lmList[13][3] > -0.06:
-                j2 = j2 - 4
-                j3 = j3 + 4
-                mc.send_angles([j1, j2, j3, 0, 0, 45], 60)
+            if x < 220 and j1 < 325:
+                j1 = j1 + 1
+                #mc.send_angles([j1, j2, j3, j4, 0, 45], 30)
+            if x > 300 and j1 > -325:
+                j1 = j1 - 1
+                #mc.send_angles([j1, j2, j3, j4, 0, 45], 30)
+            if lmList[13][3] < -0.1 and j2 < 60:
+                j2 = j2 + 2
+                j3 = j3 - 2
+                #mc.send_angles([j1, j2, j3, j4, 0, 45], 60)
+            if lmList[13][3] > -0.07 and j2 > -40:
+                j2 = j2 - 2
+                j3 = j3 + 2
+                #mc.send_angles([j1, j2, j3, j4, 0, 45], 60)
+            if lmList[13][2] < 270 and j4 < 120:
+                j4 = j4 + 1
+                #mc.send_angles([j1, j2, j3, j4, 0, 45], 100)
+            if lmList[13][2] > 390 and j4 > -60:
+                j4 = j4 - 1
+                print(j4)
+                #mc.send_angles([j1, j2, j3, j4, 0, 45], 100)
+            mc.send_angles([j1, j2, j3, j4, 0, 45], 100)
             # print("------------", lmList, "------------")
         cv2.imshow("Video",image)
         cv2.waitKey(1)
