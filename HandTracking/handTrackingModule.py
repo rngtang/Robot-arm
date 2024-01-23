@@ -120,6 +120,7 @@ def main():
         image = tracker.handsFinder(image)
         lmList = tracker.positionFinder(image)
         # using index 13 for palm data point
+        print(lmList)
         x = (lmList[9][1] + lmList[0][1]) / 2
         y = (lmList[9][2] + lmList[0][2]) / 2
         z = (lmList[9][3] + lmList[0][3]) / 2
