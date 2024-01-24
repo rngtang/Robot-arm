@@ -14,7 +14,7 @@ class HeadToBaseBroadcaster:
     def _on_receive_state(self, data):
         coords = (data.coords.x, data.coords.y, data.coords.z)
         q = quaternion_from_euler(data.coords.rx, data.coords.ry, data.coords.rz)
-        self.broadcaster.sendTransform(coords, q, rospy.Time.now(), 'head', 'base')
+        self.broadcaster.sendTransform(coords, q, rospy.Time.now(), 'base', 'head')
 
 
 if __name__ == '__main__':
