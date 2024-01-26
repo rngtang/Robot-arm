@@ -121,12 +121,14 @@ def main():
         lmList = tracker.positionFinder(image)
         # using index 13 data point near center of hand
         if len(lmList) != 0:
-            if lmList[13][1] < 190 and j1 < 325:
-                j1 = j1 + 2 + (lmList[13][1]/190)
-                print(j1)
-            if lmList[13][1] > 420  and j1 > -325:
-                j1 = j1 - 2 - (lmList[13][1]/420)
-                print(j1)
+            # if lmList[13][1] < 190 and j1 < 325:
+            #     j1 = j1 + 2 + (lmList[13][1]/190)
+            #     print(j1)
+            # if lmList[13][1] > 420  and j1 > -325:
+            #     j1 = j1 - 2 - (lmList[13][1]/420)
+            #     print(j1)
+            j1 = j1 + (lmList[13][1]-305)
+
             # if lmList[13][3] < -0.07 and j2 < 40:
             #     j2 = j2 + 2
             #     j3 = j3 - 2
