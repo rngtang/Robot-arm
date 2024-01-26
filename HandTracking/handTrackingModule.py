@@ -124,7 +124,7 @@ def main():
             if lmList[13][1] < 190 and j1 < 325:
                 j1 = j1 + 2 + (lmList[13][1]/190)
             if lmList[13][1] > 420  and j1 > -325:
-                j1 = j1 - 2 + (lmList[13][1]/420)
+                j1 = j1 - 2 - (lmList[13][1]/420)
             # if lmList[13][3] < -0.07 and j2 < 40:
             #     j2 = j2 + 2
             #     j3 = j3 - 2
