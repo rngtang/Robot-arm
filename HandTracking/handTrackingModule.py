@@ -119,31 +119,24 @@ def main():
         success,image = cap.read()
         image = tracker.handsFinder(image)
         lmList = tracker.positionFinder(image)
-        # using index 13 for palm data point
+        # using index 13 data point near center of hand
         if len(lmList) != 0:
-            x = (lmList[13][1] + lmList[0][1]) / 2
-            if x < 220 and j1 < 325:
-                j1 = j1 + 1
-                #mc.send_angles([j1, j2, j3, j4, 0, 45], 30)
-            if x > 300 and j1 > -325:
-                j1 = j1 - 1
-                #mc.send_angles([j1, j2, j3, j4, 0, 45], 30)
-            if lmList[13][3] < -0.1 and j2 < 60:
+            if lmList[13][1] < 190 and j1 < 325:
+                j1 = j1 + 2
+            if lmList[13][1] > 420  and j1 > -325:
+                j1 = j1 - 2
+            if lmList[13][3] < -0.07 and j2 < 40:
                 j2 = j2 + 2
                 j3 = j3 - 2
-                #mc.send_angles([j1, j2, j3, j4, 0, 45], 60)
-            if lmList[13][3] > -0.07 and j2 > -40:
+            if lmList[13][3] > -0.03 and j2 > -60:
                 j2 = j2 - 2
                 j3 = j3 + 2
-                #mc.send_angles([j1, j2, j3, j4, 0, 45], 60)
-            if lmList[13][2] < 270 and j4 < 120:
+            if lmList[13][2] < 200 and j4 < 120:
                 j4 = j4 + 1
-                #mc.send_angles([j1, j2, j3, j4, 0, 45], 100)
-            if lmList[13][2] > 390 and j4 > -60:
+            if lmList[13][2] > 360 and j4 > -60:
                 j4 = j4 - 1
                 print(j4)
-                #mc.send_angles([j1, j2, j3, j4, 0, 45], 100)
-            mc.send_angles([j1, j2, j3, j4, 0, 45], 100)
+            mc.send_angles([j1, j2, j3, j4, 0, 45], 80)
             # print("------------", lmList, "------------")
         cv2.imshow("Video",image)
         cv2.waitKey(1)
