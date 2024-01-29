@@ -115,7 +115,7 @@ def main():
         lmList = tracker.positionFinder(image)
         cv2.imshow("Video",image)
         cv2.waitKey(1)
-        print("------------", lmList[13], "------------")
+        print("------------", lmList, "------------")
 
 if __name__ == "__main__":
     main()
