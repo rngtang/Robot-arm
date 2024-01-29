@@ -129,16 +129,16 @@ def main():
             #     print(j1)
             if(lmList[13][1] < 230 or lmList[13][1] > 380):
                 j1 = j1 - 0.01*(lmList[13][1]-305)
-            # if lmList[13][3] < -0.07 and j2 < 40:
-            #     j2 = j2 + 2
-            #     j3 = j3 - 2
-            # if lmList[13][3] > -0.03 and j2 > -60:
-            #     j2 = j2 - 2
-            #     j3 = j3 + 2
-            # if lmList[13][2] < 200 and j4 < 120:
-            #     j4 = j4 + 1
-            # if lmList[13][2] > 360 and j4 > -60:
-            #     j4 = j4 - 1
+            if lmList[13][3] < -0.07 and j2 < 40:
+                j2 = j2 + 2
+                j3 = j3 - 2
+            if lmList[13][3] > -0.03 and j2 > -60:
+                j2 = j2 - 2
+                j3 = j3 + 2
+            if lmList[13][2] < 200 and j4 < 120:
+                j4 = j4 + 1
+            if lmList[13][2] > 360 and j4 > -60:
+                j4 = j4 - 1
             mc.send_angles([j1, j2, j3, j4, 0, 45], 80)
             # print("------------", lmList, "------------")
         cv2.imshow("Video",image)
