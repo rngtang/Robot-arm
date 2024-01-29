@@ -113,9 +113,9 @@ def main():
         success,image = cap.read()
         image = tracker.handsFinder(image)
         lmList = tracker.positionFinder(image)
-        print("------------", lmList[13][0], "------------")
         cv2.imshow("Video",image)
         cv2.waitKey(1)
+        print("------------", lmList[13], "------------")
 
 if __name__ == "__main__":
     main()
