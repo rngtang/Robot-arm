@@ -15,6 +15,8 @@ import random
 
 # source https://www.section.io/engineering-education/creating-a-hand-tracking-module/
 
+# dummy commit
+
 class handTracker():
     """
     A class used to detect and track hands in an image using the Mediapipe library.
