@@ -43,7 +43,7 @@ class handTracker():
     positionFinder(image, handNo=0, draw=True): Returns a list of landmark positions for the specified hand in the given image.
     """
 
-    def __init__(self, mode=False, maxHands=1, detectionCon=0.5, modelComplexity=1, trackCon=0.5):
+    def __init__(self, mode=False, maxHands=1, detectionCon=0.5, modelComplexity=0, trackCon=0.5):
         """
         Initializes a new instance of the handTracker class.
 
@@ -103,8 +103,9 @@ class handTracker():
             for id, landmark in enumerate(hand.landmark):
                 h, w, c = image.shape
                 cx, cy = int(landmark.x * w), int(landmark.y * h)
-                cz = landmark.z # add z-coordinate
-                lmList.append([id, cx, cy, cz]) # append x, y, and z coordinates to list
+                lmList.append([id, cx, cy]) #we exclude z since we are not using it for tracking algo
+                if len(lmList) >= 14: #since we only use index 13, we do not need the rest of the points
+                    break
         return lmList
 
 class CameraFlangeController:
@@ -134,19 +135,19 @@ class CameraFlangeController:
             image = self.tracker.handsFinder(image)
             lmList = self.tracker.positionFinder(image)
             
-            if len(lmList) >= 12:
-                x, y, z = lmList[13][1], lmList[13][2], lmList[13][3]
-                if x < 155 or x > 155:
-                    self.j1 -= 0.01 * (x - 155)
+            if len(lmList) >= 14:
+                x, y = lmList[13][1], lmList[13][2]
+                if x < 175 or x > 175:
+                    self.j1 -= 0.01 * (x - 175)
                 if y < 107 or y > 107:
                     self.j4 -= 0.01 * (y - 107)
                 # Send joint angles to MyCobot
-                self.mc.send_angles([self.j1, 0, 0, self.j4, 0, -135], 80)
+                self.mc.send_angles([self.j1, 0, 0, self.j4, 0, -135], 100)
             
             cv2.imshow("Video", image)
             cv2.waitKey(1)
     
-def main():
+def main(): #this function is outdated and will not work in current state
     mc = MyCobot("/dev/ttyAMA0", 1000000)
     mc.send_angles([0, 0, 0, 0, 0, -135], 40)
     cap = cv2.VideoCapture(0)
