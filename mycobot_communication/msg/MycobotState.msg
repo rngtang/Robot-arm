@@ -1,0 +1,2 @@
+mycobot_communication/MycobotAngles angles
+mycobot_communication/MycobotCoords coords
