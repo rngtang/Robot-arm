@@ -118,6 +118,7 @@ class CameraFlangeController:
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)  # Set height
         self.tracker = handTracker()
         self.j1, self.j4 = 0, 0
+        self.last_x, self.last_y = 150, 107
         self.running = True
 
     def start(self):
@@ -135,15 +136,23 @@ class CameraFlangeController:
             image = self.tracker.handsFinder(image)
             lmList = self.tracker.positionFinder(image)
             
-            if len(lmList) >= 14:
-                x, y = lmList[13][1], lmList[13][2]
-                if x < 175 or x > 175:
-                    self.j1 -= 0.01 * (x - 175)
+            if len(lmList) > 0:
+                x, y = lmList[-1][1], lmList[-1][2]
+                #if self.last_x is None or self.last_y is None:
+                    #self.last_x = x  # Initialize last_x and with the first x value
+                    #self.last_y = y
+                if x < 150 or x > 150:
+                    #self.j1 -= 0.02 * (x - 150)
+                    self.j1 -= 0.02 * (x - 150) -  0.02 * ((self.last_x - 150) - (x - 150)) #test
+                    #self.j1 -= -0.1 * ((self.last_x - 150) - (x - 150)) #test
                 if y < 107 or y > 107:
-                    self.j4 -= 0.01 * (y - 107)
+                    #self.j4 -= 0.02 * (y - 107)
+                    self.j4 -= 0.02 * (y - 107) - 0.02 * ((self.last_y - 107) - (y - 107)) #test
                 # Send joint angles to MyCobot
-                self.mc.send_angles([self.j1, 0, 0, self.j4, 0, -135], 100)
-            
+                self.mc.send_angles([self.j1, 0, 0, self.j4, 0, -135], 100)      
+                # Update last x and y
+
+                self.last_x, self.last_y = x, y
             cv2.imshow("Video", image)
             cv2.waitKey(1)
     
