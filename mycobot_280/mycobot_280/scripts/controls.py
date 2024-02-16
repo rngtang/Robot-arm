@@ -1,14 +1,9 @@
 #!/usr/bin/env python3
 # coding:utf-8
 import rospy
-import rosgraph
-from rospy import ServiceException
-import serial
+
 from mycobot_communication.msg import MycobotSetAngles, MycobotSetCoords, MycobotState, MycobotAngles, MycobotCoords
 from mycobot_communication.srv import ServoStatus
-
-import os
-import threading
 
 
 class Controls:
