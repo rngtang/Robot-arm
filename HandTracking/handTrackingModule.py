@@ -104,7 +104,7 @@ class handTracker():
                 h, w, c = image.shape
                 cx, cy = int(landmark.x * w), int(landmark.y * h)
                 lmList.append([id, cx, cy]) #we exclude z since we are not using it for tracking algo
-                if len(lmList) >= 14: #since we only use index 13, we do not need the rest of the points
+                if len(lmList) >= 10: #since we only use index 9, we do not need the rest of the points
                     break
         return lmList
 
@@ -116,9 +116,12 @@ class CameraFlangeController:
         #lower res means faster tracking
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)  # Set width
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)  # Set height
+        #self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)  # Disable auto exposure
+        #self.cap.set(cv2.CAP_PROP_EXPOSURE, -20)  # Set exposure value (adjust as needed)
+        #self.cap.set(cv2.CAP_PROP_BRIGHTNESS, 10)
         self.tracker = handTracker()
         self.j1, self.j4 = 0, 0
-        self.last_x, self.last_y = 150, 107
+        self.last_x, self.last_y = 165, 107
         self.running = True
 
     def start(self):
@@ -141,13 +144,13 @@ class CameraFlangeController:
                 #if self.last_x is None or self.last_y is None:
                     #self.last_x = x  # Initialize last_x and with the first x value
                     #self.last_y = y
-                if x < 150 or x > 150:
+                if x < 165 or x > 165:
                     #self.j1 -= 0.02 * (x - 150)
-                    self.j1 -= 0.02 * (x - 150) -  0.02 * ((self.last_x - 150) - (x - 150)) #test
+                    self.j1 -= 0.02 * (x - 165) -  0.02 * (self.last_x - x) #test
                     #self.j1 -= -0.1 * ((self.last_x - 150) - (x - 150)) #test
                 if y < 107 or y > 107:
                     #self.j4 -= 0.02 * (y - 107)
-                    self.j4 -= 0.02 * (y - 107) - 0.02 * ((self.last_y - 107) - (y - 107)) #test
+                    self.j4 -= 0.02 * (y - 107) - 0.02 * (self.last_y - y) #test
                 # Send joint angles to MyCobot
                 self.mc.send_angles([self.j1, 0, 0, self.j4, 0, -135], 100)      
                 # Update last x and y
