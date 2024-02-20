@@ -108,6 +108,37 @@ class handTracker():
                     break
         return lmList
 
+    def draw_bounding_box(self, image):
+        """
+        Draws a bounding box around detected hands in the given image.
+
+        Args:
+            image (numpy.ndarray): The image to draw the bounding box on.
+
+        Returns:
+            tuple: A tuple containing the modified image with bounding boxes drawn and the centers of the bounding boxes.
+        """
+        imageRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        self.results = self.hands.process(imageRGB)
+
+        centers = []
+        if self.results.multi_hand_landmarks:
+            for handLms in self.results.multi_hand_landmarks:
+                x_min, y_min, x_max, y_max = float('inf'), float('inf'), 0, 0
+                for landmark in handLms.landmark:
+                    h, w, _ = image.shape
+                    x, y = int(landmark.x * w), int(landmark.y * h)
+                    x_min = min(x_min, x)
+                    y_min = min(y_min, y)
+                    x_max = max(x_max, x)
+                    y_max = max(y_max, y)
+                center_x = (x_min + x_max) // 2
+                center_y = (y_min + y_max) // 2
+                centers.append((center_x, center_y))
+                cv2.rectangle(image, (x_min, y_min), (x_max, y_max), (255, 0, 255), 2)
+        return image, centers
+
+
 class CameraFlangeController:
     def __init__(self):
         self.mc = MyCobot("/dev/ttyAMA0", 1000000)
@@ -121,7 +152,7 @@ class CameraFlangeController:
         #self.cap.set(cv2.CAP_PROP_BRIGHTNESS, 10)
         self.tracker = handTracker()
         self.j1, self.j4 = 0, 0
-        self.last_x, self.last_y = 165, 107
+        self.last_x, self.last_y = 160, 120
         self.running = True
 
     def start(self):
@@ -136,21 +167,22 @@ class CameraFlangeController:
             if not success:
                 continue
             
-            image = self.tracker.handsFinder(image)
-            lmList = self.tracker.positionFinder(image)
-            
-            if len(lmList) > 0:
-                x, y = lmList[-1][1], lmList[-1][2]
+            #image = self.tracker.handsFinder(image)
+            #lmList = self.tracker.positionFinder(image)
+            image, centers = self.tracker.draw_bounding_box(image)
+            # print(centers)
+            if len(centers) > 0:
+                x, y = centers[0][0], centers[0][1]
                 #if self.last_x is None or self.last_y is None:
                     #self.last_x = x  # Initialize last_x and with the first x value
                     #self.last_y = y
-                if x < 165 or x > 165:
+                if not (x == 160): #need to add error handling for going out of degree range for j1
                     #self.j1 -= 0.02 * (x - 150)
-                    self.j1 -= 0.02 * (x - 165) -  0.02 * (self.last_x - x) #test
+                    self.j1 -= 0.02 * (x - 160) -  0.02 * (self.last_x - x) #test
                     #self.j1 -= -0.1 * ((self.last_x - 150) - (x - 150)) #test
-                if y < 107 or y > 107:
+                if not (y == 120): #need to add error handling for going out of degree range for j4
                     #self.j4 -= 0.02 * (y - 107)
-                    self.j4 -= 0.02 * (y - 107) - 0.02 * (self.last_y - y) #test
+                    self.j4 -= 0.02 * (y - 120) - 0.02 * (self.last_y - y) #test
                 # Send joint angles to MyCobot
                 self.mc.send_angles([self.j1, 0, 0, self.j4, 0, -135], 100)      
                 # Update last x and y
