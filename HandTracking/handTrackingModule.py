@@ -148,28 +148,41 @@ class CameraFlangeController:
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)  # Set width
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)  # Set height
         #self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)  # Disable auto exposure
-        #self.cap.set(cv2.CAP_PROP_EXPOSURE, -20)  # Set exposure value (adjust as needed)
+        #self.cap.set(cv2.CAP_PROP_EXPOSURE, 0)  # Set exposure value (adjust as needed)
         #self.cap.set(cv2.CAP_PROP_BRIGHTNESS, 10)
         self.tracker = handTracker()
         self.j1, self.j4 = 0, 0
         self.last_x, self.last_y = 160, 120
+        self.success = False
         self.running = True
+        self.image = None
+        self.success_event = threading.Event()
 
     def start(self):
+        threading.Thread(target=self.camera_loop, daemon=True).start()
         threading.Thread(target=self.control_loop, daemon=True).start()
 
     def stop(self):
         self.running = False
-
-    def control_loop(self):
+    
+    def camera_loop(self):
         while self.running:
             success, image = self.cap.read()
             if not success:
                 continue
-            
+            self.success_event.set()
+            self.image = image
+            self.success = success
+
+    def control_loop(self):
+        while True:
+            self.success_event.wait()
+            self.success_event.clear()
+            if not self.success:
+                continue
             #image = self.tracker.handsFinder(image)
             #lmList = self.tracker.positionFinder(image)
-            image, centers = self.tracker.draw_bounding_box(image)
+            image, centers = self.tracker.draw_bounding_box(self.image)
             # print(centers)
             if len(centers) > 0:
                 x, y = centers[0][0], centers[0][1]
@@ -178,18 +191,17 @@ class CameraFlangeController:
                     #self.last_y = y
                 if not (x == 160): #need to add error handling for going out of degree range for j1
                     #self.j1 -= 0.02 * (x - 150)
-                    self.j1 -= 0.02 * (x - 160) -  0.02 * (self.last_x - x) #test
+                    self.j1 -= 0.03 * (x - 160) -  0.04 * (self.last_x - x) #test
                     #self.j1 -= -0.1 * ((self.last_x - 150) - (x - 150)) #test
                 if not (y == 120): #need to add error handling for going out of degree range for j4
                     #self.j4 -= 0.02 * (y - 107)
-                    self.j4 -= 0.02 * (y - 120) - 0.02 * (self.last_y - y) #test
+                    self.j4 -= 0.03 * (y - 120) - 0.04 * (self.last_y - y) #test
                 # Send joint angles to MyCobot
                 self.mc.send_angles([self.j1, 0, 0, self.j4, 0, -135], 100)      
                 # Update last x and y
-
                 self.last_x, self.last_y = x, y
-            cv2.imshow("Video", image)
-            cv2.waitKey(1)
+                cv2.imshow("Video", image)
+                cv2.waitKey(1)
     
 def main(): #this function is outdated and will not work in current state
     mc = MyCobot("/dev/ttyAMA0", 1000000)
