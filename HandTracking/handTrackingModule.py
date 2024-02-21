@@ -11,6 +11,7 @@ from pymycobot.genre import Coord
 import numpy as np
 import threading
 
+
 # import sys
 # sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
 # from pymycobot.mycobot import MyCobot
@@ -43,7 +44,7 @@ class handTracker():
     positionFinder(image, handNo=0, draw=True): Returns a list of landmark positions for the specified hand in the given image.
     """
 
-    def __init__(self, mode=False, maxHands=1, detectionCon=0.5, modelComplexity=0, trackCon=0.5):
+    def __init__(self, mode=False, maxHands=1, detectionCon=0.5, modelComplexity=0, trackCon=0.1):
         """
         Initializes a new instance of the handTracker class.
 
@@ -142,7 +143,7 @@ class handTracker():
 class CameraFlangeController:
     def __init__(self):
         self.mc = MyCobot("/dev/ttyAMA0", 1000000)
-        self.mc.send_angles([0, 0, 0, 0, 0, -135], 40)
+        self.mc.send_angles([0, 20, -20, 0, 0, -135], 40)
         self.cap = cv2.VideoCapture(0)
         #lower res means faster tracking
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)  # Set width
@@ -151,12 +152,13 @@ class CameraFlangeController:
         #self.cap.set(cv2.CAP_PROP_EXPOSURE, 0)  # Set exposure value (adjust as needed)
         #self.cap.set(cv2.CAP_PROP_BRIGHTNESS, 10)
         self.tracker = handTracker()
-        self.j1, self.j4 = 0, 0
+        self.j1, self.j2, self.j3, self.j4 = 0, 20, -20, 0
         self.last_x, self.last_y = 160, 120
         self.success = False
         self.running = True
         self.image = None
         self.success_event = threading.Event()
+
 
     def start(self):
         threading.Thread(target=self.camera_loop, daemon=True).start()
@@ -175,7 +177,7 @@ class CameraFlangeController:
             self.success = success
 
     def control_loop(self):
-        while True:
+        while self.running:
             self.success_event.wait()
             self.success_event.clear()
             if not self.success:
@@ -183,6 +185,8 @@ class CameraFlangeController:
             #image = self.tracker.handsFinder(image)
             #lmList = self.tracker.positionFinder(image)
             image, centers = self.tracker.draw_bounding_box(self.image)
+            cv2.imshow("Video", image)
+            cv2.waitKey(1)
             # print(centers)
             if len(centers) > 0:
                 x, y = centers[0][0], centers[0][1]
@@ -191,17 +195,17 @@ class CameraFlangeController:
                     #self.last_y = y
                 if not (x == 160): #need to add error handling for going out of degree range for j1
                     #self.j1 -= 0.02 * (x - 150)
-                    self.j1 -= 0.03 * (x - 160) -  0.04 * (self.last_x - x) #test
+                    self.j1 -= 0.03 * (x - 160) -  0.04 * (self.last_x - x)
                     #self.j1 -= -0.1 * ((self.last_x - 150) - (x - 150)) #test
                 if not (y == 120): #need to add error handling for going out of degree range for j4
                     #self.j4 -= 0.02 * (y - 107)
-                    self.j4 -= 0.03 * (y - 120) - 0.04 * (self.last_y - y) #test
+                    self.j4 -= 0.03 * (y - 120) - 0.04 * (self.last_y - y)
                 # Send joint angles to MyCobot
-                self.mc.send_angles([self.j1, 0, 0, self.j4, 0, -135], 100)      
+                self.mc.send_angles([self.j1, self.j2, self.j3, self.j4, 0, -135], 100)      
                 # Update last x and y
+                #self.j2 += 1
+                #self.j3 -= 1
                 self.last_x, self.last_y = x, y
-                cv2.imshow("Video", image)
-                cv2.waitKey(1)
     
 def main(): #this function is outdated and will not work in current state
     mc = MyCobot("/dev/ttyAMA0", 1000000)
