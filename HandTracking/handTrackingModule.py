@@ -210,7 +210,7 @@ class CameraFlangeController:
                 # self.j2 += 1
                 # self.j3 -= 1
                 self.last_x, self.last_y = x, y
-    
+
 def main(): #this function is outdated and will not work in current state
     mc = MyCobot("/dev/ttyAMA0", 1000000)
     mc.send_angles([0, 0, 0, 0, 0, -135], 40)
