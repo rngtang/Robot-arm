@@ -158,6 +158,7 @@ class CameraFlangeController:
         self.tracker = handTracker()
         self.j1, self.j2, self.j3, self.j4 = 0, 30, -30, 0
         self.last_x, self.last_y = 160, 120
+        self.timestamp = 0
         self.success = False
         self.running = True
         self.image = None
@@ -166,6 +167,7 @@ class CameraFlangeController:
 
     def start(self):
         threading.Thread(target=self.camera_loop, daemon=True).start()
+        threading.Thread(target=self.gestureLiveStreamTracking, daemon=True).start()
         threading.Thread(target=self.control_loop, daemon=True).start()
 
     def stop(self):
@@ -179,6 +181,33 @@ class CameraFlangeController:
             self.success_event.set()
             self.image = image
             self.success = success
+
+    def gestureLiveStreamTracking(self):
+        model_path = "gesture_recognizer.task"
+        GestureRecognizer = mp.tasks.vision.GestureRecognizer
+        GestureRecognizerOptions = mp.tasks.vision.GestureRecognizerOptions
+        VisionRunningMode = mp.tasks.vision.RunningMode
+
+        self.lock = threading.Lock()
+        options = GestureRecognizerOptions(
+            base_options=python.BaseOptions(model_asset_path=model_path),
+            running_mode=VisionRunningMode.LIVE_STREAM,
+            result_callback=self.__result_callback)
+        recognizer = GestureRecognizer.create_from_options(options)
+
+        while self.image is not None:
+            "test1"
+            frame = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
+            mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
+            recognizer.recognize_async(mp_image, self.timestamp)
+            self.timestamp += 1
+
+    def __result_callback(self, result, output_image, timestamp_ms):
+        #print(f'gesture recognition result: {result}')
+        self.lock.acquire() # solves potential concurrency issues
+        if len(result.gestures) > 0:
+            print(result.gestures[0][0].category_name)
+        self.lock.release()
 
     def control_loop(self):
         while self.running:
