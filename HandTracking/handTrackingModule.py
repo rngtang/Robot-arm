@@ -163,6 +163,8 @@ class CameraFlangeController:
         self.running = True
         self.image = None
         self.success_event = threading.Event()
+        self.prevGesture = None
+        self.multiplier = 1
         # self.iter = 0
 
 
@@ -214,11 +216,29 @@ class CameraFlangeController:
         if len(result.gestures) > 0:
             gesture = result.gestures[0][0].category_name
             if gesture == "Thumb_Up" and self.j2 > -90:
-               self.j2 -= 2
-               self.j3 += 2
-            if gesture == "Pointing_Up" and self.j2 < 90:
-               self.j2 += 2
-               self.j3 -= 2
+                if self.prevGesture == "Thumb_Up":
+                    if self.multiplier < 15:
+                        self.multiplier += 1
+                else:
+                    self.multiplier = 1
+                self.j2 -= 0.25 * self.multiplier
+                self.j3 += 0.25 * self.multiplier
+                self.prevGesture = "Thumb_Up"
+            elif gesture == "Pointing_Up" and self.j2 < 90:
+                if self.prevGesture == "Pointing_Up":
+                    if self.multiplier < 15:
+                        self.multiplier += 1
+                else:
+                    self.multiplier = 1
+                self.j2 += 0.25 * self.multiplier
+                self.j3 -= 0.25 * self.multiplier
+                self.prevGesture = "Pointing_Up"
+            else:
+                self.multiplier = 1
+                self.prevGesture = "None"
+        else:
+            self.multiplier = 1
+            self.prevGesture = "None"
         # self.lock.release()
 
     def control_loop(self):
