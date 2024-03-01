@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  sensor_msgs
   actionlib
   image_transport
   cv_bridge
@@ -14,7 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## Declare a catkin package
 catkin_package(
-  CATKIN_DEPENDS std_msgs actionlib
+  CATKIN_DEPENDS std_msgs actionlib sensor_msgs
 )
 
 ## Build talker and listener
@@ -31,6 +32,8 @@ catkin_install_python(PROGRAMS
   scripts/follow_and_pump.py
   scripts/simple_gui.py
   scripts/head_to_base_broadcaster.py
+  scripts/hand_tracker.py
+  scripts/controls.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

@@ -3,12 +3,13 @@
 !.gitignore
 
 !controls.launch
-!hand_detector.launch
+!hand_tracker.launch
 
 !controls.py
 !head_to_base_broadcaster.py
 !hand_tracker.py
 !hand_detector.py
+!camera_feed.py
 
 !MycobotState.msg
 !ServoStatus.srv

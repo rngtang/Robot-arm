@@ -1,73 +1,41 @@
-#!/usr/bin/env python2
-
 import rospy
-from geometry_msgs.msg import Pose, PoseStamped
-from controls import Controls
-import tf
-from tf.transformations import quaternion_from_euler, euler_from_quaternion
-from mycobot_communication.msg import MycobotState
+
+from std_msgs.msg import UInt32MultiArray
+from pymycobot.mycobot import MyCobot
 
 
 class HandTracker:
-    def __init__(self):
+    CENTER_X = 160
+    CENTER_Y = 120
+
+    DISTANCE_COEFFICIENT = 0.03
+    SPEED_COEFFICIENT = -0.04
+
+    def __init__(self) -> None:
         rospy.init_node("hand_tracker")
 
-        self.listener = tf.TransformListener()
-        self.listener.waitForTransform('base', 'head', rospy.Time(), rospy.Duration(10))
+        self.mc = MyCobot("/dev/ttyAMA0", 1000000)
+        self.mc.send_angles([0, 30, -30, 0, 0, -135], 40)
 
-        self.controls = Controls()
+        self.j1, self.j2, self.j3, self.j4 = 0, 30, -30, 0
+        self.x, self.y = 160, 120
 
-        self.state = MycobotState()
-        rospy.Subscriber("/mycobot/state", MycobotState, self._on_receive_state)
+        rospy.Subscriber("cv/detections", UInt32MultiArray, self.track_hand)
 
-    def _on_receive_state(self, data):
-        """
-        Upon receiving data from /mycobot/state, update the instance variables with the new state.
-        This allows us to keep track of the most current state of the robot.
-        """
-        self.state = data
+    def track_hand(self, data):
+        new_x, new_y = data
 
-    def transform_and_publish_target(self, target_local):
+        if new_x != 160:
+            self.j1 += self.DISTANCE_COEFFICIENT * (new_x - self.CENTER_X) + self.SPEED_COEFFICIENT * (self.x - new_x)
 
-        target_local_pose = Pose()
+        if new_y != 120:
+            self.j4 -= self.DISTANCE_COEFFICIENT * (new_y - self.CENTER_Y) + self.SPEED_COEFFICIENT * (self.y - new_y)
 
-        target_local_pose.position.x = target_local[0]
-        target_local_pose.position.y = target_local[1]
-        target_local_pose.position.z = target_local[2]
-
-        q = quaternion_from_euler(target_local[3], target_local[4], target_local[5])
-        target_local_pose.orientation.x = q[0]
-        target_local_pose.orientation.y = q[1]
-        target_local_pose.orientation.z = q[2]
-        target_local_pose.orientation.w = q[3]
-
-        pose_stamped = PoseStamped()
-        pose_stamped.pose = target_local_pose
-        pose_stamped.header.frame_id = "head"
-        print("POSE STAMPED:")
-        print(pose_stamped)
-
-        target_transformed_pose = self.listener.transformPose("base", pose_stamped).pose
-
-        quaternion_list = [target_transformed_pose.orientation.x, target_transformed_pose.orientation.y,
-                           target_transformed_pose.orientation.z, target_transformed_pose.orientation.w]
-        target_coords = [target_transformed_pose.position.x,
-                         target_transformed_pose.position.y,
-                         target_transformed_pose.position.z] + list(euler_from_quaternion(quaternion_list))
-
-        # self.controls.send_coords(target_coords)
-        print("TARGET COORDS:")
-        print(target_coords)
-        print("CURRENT COORDS:")
-        print(self.state.coords)
-
-
-def main():
-    hand_tracker = HandTracker()
-    while not rospy.is_shutdown():
-        hand_tracker.transform_and_publish_target([0, 0, 0, 0, 0, 0])
-        rospy.sleep(2)
+        self.mc.send_angles([self.j1, self.j2, self.j3, self.j4, 0, -135], 100)
+        self.x, self.y = data
 
 
 if __name__ == '__main__':
-    main()
+    tracker = HandTracker()
+    while not rospy.is_shutdown():
+        rospy.spin()
