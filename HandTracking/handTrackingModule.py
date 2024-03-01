@@ -163,9 +163,11 @@ class CameraFlangeController:
         self.running = True
         self.image = None
         self.success_event = threading.Event()
+        # self.iter = 0
 
 
     def start(self):
+        # print("test1")
         threading.Thread(target=self.camera_loop, daemon=True).start()
         threading.Thread(target=self.gestureLiveStreamTracking, daemon=True).start()
         threading.Thread(target=self.control_loop, daemon=True).start()
@@ -183,36 +185,48 @@ class CameraFlangeController:
             self.success = success
 
     def gestureLiveStreamTracking(self):
-        model_path = "gesture_recognizer.task"
+        model_file = open('gesture_recognizer.task', "rb")
+        model_data = model_file.read()
+        model_file.close()
         GestureRecognizer = mp.tasks.vision.GestureRecognizer
         GestureRecognizerOptions = mp.tasks.vision.GestureRecognizerOptions
         VisionRunningMode = mp.tasks.vision.RunningMode
 
-        self.lock = threading.Lock()
+        # self.lock = threading.Lock()
         options = GestureRecognizerOptions(
-            base_options=python.BaseOptions(model_asset_path=model_path),
+        base_options=python.BaseOptions(model_asset_buffer=model_data),
             running_mode=VisionRunningMode.LIVE_STREAM,
             result_callback=self.__result_callback)
         recognizer = GestureRecognizer.create_from_options(options)
 
-        while self.image is not None:
-            "test1"
+        while self.running:
+            self.success_event.wait()
+            self.success_event.clear()
+            if not self.success:
+                continue
             frame = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
             mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
             recognizer.recognize_async(mp_image, self.timestamp)
             self.timestamp += 1
 
     def __result_callback(self, result, output_image, timestamp_ms):
-        #print(f'gesture recognition result: {result}')
-        self.lock.acquire() # solves potential concurrency issues
+        # self.lock.acquire() # solves potential concurrency issues
         if len(result.gestures) > 0:
-            print(result.gestures[0][0].category_name)
-        self.lock.release()
+            gesture = result.gestures[0][0].category_name
+            if gesture == "Thumb_Up" and self.j2 > -90:
+               self.j2 -= 2
+               self.j3 += 2
+            if gesture == "Pointing_Up" and self.j2 < 90:
+               self.j2 += 2
+               self.j3 -= 2
+        # self.lock.release()
 
     def control_loop(self):
+        # self.success_event.wait()
+        # self.success_event.clear()
         while self.running:
-            self.success_event.wait()
-            self.success_event.clear()
+            # self.success_event.wait() #use to be here but moved it above and it seems to be faster
+            # self.success_event.clear()
             if not self.success:
                 continue
             #image = self.tracker.handsFinder(image)
@@ -235,10 +249,11 @@ class CameraFlangeController:
                     self.j4 -= 0.03 * (y - 120) - 0.04 * (self.last_y - y)
                 # Send joint angles to MyCobot
                 self.mc.send_angles([self.j1, self.j2, self.j3, self.j4, 0, -135], 100)      
-                # Update last x and y
-                # self.j2 += 1
-                # self.j3 -= 1
+
                 self.last_x, self.last_y = x, y
+                # self.iter += 1
+                # print(self.iter)
+                # print(self.j2)
 
 def main(): #this function is outdated and will not work in current state
     mc = MyCobot("/dev/ttyAMA0", 1000000)
