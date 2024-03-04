@@ -245,7 +245,7 @@ class CameraFlangeController:
 
     def control_loop(self):
         j2_ema, j3_ema = self.j2, self.j3
-        alpha = 0.2 # Smoothing factor for EMA
+        alpha = 0.1 # Smoothing factor for EMA
 
         while self.running:
             if not self.success:
