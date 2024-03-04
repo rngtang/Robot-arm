@@ -220,7 +220,7 @@ class CameraFlangeController:
                 if self.prevGesture == "Thumb_Up":
                     if self.multiplier < 10:
                         # print("test1")
-                        self.multiplier += 0.4
+                        self.multiplier += 0.5
                 else:
                     self.multiplier = 1
                 self.j2 -= 0.5 * self.multiplier
@@ -230,7 +230,7 @@ class CameraFlangeController:
                 if self.prevGesture == "Pointing_Up":
                     if self.multiplier < 10:
                         # print("test2")
-                        self.multiplier += 0.4
+                        self.multiplier += 0.5
                 else:
                     self.multiplier = 1
                 self.j2 += 0.5 * self.multiplier
@@ -266,8 +266,12 @@ class CameraFlangeController:
                     self.j4 -= 0.03 * (y - 120) - 0.04 * (self.last_y - y)
 
                 # Apply EMA to smooth j2 and j3 movements
-                j2_ema = alpha * self.j2 + (1 - alpha) * j2_ema
-                j3_ema = alpha * self.j3 + (1 - alpha) * j3_ema
+                j2_ema_copy = alpha * self.j2 + (1 - alpha) * j2_ema
+                j2_delta = j2_ema_copy - j2_ema #track wheather going forward or backward
+                j3_ema_copy = alpha * self.j3 + (1 - alpha) * j3_ema
+                if (self.prevGesture == "Thumb_Up" and j2_delta < 0) or (self.prevGesture == "Pointing_Up" and j2_delta > 0):
+                    j2_ema = j2_ema_copy #update join movement
+                    j3_ema = j3_ema_copy
 
                 # Send joint angles to MyCobot
                 self.mc.send_angles([self.j1, j2_ema, j3_ema, self.j4, 0, -135], 100)      
