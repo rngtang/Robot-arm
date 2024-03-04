@@ -217,21 +217,23 @@ class CameraFlangeController:
             gesture = result.gestures[0][0].category_name
             if gesture == "Thumb_Up" and self.j2 > -90:
                 if self.prevGesture == "Thumb_Up":
-                    if self.multiplier < 15:
-                        self.multiplier += 1
+                    if self.multiplier < 10:
+                        # print("test1")
+                        self.multiplier += 0.4
                 else:
                     self.multiplier = 1
-                self.j2 -= 0.25 * self.multiplier
-                self.j3 += 0.25 * self.multiplier
+                self.j2 -= 0.5 * self.multiplier
+                self.j3 += 0.5 * self.multiplier
                 self.prevGesture = "Thumb_Up"
             elif gesture == "Pointing_Up" and self.j2 < 90:
                 if self.prevGesture == "Pointing_Up":
-                    if self.multiplier < 15:
-                        self.multiplier += 1
+                    if self.multiplier < 10:
+                        # print("test2")
+                        self.multiplier += 0.4
                 else:
                     self.multiplier = 1
-                self.j2 += 0.25 * self.multiplier
-                self.j3 -= 0.25 * self.multiplier
+                self.j2 += 0.5 * self.multiplier
+                self.j3 -= 0.5 * self.multiplier
                 self.prevGesture = "Pointing_Up"
             else:
                 self.multiplier = 1
@@ -242,38 +244,34 @@ class CameraFlangeController:
         # self.lock.release()
 
     def control_loop(self):
-        # self.success_event.wait()
-        # self.success_event.clear()
+        j2_ema, j3_ema = self.j2, self.j3
+        alpha = 0.2 # Smoothing factor for EMA
+
         while self.running:
-            # self.success_event.wait() #use to be here but moved it above and it seems to be faster
-            # self.success_event.clear()
             if not self.success:
                 continue
-            #image = self.tracker.handsFinder(image)
-            #lmList = self.tracker.positionFinder(image)
+
             image, centers = self.tracker.draw_bounding_box(self.image)
             cv2.imshow("Video", image)
             cv2.waitKey(1)
-            # print(centers)
+
             if len(centers) > 0:
                 x, y = centers[0][0], centers[0][1]
-                #if self.last_x is None or self.last_y is None:
-                    #self.last_x = x  # Initialize last_x and with the first x value
-                    #self.last_y = y
-                if not (x == 160): #need to add error handling for going out of degree range for j1
-                    #self.j1 -= 0.02 * (x - 150)
+
+                if not (x == 160): 
                     self.j1 -= 0.03 * (x - 160) -  0.04 * (self.last_x - x)
-                    #self.j1 -= -0.1 * ((self.last_x - 150) - (x - 150)) #test
-                if not (y == 120): #need to add error handling for going out of degree range for j4
-                    #self.j4 -= 0.02 * (y - 107)
+
+                if not (y == 120): 
                     self.j4 -= 0.03 * (y - 120) - 0.04 * (self.last_y - y)
+
+                # Apply EMA to smooth j2 and j3 movements
+                j2_ema = alpha * self.j2 + (1 - alpha) * j2_ema
+                j3_ema = alpha * self.j3 + (1 - alpha) * j3_ema
+
                 # Send joint angles to MyCobot
-                self.mc.send_angles([self.j1, self.j2, self.j3, self.j4, 0, -135], 100)      
+                self.mc.send_angles([self.j1, j2_ema, j3_ema, self.j4, 0, -135], 100)      
 
                 self.last_x, self.last_y = x, y
-                # self.iter += 1
-                # print(self.iter)
-                # print(self.j2)
 
 def main(): #this function is outdated and will not work in current state
     mc = MyCobot("/dev/ttyAMA0", 1000000)
