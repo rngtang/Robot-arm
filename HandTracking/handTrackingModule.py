@@ -157,6 +157,7 @@ class CameraFlangeController:
         #self.cap.set(cv2.CAP_PROP_BRIGHTNESS, 10)
         self.tracker = handTracker()
         self.j1, self.j2, self.j3, self.j4 = 0, 30, -30, 0
+        self.j2_ema, self.j3_ema = 30, -30
         self.last_x, self.last_y = 160, 120
         self.timestamp = 0
         self.success = False
@@ -245,7 +246,7 @@ class CameraFlangeController:
 
     def control_loop(self):
         j2_ema, j3_ema = self.j2, self.j3
-        alpha = 0.2 # Smoothing factor for EMA
+        alpha = 0.05 # Smoothing factor for EMA
 
         while self.running:
             if not self.success:
