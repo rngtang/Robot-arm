@@ -152,9 +152,9 @@ class CameraFlangeController:
         #lower res means faster tracking
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)  # Set width
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)  # Set height
-        #self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)  # Disable auto exposure
-        #self.cap.set(cv2.CAP_PROP_EXPOSURE, 0)  # Set exposure value (adjust as needed)
-        #self.cap.set(cv2.CAP_PROP_BRIGHTNESS, 10)
+        # self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)  # Disable auto exposure
+        self.cap.set(cv2.CAP_PROP_EXPOSURE, -100)  # lowering exposure and brightness helps the camera focus on the hand in bright settings better
+        self.cap.set(cv2.CAP_PROP_BRIGHTNESS, -75)
         self.tracker = handTracker()
         self.j1, self.j2, self.j3, self.j4 = 0, 30, -30, 0
         self.j2_ema, self.j3_ema = 30, -30
@@ -167,7 +167,6 @@ class CameraFlangeController:
         self.prevGesture = None
         self.multiplier = 1
         # self.iter = 0
-
 
     def start(self):
         # print("test1")
@@ -199,7 +198,8 @@ class CameraFlangeController:
         options = GestureRecognizerOptions(
         base_options=python.BaseOptions(model_asset_buffer=model_data),
             running_mode=VisionRunningMode.LIVE_STREAM,
-            result_callback=self.__result_callback)
+            result_callback=self.__result_callback,
+            min_tracking_confidence=0.1)
         recognizer = GestureRecognizer.create_from_options(options)
 
         while self.running:
@@ -218,23 +218,23 @@ class CameraFlangeController:
             gesture = result.gestures[0][0].category_name
             if gesture == "Thumb_Up" and self.j2 > -90:
                 if self.prevGesture == "Thumb_Up":
-                    if self.multiplier < 10:
+                    if self.multiplier < 5:
                         # print("test1")
                         self.multiplier += 0.5
                 else:
                     self.multiplier = 1
-                self.j2 -= 0.5 * self.multiplier
-                self.j3 += 0.5 * self.multiplier
+                self.j2 -= 1 * self.multiplier
+                self.j3 += 1 * self.multiplier
                 self.prevGesture = "Thumb_Up"
             elif gesture == "Pointing_Up" and self.j2 < 90:
                 if self.prevGesture == "Pointing_Up":
-                    if self.multiplier < 10:
+                    if self.multiplier < 5:
                         # print("test2")
                         self.multiplier += 0.5
                 else:
                     self.multiplier = 1
-                self.j2 += 0.5 * self.multiplier
-                self.j3 -= 0.5 * self.multiplier
+                self.j2 += 1 * self.multiplier
+                self.j3 -= 1 * self.multiplier
                 self.prevGesture = "Pointing_Up"
             else:
                 self.multiplier = 1
