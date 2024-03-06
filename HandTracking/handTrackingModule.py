@@ -271,6 +271,12 @@ class CameraFlangeController:
                 # Apply EMA to smooth j2 and j3 movements
                 j2_ema_new = alpha * self.j2 + (1 - alpha) * j2_ema
                 j2_delta = j2_ema_new - j2_ema #track wheather going forward or backward
+                print(self.prevGesture)
+                print("----")
+                print(j2_ema)
+                print(j2_ema_new)
+                print("----")
+                #should try and fix the lag when switching from gesture to gesture
                 if (self.prevGesture == "Thumb_Up" and j2_delta < 0 and j2_ema_new > -90) or (self.prevGesture == "Pointing_Up" and j2_delta > 0 and j2_ema_new < 90):
                     j2_ema = j2_ema_new #update join movement
                     j3_ema = alpha * self.j3 + (1 - alpha) * j3_ema
