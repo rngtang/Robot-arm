@@ -152,9 +152,9 @@ class CameraFlangeController:
         #lower res means faster tracking
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)  # Set width
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)  # Set height
-        # self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)  # Disable auto exposure
-        self.cap.set(cv2.CAP_PROP_EXPOSURE, -100)  # lowering exposure and brightness helps the camera focus on the hand in bright settings better
-        self.cap.set(cv2.CAP_PROP_BRIGHTNESS, -75)
+        self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)  # Disable auto exposure
+        self.cap.set(cv2.CAP_PROP_EXPOSURE, -200)  # lowering exposure and brightness helps the camera focus on the hand in bright settings better
+        self.cap.set(cv2.CAP_PROP_BRIGHTNESS, -50)
         self.tracker = handTracker()
         self.j1, self.j2, self.j3, self.j4 = 0, 30, -30, 0
         self.j2_ema, self.j3_ema = 30, -30
@@ -216,7 +216,7 @@ class CameraFlangeController:
         # self.lock.acquire() # solves potential concurrency issues
         if len(result.gestures) > 0:
             gesture = result.gestures[0][0].category_name
-            if gesture == "Thumb_Up" and self.j2 > -90:
+            if gesture == "Thumb_Up" and self.j2 > -130:
                 if self.prevGesture == "Thumb_Up":
                     if self.multiplier < 5:
                         # print("test1")
@@ -226,7 +226,7 @@ class CameraFlangeController:
                 self.j2 -= 1 * self.multiplier
                 self.j3 += 1 * self.multiplier
                 self.prevGesture = "Thumb_Up"
-            elif gesture == "Pointing_Up" and self.j2 < 90:
+            elif gesture == "Pointing_Up" and self.j2 < 130:
                 if self.prevGesture == "Pointing_Up":
                     if self.multiplier < 5:
                         # print("test2")
@@ -245,7 +245,7 @@ class CameraFlangeController:
         # self.lock.release()
 
     def control_loop(self):
-        j2_ema, j3_ema = self.j2, self.j3
+        j2_ema, j3_ema = self.j2, self.j3 #exponential moving average for smoother movement
         alpha = 0.1 # Smoothing factor for EMA
 
         while self.running:
@@ -258,20 +258,22 @@ class CameraFlangeController:
 
             if len(centers) > 0:
                 x, y = centers[0][0], centers[0][1]
-
-                if not (x == 160): 
-                    self.j1 -= 0.03 * (x - 160) -  0.04 * (self.last_x - x)
-
-                if not (y == 120): 
-                    self.j4 -= 0.03 * (y - 120) - 0.04 * (self.last_y - y)
-
+                if not (x == 160):
+                    j1_delta = 0.03 * (x - 160) -  0.04 * (self.last_x - x)
+                    j1_new = self.j1 - j1_delta
+                    if (j1_delta < 0 and j1_new < 160) or (j1_delta > 0 and j1_new > -160):
+                        self.j1 = j1_new
+                if not (y == 120):
+                    j4_delta = 0.03 * (y - 120) - 0.04 * (self.last_y - y)
+                    j4_new = self.j4 - j4_delta
+                    if (j4_delta < 0 and j4_new < 90) or (j4_delta > 0 and j4_new > -90): 
+                        self.j4 = j4_new
                 # Apply EMA to smooth j2 and j3 movements
-                j2_ema_copy = alpha * self.j2 + (1 - alpha) * j2_ema
-                j2_delta = j2_ema_copy - j2_ema #track wheather going forward or backward
-                j3_ema_copy = alpha * self.j3 + (1 - alpha) * j3_ema
-                if (self.prevGesture == "Thumb_Up" and j2_delta < 0) or (self.prevGesture == "Pointing_Up" and j2_delta > 0):
-                    j2_ema = j2_ema_copy #update join movement
-                    j3_ema = j3_ema_copy
+                j2_ema_new = alpha * self.j2 + (1 - alpha) * j2_ema
+                j2_delta = j2_ema_new - j2_ema #track wheather going forward or backward
+                if (self.prevGesture == "Thumb_Up" and j2_delta < 0 and j2_ema_new > -90) or (self.prevGesture == "Pointing_Up" and j2_delta > 0 and j2_ema_new < 90):
+                    j2_ema = j2_ema_new #update join movement
+                    j3_ema = alpha * self.j3 + (1 - alpha) * j3_ema
 
                 # Send joint angles to MyCobot
                 self.mc.send_angles([self.j1, j2_ema, j3_ema, self.j4, 0, -135], 100)      
