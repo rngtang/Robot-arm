@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# encoding:utf-8
+
 import rospy
 
 from std_msgs.msg import UInt32MultiArray
@@ -23,16 +26,16 @@ class HandTracker:
         rospy.Subscriber("cv/detections", UInt32MultiArray, self.track_hand)
 
     def track_hand(self, data):
-        new_x, new_y = data
+        new_x, new_y = data.data
 
-        if new_x != 160:
+        if new_x != self.CENTER_X:
             self.j1 += self.DISTANCE_COEFFICIENT * (new_x - self.CENTER_X) + self.SPEED_COEFFICIENT * (self.x - new_x)
 
-        if new_y != 120:
+        if new_y != self.CENTER_Y:
             self.j4 -= self.DISTANCE_COEFFICIENT * (new_y - self.CENTER_Y) + self.SPEED_COEFFICIENT * (self.y - new_y)
 
         self.mc.send_angles([self.j1, self.j2, self.j3, self.j4, 0, -135], 100)
-        self.x, self.y = data
+        self.x, self.y = data.data
 
 
 if __name__ == '__main__':

@@ -1,11 +1,14 @@
+#!/usr/bin/env python3
+# encoding:utf-8
+
 import cv2
 import enum
 import rospy
 import numpy as np
 
-from mp.solutions.hands import Hands
+from mediapipe.python.solutions.hands import Hands
 from cv_bridge import CvBridge
-from sensor_msgs.msg import CompressedImage
+from sensor_msgs.msg import Image, CompressedImage
 from std_msgs.msg import UInt32MultiArray
 
 
@@ -81,8 +84,8 @@ class HandDetector:
 
         rospy.Subscriber("camera/rgb/compressed", CompressedImage, self.detect)
 
-        self.visualizer_publisher = rospy.Publisher("cv/detections_visualized/compressed", CompressedImage)
-        self.detections_publisher = rospy.Publisher("cv/detections", UInt32MultiArray)
+        self.visualizer_publisher = rospy.Publisher("cv/detections_visualized", Image, queue_size=10)
+        self.detections_publisher = rospy.Publisher("cv/detections", UInt32MultiArray, queue_size=10)
 
     def detect(self, image_msg, hand_index=0):
         """
@@ -106,9 +109,9 @@ class HandDetector:
             x_min, y_min, x_max, y_max = float('inf'), float('inf'), 0, 0
             hand = results.multi_hand_landmarks[hand_index].landmark
 
-            if HandLandmark.WRIST in hand and HandLandmark.MIDDLE_FINGER_MCP in hand:
-                wrist = hand[HandLandmark.WRIST]
-                middle = hand[HandLandmark.MIDDLE_FINGER_MCP]
+            if len(hand) > max(HandLandmark.WRIST.value, HandLandmark.MIDDLE_FINGER_MCP.value):
+                wrist = hand[HandLandmark.WRIST.value]
+                middle = hand[HandLandmark.MIDDLE_FINGER_MCP.value]
 
                 palm_x = int((wrist.x + middle.x) * height / 2)
                 palm_y = int((wrist.y + middle.y) * width / 2)
@@ -127,7 +130,7 @@ class HandDetector:
 
             cv2.rectangle(image_rgb, (x_min, y_min), (x_max, y_max), (0, 102, 0), 2)
 
-            image_msg = self._cv_bridge.cv2_to_compressed_imgmsg(image_rgb)
+            image_msg = self._cv_bridge.cv2_to_imgmsg(image_rgb)
             self.visualizer_publisher.publish(image_msg)
 
 
