@@ -270,35 +270,31 @@ class CameraFlangeController:
                 j2_ema_new = alpha * self.j2 + (1 - alpha) * j2_ema
                 j2_delta = j2_ema_new - j2_ema #track wheather going forward or backward
                 #print(self.prevGesture)
-                print("----")
-                print(j2_ema)
-                print(j2_delta)
-                print(j2_ema_new)
-                print("----")
+                #print("----")
+                #print(j2_ema)
+                #print(j2_delta)
+                #print(j2_ema_new)
+                #print("----")
                 #should try and fix the lag when switching from gesture to gesture
                 if (self.prevGesture == "Thumb_Up" and j2_delta < 0 and j2_ema_new > -90):
                     j2_ema = j2_ema_new #update join movement
                     j3_ema = alpha * self.j3 + (1 - alpha) * j3_ema
                     # print(self.multiplier)
                 elif (self.prevGesture == "Thumb_Up" and j2_delta > 0 and j2_ema - 2 > -90):
-                    self.j2 = j2_ema - 1
-                    # self.j2 = j2_ema
-                    j2_ema = alpha * self.j2 + (1 - alpha) * j2_ema
-                    self.j3 = j3_ema + 1
-                    # self.j3 = j3_ema
-                    j3_ema = alpha * self.j3 + (1 - alpha) * j3_ema
+                    self.j2 = j2_ema
+                    j2_ema -= 1
+                    self.j3 = j3_ema
+                    j3_ema += 1
                     # print("test1")
                 elif (self.prevGesture == "Pointing_Up" and j2_delta > 0 and j2_ema_new < 90):
                     j2_ema = j2_ema_new #update join movement
                     j3_ema = alpha * self.j3 + (1 - alpha) * j3_ema
                     # print(self.multiplier)
                 elif (self.prevGesture == "Pointing_Up" and j2_delta < 0 and j2_ema + 2 < 90):
-                    self.j2 = j2_ema + 1
-                    # self.j2 = j2_ema
-                    j2_ema = alpha * self.j2 + (1 - alpha) * j2_ema
-                    self.j3 = j3_ema - 1
-                    # self.j3 = j3_ema
-                    j3_ema = alpha * self.j3 + (1 - alpha) * j3_ema
+                    self.j2 = j2_ema
+                    j2_ema += 1
+                    self.j3 = j3_ema
+                    j3_ema -= 1
                     # print("test2")
                 # Send joint angles to MyCobot
                 self.mc.send_angles([self.j1, j2_ema, j3_ema, self.j4, 0, -135], 100)      
