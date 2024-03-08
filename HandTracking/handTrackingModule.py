@@ -282,8 +282,10 @@ class CameraFlangeController:
                     # print(self.multiplier)
                 elif (self.prevGesture == "Thumb_Up" and j2_delta > 0 and j2_ema - 2 > -90):
                     self.j2 = j2_ema - 1
+                    # self.j2 = j2_ema
                     # j2_ema = alpha * self.j2 + (1 - alpha) * j2_ema
                     self.j3 = j3_ema + 1
+                    # self.j3 = j3_ema
                     # j3_ema = alpha * self.j3 + (1 - alpha) * j3_ema
                     # print("test1")
                 elif (self.prevGesture == "Pointing_Up" and j2_delta > 0 and j2_ema_new < 90):
@@ -292,8 +294,10 @@ class CameraFlangeController:
                     # print(self.multiplier)
                 elif (self.prevGesture == "Pointing_Up" and j2_delta < 0 and j2_ema + 2 < 90):
                     self.j2 = j2_ema + 1
+                    # self.j2 = j2_ema
                     # j2_ema = alpha * self.j2 + (1 - alpha) * j2_ema
                     self.j3 = j3_ema - 1
+                    # self.j3 = j3_ema
                     # j3_ema = alpha * self.j3 + (1 - alpha) * j3_ema
                     # print("test2")
                 # Send joint angles to MyCobot
