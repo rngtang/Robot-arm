@@ -194,8 +194,8 @@ class HandTrackingModule:
                 continue
 
             image, centers = self.tracker.draw_bounding_box(self.image)
-            #cv2.imshow("Video", image)
-            #cv2.waitKey(1)
+            cv2.imshow("Video", image)
+            cv2.waitKey(1)
 
             if len(centers) > 0:
                 x, y = centers[0][0], centers[0][1]
