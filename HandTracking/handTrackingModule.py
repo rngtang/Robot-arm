@@ -447,5 +447,3 @@ if __name__ == "__main__":
     #tracking with mediapipe built in livestream feature
     # detector = HandLandmarkerliveStream()
     # detector.run()
-
-    # main()
