@@ -268,5 +268,3 @@ if __name__ == "__main__":
     HandTrackingModule.start()
     input("Press Enter to stop...")
     HandTrackingModule.stop()
-
-    main()
