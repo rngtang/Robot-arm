@@ -11,8 +11,8 @@ class HandTracker:
     CENTER_X = 160
     CENTER_Y = 120
 
-    DISTANCE_COEFFICIENT = 0.03
-    SPEED_COEFFICIENT = -0.04
+    DISTANCE_COEFFICIENT = 0.005
+    SPEED_COEFFICIENT = -0.007
 
     def __init__(self) -> None:
         rospy.init_node("hand_tracker")
@@ -21,7 +21,7 @@ class HandTracker:
         self.mc.send_angles([0, 30, -30, 0, 0, -135], 40)
 
         self.j1, self.j2, self.j3, self.j4 = 0, 30, -30, 0
-        self.x, self.y = 160, 120
+        self.x, self.y = self.CENTER_X, self.CENTER_Y
 
         rospy.Subscriber("cv/detections", UInt32MultiArray, self.track_hand)
 
