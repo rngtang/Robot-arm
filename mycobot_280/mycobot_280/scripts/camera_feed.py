@@ -17,7 +17,8 @@ class CameraFeedPublisher:
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)  # Set height
 
         # Set publisher rate (framerate) to custom framerate
-        self.loop_rate = rospy.Rate(self.cap.get(cv2.CAP_PROP_FPS))
+        # self.loop_rate = rospy.Rate(self.cap.get(cv2.CAP_PROP_FPS))
+        self.loop_rate = rospy.Rate(10)
 
         self._cv_bridge = CvBridge()
 
