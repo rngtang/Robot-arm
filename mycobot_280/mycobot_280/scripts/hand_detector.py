@@ -82,6 +82,8 @@ class HandDetector:
 
         self._cv_bridge = CvBridge()
 
+        self.rate = rospy.Rate(10)
+
         rospy.Subscriber("camera/rgb/compressed", CompressedImage, self.detect)
 
         self.visualizer_publisher = rospy.Publisher("cv/detections_visualized", Image, queue_size=10)
@@ -110,6 +112,7 @@ class HandDetector:
             hand = results.multi_hand_landmarks[hand_index].landmark
 
             if len(hand) > max(HandLandmark.WRIST.value, HandLandmark.MIDDLE_FINGER_MCP.value):
+                print("Hand detected")
                 wrist = hand[HandLandmark.WRIST.value]
                 middle = hand[HandLandmark.MIDDLE_FINGER_MCP.value]
 
@@ -132,6 +135,8 @@ class HandDetector:
 
             image_msg = self._cv_bridge.cv2_to_imgmsg(image_rgb)
             self.visualizer_publisher.publish(image_msg)
+
+        self.rate.sleep()
 
 
 if __name__ == '__main__':
