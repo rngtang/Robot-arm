@@ -71,14 +71,8 @@ class HandDetector:
         """
         rospy.init_node("hand_detector")
 
-        self.mode = static_image_mode
-        self.max_num_hands = max_num_hands
-        self.detection_confidence = detection_confidence
-        self.model_complexity = model_complexity
-        self.tracking_confidence = tracking_confidence
-
-        self.hands = Hands(self.mode, self.max_num_hands, self.model_complexity,
-                           self.detection_confidence, self.tracking_confidence)
+        self.hands = Hands(static_image_mode, max_num_hands, model_complexity,
+                           detection_confidence, tracking_confidence)
 
         self._cv_bridge = CvBridge()
 
@@ -105,6 +99,8 @@ class HandDetector:
 
         image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         height, width, _ = image_rgb.shape
+        print(f"height: {height}")
+        print(f"width: {width}")
         results = self.hands.process(image_rgb)
 
         if results.multi_hand_landmarks:
@@ -112,9 +108,13 @@ class HandDetector:
             hand = results.multi_hand_landmarks[hand_index].landmark
 
             if len(hand) > max(HandLandmark.WRIST.value, HandLandmark.MIDDLE_FINGER_MCP.value):
+                print(len(hand))
                 print("Hand detected")
                 wrist = hand[HandLandmark.WRIST.value]
                 middle = hand[HandLandmark.MIDDLE_FINGER_MCP.value]
+
+                print(f"wrist: [{wrist.x, wrist.y}]")
+                print(f"middle: [{middle.x, middle.y}]")
 
                 palm_x = int((wrist.x + middle.x) * height / 2)
                 palm_y = int((wrist.y + middle.y) * width / 2)
