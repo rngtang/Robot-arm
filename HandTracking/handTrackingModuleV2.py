@@ -217,9 +217,9 @@ class CameraFlangeController:
             gesture = result.gestures[0][0].category_name
             if gesture == "Thumb_Up" and self.j2 > -130:
                 if self.prevGesture == "Thumb_Up":
-                    if self.multiplier < 5:
+                    if self.multiplier < 3:
                         # print("test1")
-                        self.multiplier += 1
+                        self.multiplier += 0.5
                 else:
                     self.multiplier = 1
                 self.j2 -= 1 * self.multiplier
@@ -227,9 +227,9 @@ class CameraFlangeController:
                 self.prevGesture = "Thumb_Up"
             elif gesture == "Pointing_Up" and self.j2 < 130:
                 if self.prevGesture == "Pointing_Up":
-                    if self.multiplier < 5:
+                    if self.multiplier < 3:
                         # print("test2")
-                        self.multiplier += 1
+                        self.multiplier += 0.5
                 else:
                     self.multiplier = 1
                 self.j2 += 1 * self.multiplier
@@ -270,40 +270,41 @@ class CameraFlangeController:
                     if (j4_delta < 0 and j4_new > -90) or (j4_delta > 0 and j4_new < 90): 
                         self.j4 = j4_new
                 # new
-                if not (y == 120) and self.prevGesture == "Victory":
-                    self.j2 += 0.01 * (y - 120) - 0.02 * (self.last_y - y)
-                    self.j3 -= 0.01 * (y - 120) - 0.02 * (self.last_y - y)
+                elif not (y == 120) and self.prevGesture == "Victory":
+                    j2_ema += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
+                    self.j2 += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
+                    self.j3 -= 0.03 * (y - 120) - 0.04 * (self.last_y - y)
 
                 # Apply EMA to smooth j2 and j3 movements
                 j2_ema_new = alpha * self.j2 + (1 - alpha) * j2_ema
-                j3_ema_new = alpha * self.j3 + (1 - alpha) * j3_ema
+                # j3_ema_new = alpha * self.j3 + (1 - alpha) * j3_ema
                 j2_delta = j2_ema_new - j2_ema #track wheather going forward or backward
                 #print(self.prevGesture)
-                if (self.prevGesture == "Thumb_Up" and j2_delta > 0 and j2_ema > -90) or (self.prevGesture == "Thumb_Up" and prevGesture != "Thumb_Up" and j2_ema < 90):
-                    # self.j2 = j2_ema
+                if (self.prevGesture == "Thumb_Up" and j2_delta > 0) or (self.prevGesture == "Thumb_Up" and prevGesture != "Thumb_Up"):
+                    self.j2 = j2_ema
                     # self.j3 = j3_ema
-                    print("test")
-                elif (self.prevGesture == "Pointing_Up" and j2_delta < 0 and j2_ema < 90) or (self.prevGesture == "Pointing_Up" and prevGesture != "Pointing_Up" and j2_ema > -90):
-                    # self.j2 = j2_ema
+                    # print("test")
+                elif (self.prevGesture == "Pointing_Up" and j2_delta < 0) or (self.prevGesture == "Pointing_Up" and prevGesture != "Pointing_Up"):
+                    self.j2 = j2_ema
                     # self.j3 = j3_ema
-                    print("test")
-                elif (self.prevGesture == "Thumb_Up" and j2_delta < 0 and j2_ema_new > -90):
-                    # j2_ema = j2_ema_new #update join movement
+                    # print("test")
+                elif (self.prevGesture == "Thumb_Up" and j2_delta < 0):
+                    j2_ema = j2_ema_new #update join movement
                     # j3_ema = j3_ema_new
                     # print(self.multiplier)
-                    print("test")
-                elif (self.prevGesture == "Pointing_Up" and j2_delta > 0 and j2_ema_new < 90):
-                    # j2_ema = j2_ema_new #update join movement
+                    # print("test")
+                elif (self.prevGesture == "Pointing_Up" and j2_delta > 0):
+                    j2_ema = j2_ema_new #update join movement
                     # j3_ema = j3_ema_new
                     # print(self.multiplier)
-                    print("test")
+                    # print("test")
                 # Send joint angles to MyCobot
                 prevGesture = self.prevGesture
-                print(prevGesture)
+                # print(prevGesture)
                 # self.mc.send_angles([self.j1, j2_ema, j3_ema, self.j4, 0, -135], 100)
 
                 # changed      
-                self.mc.send_angles([self.j1, self.j2, self.j3, self.j4, 0, -135], 20)      
+                self.mc.send_angles([self.j1, j2_ema, self.j3, self.j4, 0, -135], 100)      
 
                 self.last_x, self.last_y = x, y
 
