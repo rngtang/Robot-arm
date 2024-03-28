@@ -56,6 +56,7 @@ class HandDetector:
         find_positions(image, hand_number=0, draw=True): Returns a list of landmark positions 
                                                          for the specified hand in the given image.
     """
+    DEFAULT_FRAME_RATE = 30
 
     def __init__(self, static_image_mode=False, max_num_hands=1, detection_confidence=0.5,
                  model_complexity=0, tracking_confidence=0.1) -> None:
@@ -74,16 +75,26 @@ class HandDetector:
         self.hands = Hands(static_image_mode, max_num_hands, model_complexity,
                            detection_confidence, tracking_confidence)
 
+        self.raw_image = None
+        self.image = None
+
         self._cv_bridge = CvBridge()
 
-        self.rate = rospy.Rate(10)
+        self.rate = rospy.Rate(self.DEFAULT_FRAME_RATE)
 
-        rospy.Subscriber("camera/rgb/compressed", CompressedImage, self.detect)
+        rospy.Subscriber("camera/rgb/compressed", CompressedImage, self.update_image)
 
         self.visualizer_publisher = rospy.Publisher("cv/detections_visualized", Image, queue_size=10)
         self.detections_publisher = rospy.Publisher("cv/detections", UInt32MultiArray, queue_size=10)
 
-    def detect(self, image_msg, hand_index=0):
+    def update_image(self, image_msg):
+        np_arr = np.frombuffer(image_msg.data, np.uint8)
+        self.raw_image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+
+        image_rgb = cv2.cvtColor(self.raw_image, cv2.COLOR_BGR2RGB)
+        self.image = image_rgb
+
+    def detect(self, hand_index=0):
         """
         Detects hands in the given image and returns the image with landmarks drawn on it.
 
@@ -94,52 +105,46 @@ class HandDetector:
         Returns:
             numpy.ndarray: The image with landmarks drawn on it.
         """
-        np_arr = np.frombuffer(image_msg.data, np.uint8)
-        image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+        image = self.image
+        raw_image = self.raw_image
 
-        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        height, width, _ = image_rgb.shape
-        print(f"height: {height}")
-        print(f"width: {width}")
-        results = self.hands.process(image_rgb)
+        height, width, _ = image.shape
+        results = self.hands.process(image)
 
         if results.multi_hand_landmarks:
             x_min, y_min, x_max, y_max = float('inf'), float('inf'), 0, 0
             hand = results.multi_hand_landmarks[hand_index].landmark
 
             if len(hand) > max(HandLandmark.WRIST.value, HandLandmark.MIDDLE_FINGER_MCP.value):
-                print(len(hand))
-                print("Hand detected")
                 wrist = hand[HandLandmark.WRIST.value]
                 middle = hand[HandLandmark.MIDDLE_FINGER_MCP.value]
 
-                print(f"wrist: [{wrist.x, wrist.y}]")
-                print(f"middle: [{middle.x, middle.y}]")
-
-                palm_x = int((wrist.x + middle.x) * height / 2)
-                palm_y = int((wrist.y + middle.y) * width / 2)
+                palm_x = int((wrist.x + middle.x) * width / 2)
+                palm_y = int((wrist.y + middle.y) * height / 2)
 
                 msg = UInt32MultiArray()
                 msg.data = [palm_x, palm_y]
                 self.detections_publisher.publish(msg)
 
             for landmark in hand:
-                global_x, global_y = int(landmark.x * height), int(landmark.y * width)
+                global_x, global_y = int(landmark.x * width), int(landmark.y * height)
 
                 x_min = min(x_min, global_x)
                 x_max = max(x_max, global_x)
                 y_min = min(y_min, global_y)
                 y_max = max(y_max, global_y)
 
-            cv2.rectangle(image_rgb, (x_min, y_min), (x_max, y_max), (0, 102, 0), 2)
+            cv2.rectangle(raw_image, (x_min, y_min), (x_max, y_max), (0, 102, 0), 2)
 
-            image_msg = self._cv_bridge.cv2_to_imgmsg(image_rgb)
-            self.visualizer_publisher.publish(image_msg)
+        image_msg = self._cv_bridge.cv2_to_imgmsg(raw_image)
+        self.visualizer_publisher.publish(image_msg)
 
-        self.rate.sleep()
+    def run(self):
+        while not rospy.is_shutdown():
+            if self.image is not None:
+                self.detect()
+            self.rate.sleep()
 
 
 if __name__ == '__main__':
-    detector = HandDetector()
-    while not rospy.is_shutdown():
-        rospy.spin()
+    detector = HandDetector().run()
