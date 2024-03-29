@@ -122,9 +122,10 @@ class HandDetector:
                 palm_x = int((wrist.x + middle.x) * width / 2)
                 palm_y = int((wrist.y + middle.y) * height / 2)
 
-                msg = UInt32MultiArray()
-                msg.data = [palm_x, palm_y]
-                self.detections_publisher.publish(msg)
+                if palm_x >= 0 and palm_y >= 0:
+                    msg = UInt32MultiArray()
+                    msg.data = [palm_x, palm_y]
+                    self.detections_publisher.publish(msg)
 
             for landmark in hand:
                 global_x, global_y = int(landmark.x * width), int(landmark.y * height)
