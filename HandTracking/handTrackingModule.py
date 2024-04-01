@@ -147,7 +147,7 @@ class handTracker():
 class CameraFlangeController:
     def __init__(self):
         self.mc = MyCobot("/dev/ttyAMA0", 1000000)
-        self.mc.send_angles([0, 30, -30, 0, 0, -135], 40)
+        self.mc.send_angles([0, 0, 0, 0, 0, -135], 40)
         self.cap = cv2.VideoCapture(0)
         #lower res means faster tracking
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)  # Set width
@@ -156,8 +156,8 @@ class CameraFlangeController:
         self.cap.set(cv2.CAP_PROP_EXPOSURE, -200)  # lowering exposure and brightness helps the camera focus on the hand in bright settings better
         self.cap.set(cv2.CAP_PROP_BRIGHTNESS, -50)
         self.tracker = handTracker()
-        self.j1, self.j2, self.j3, self.j4 = 0, 30, -30, 0
-        self.j2_ema, self.j3_ema = 30, -30
+        self.j1, self.j2, self.j3, self.j4 = 0, 0, 0, 0
+        self.j2_ema, self.j3_ema = 0, 0
         self.last_x, self.last_y = 160, 120
         self.timestamp = 0
         self.success = False

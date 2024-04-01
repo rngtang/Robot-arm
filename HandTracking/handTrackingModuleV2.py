@@ -184,7 +184,8 @@ class CameraFlangeController:
             if not success:
                 continue
             self.success_event.set()
-            self.image = image
+            rotated_image = cv2.rotate(image, cv2.ROTATE_180)
+            self.image = rotated_image
             self.success = success
 
     def gestureLiveStreamTracking(self):
