@@ -235,8 +235,8 @@ class CameraFlangeController:
                 self.j2 += 1 * self.multiplier
                 # self.j3 -= 1 * self.multiplier
                 self.prevGesture = "Pointing_Up"
-            elif gesture == "Victory":
-                self.prevGesture = "Victory"
+            elif gesture == "Closed_Fist":
+                self.prevGesture = "Closed_Fist"
             else:
                 self.multiplier = 1
                 self.prevGesture = "None"
@@ -264,13 +264,15 @@ class CameraFlangeController:
                     j1_new = self.j1 - j1_delta
                     if (j1_delta < 0 and j1_new < 160) or (j1_delta > 0 and j1_new > -160):
                         self.j1 = j1_new
-                if not (y == 120) and self.prevGesture != "Victory":
+                if not (y == 120) and self.prevGesture != "Closed_Fist":
                     j4_delta = 0.03 * (y - 120) - 0.04 * (self.last_y - y)
                     j4_new = self.j4 + j4_delta
-                    if (j4_delta < 0 and j4_new > -90) or (j4_delta > 0 and j4_new < 90): 
-                        self.j4 = j4_new
+                    # if (j4_delta < 0 and j4_new > -90) or (j4_delta > 0 and j4_new < 90): 
+                        # self.j4 = j4_new
+                    self.j4 = j4_new
+                    
                 # new
-                elif not (y == 120) and self.prevGesture == "Victory":
+                elif (y > 120 or y < 120) and self.prevGesture == "Closed_Fist":
                     j2_ema += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
                     self.j2 += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
                     self.j3 -= 0.03 * (y - 120) - 0.04 * (self.last_y - y)
