@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import time
 import random
+import math
 from pymycobot.mycobot import MyCobot
 from pymycobot.genre import Angle
 from pymycobot import PI_PORT, PI_BAUD
@@ -260,23 +261,36 @@ class CameraFlangeController:
 
             if len(centers) > 0:
                 x, y = centers[0][0], centers[0][1]
+                j1_multiplier = 1
+                # robot_head_coords = self.mc.get_coords()
                 if not (x == 160):
+                    # if len(robot_head_coords) > 0:
+                    #     robot_head_x = robot_head_coords[0]
+                    #     robot_head_y = robot_head_coords[1]
+                    #     j1_multiplier = max(0, math.sqrt(robot_head_x**2 + robot_head_y**2) - 110)
+                    #     j1_multiplier = -(j1_multiplier / 350) + 1
+                    #     print(j1_multiplier)
                     j1_delta = 0.03 * (x - 160) -  0.04 * (self.last_x - x)
+
+                    # j1_delta = j1_multiplier * (0.03 * (x - 160) -  0.04 * (self.last_x - x))
                     j1_new = self.j1 - j1_delta
                     if (j1_delta < 0 and j1_new < 160) or (j1_delta > 0 and j1_new > -160):
                         self.j1 = j1_new
-                if not (y == 120) and self.prevGesture != "Closed_Fist":
+                # if not (y == 120) and self.prevGesture != "Closed_Fist":
+                if not (y == 120):
                     j4_delta = 0.03 * (y - 120) - 0.04 * (self.last_y - y)
+                    # if self.prevGesture != "Closed_Fist":
+                    #     j4_delta = 0.1 * (j4_delta)
                     j4_new = self.j4 + j4_delta
                     # if (j4_delta < 0 and j4_new > -90) or (j4_delta > 0 and j4_new < 90): 
                         # self.j4 = j4_new
                     self.j4 = j4_new
                     
                 # new
-                elif (y > 120 or y < 120) and self.prevGesture == "Closed_Fist":
+                if(y > 120 or y < 120) and self.prevGesture == "Closed_Fist":
                     j2_ema += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
                     self.j2 += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
-                    self.j3 -= 0.03 * (y - 120) - 0.04 * (self.last_y - y)
+                    self.j3 -= 2 * (0.03 * (y - 120) - 0.04 * (self.last_y - y))
 
                 # Apply EMA to smooth j2 and j3 movements
                 j2_ema_new = alpha * self.j2 + (1 - alpha) * j2_ema
