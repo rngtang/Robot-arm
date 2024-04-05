@@ -28,5 +28,15 @@ while True:
         # print(max(0, math.sqrt(coords[0]**2 + coords[1]**2) - 110))
         # print(angles[1],",", angles[2], ",", angles[1] + angles[2])
         # if abs(angles[1]) > 90:
+        j2_angle = angles[1]
+        j3_angle = angles[2]
+        value = -abs(abs(angles[2]) - abs(angles[1]))
+        calculations = abs((-abs(j2_angle) / 90) + 1)
+        if abs(j2_angle) > 35 and abs(j2_angle) < 145:
+            value = (abs(angles[2]) - abs(angles[1]))
 
-        print(abs(-1 * (abs(angles[1]) / 90) + 1))
+        calculations += 0.87 * (abs((( value / ( 90)) + 1)))   
+        calculations = min(1.87, calculations)
+        print(calculations)
+
+        #new approach

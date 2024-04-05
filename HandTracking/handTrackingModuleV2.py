@@ -261,7 +261,8 @@ class CameraFlangeController:
 
             if len(centers) > 0:
                 x, y = centers[0][0], centers[0][1]
-                j1_multiplier = 1
+                j1_multiplier = 1.87
+                value = 0
                 # robot_head_coords = self.mc.get_coords()
                 if not (x == 160):
                     # if len(robot_head_coords) > 0:
@@ -270,8 +271,18 @@ class CameraFlangeController:
                     #     j1_multiplier = max(0, math.sqrt(robot_head_x**2 + robot_head_y**2) - 110)
                     #     j1_multiplier = -(j1_multiplier / 350) + 1
                     #     print(j1_multiplier)
-                    j1_delta = 0.03 * (x - 160) -  0.04 * (self.last_x - x)
+                    value = -abs(abs(self.j3) - abs(self.j2))
+                    j1_multiplier = abs((-abs(self.j2) / 90) + 1)
+                    if abs(self.j2) > 35 and abs(self.j2) < 145:
+                        value = (abs(self.j3) - abs(self.j2))
 
+                    j1_multiplier += 0.87 * (abs((( value / ( 90)) + 1)))   
+                    j1_multiplier = min(1.87, j1_multiplier)
+                    j1_multiplier = (.27 * j1_multiplier) + 0.5
+                    # print(j1_multiplier)
+
+                    j1_delta = 0.03 * (x - 160) -  0.04 * (self.last_x - x)
+                    j1_delta = j1_multiplier * j1_delta
                     # j1_delta = j1_multiplier * (0.03 * (x - 160) -  0.04 * (self.last_x - x))
                     j1_new = self.j1 - j1_delta
                     if (j1_delta < 0 and j1_new < 160) or (j1_delta > 0 and j1_new > -160):
