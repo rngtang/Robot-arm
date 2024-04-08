@@ -252,7 +252,7 @@ class CameraFlangeController:
         alpha = 0.2 # Smoothing factor for EMA
         prevGesture = self.prevGesture
         j1_multiplier = 1
-
+        # i = 0
         while self.running:
             if not self.success:
                 continue
@@ -260,10 +260,25 @@ class CameraFlangeController:
             image, centers = self.tracker.draw_bounding_box(self.image)
             cv2.imshow("Video", image)
             cv2.waitKey(1)
-
+            # coords = self.mc.get_coords()
+            # i += 1
+            # print(i)
             if len(centers) > 0:
                 x, y = centers[0][0], centers[0][1]
                 value = 0
+
+                #testing speed
+                # coords = self.mc.get_coords()
+
+                # value = -abs(abs(self.j3) - abs(self.j2))
+                # j1_multiplier = abs((-abs(self.j2) / 90) + 1)
+                # if abs(self.j2) > 35 and abs(self.j2) < 145:
+                #     value = (abs(self.j3) - abs(self.j2))
+
+                # j1_multiplier += 0.87 * (abs((( value / ( 90)) + 1)))   
+                # j1_multiplier = min(1.87, j1_multiplier)
+                # j1_multiplier = (.27 * j1_multiplier) + 0.5
+
                 # robot_head_coords = self.mc.get_coords()
                 if not (x == 160):
                     # if len(robot_head_coords) > 0:
@@ -327,8 +342,7 @@ class CameraFlangeController:
                     # j3_ema = j3_ema_new
                     # print(self.multiplier)
                     # print("test")
-                # Send joint angles to MyCobot
-                if self.prevGesture == "Pointing up" or self.prevGesture == "Thumb_Up" or self.prevGesture == "Closed_Fist":
+                if self.prevGesture == "Pointing_Up" or self.prevGesture == "Thumb_Up" or self.prevGesture == "Closed_Fist":
                     value = -abs(abs(self.j3) - abs(self.j2))
                     j1_multiplier = abs((-abs(self.j2) / 90) + 1)
                     if abs(self.j2) > 35 and abs(self.j2) < 145:
@@ -337,9 +351,11 @@ class CameraFlangeController:
                     j1_multiplier += 0.87 * (abs((( value / ( 90)) + 1)))   
                     j1_multiplier = min(1.87, j1_multiplier)
                     j1_multiplier = (.27 * j1_multiplier) + 0.5
+                #     print(j1_multiplier)
 
                 prevGesture = self.prevGesture
                 # print(prevGesture)
+                # Send joint angles to MyCobot
                 # self.mc.send_angles([self.j1, j2_ema, j3_ema, self.j4, 0, -135], 100)
 
                 # changed      
