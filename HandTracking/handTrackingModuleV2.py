@@ -251,6 +251,8 @@ class CameraFlangeController:
         j2_ema, j3_ema = self.j2, self.j3 #exponential moving average for smoother movement
         alpha = 0.2 # Smoothing factor for EMA
         prevGesture = self.prevGesture
+        j1_multiplier = 1
+
         while self.running:
             if not self.success:
                 continue
@@ -261,7 +263,6 @@ class CameraFlangeController:
 
             if len(centers) > 0:
                 x, y = centers[0][0], centers[0][1]
-                j1_multiplier = 1.87
                 value = 0
                 # robot_head_coords = self.mc.get_coords()
                 if not (x == 160):
@@ -271,14 +272,14 @@ class CameraFlangeController:
                     #     j1_multiplier = max(0, math.sqrt(robot_head_x**2 + robot_head_y**2) - 110)
                     #     j1_multiplier = -(j1_multiplier / 350) + 1
                     #     print(j1_multiplier)
-                    value = -abs(abs(self.j3) - abs(self.j2))
-                    j1_multiplier = abs((-abs(self.j2) / 90) + 1)
-                    if abs(self.j2) > 35 and abs(self.j2) < 145:
-                        value = (abs(self.j3) - abs(self.j2))
+                    # value = -abs(abs(self.j3) - abs(self.j2))
+                    # j1_multiplier = abs((-abs(self.j2) / 90) + 1)
+                    # if abs(self.j2) > 35 and abs(self.j2) < 145:
+                    #     value = (abs(self.j3) - abs(self.j2))
 
-                    j1_multiplier += 0.87 * (abs((( value / ( 90)) + 1)))   
-                    j1_multiplier = min(1.87, j1_multiplier)
-                    j1_multiplier = (.27 * j1_multiplier) + 0.5
+                    # j1_multiplier += 0.87 * (abs((( value / ( 90)) + 1)))   
+                    # j1_multiplier = min(1.87, j1_multiplier)
+                    # j1_multiplier = (.27 * j1_multiplier) + 0.5
                     # print(j1_multiplier)
 
                     j1_delta = 0.03 * (x - 160) -  0.04 * (self.last_x - x)
@@ -327,6 +328,16 @@ class CameraFlangeController:
                     # print(self.multiplier)
                     # print("test")
                 # Send joint angles to MyCobot
+                if self.prevGesture == "Pointing up" or self.prevGesture == "Thumb_Up" or self.prevGesture == "Closed_Fist":
+                    value = -abs(abs(self.j3) - abs(self.j2))
+                    j1_multiplier = abs((-abs(self.j2) / 90) + 1)
+                    if abs(self.j2) > 35 and abs(self.j2) < 145:
+                        value = (abs(self.j3) - abs(self.j2))
+
+                    j1_multiplier += 0.87 * (abs((( value / ( 90)) + 1)))   
+                    j1_multiplier = min(1.87, j1_multiplier)
+                    j1_multiplier = (.27 * j1_multiplier) + 0.5
+
                 prevGesture = self.prevGesture
                 # print(prevGesture)
                 # self.mc.send_angles([self.j1, j2_ema, j3_ema, self.j4, 0, -135], 100)
