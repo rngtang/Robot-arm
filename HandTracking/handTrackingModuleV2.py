@@ -148,7 +148,7 @@ class handTracker():
 class CameraFlangeController:
     def __init__(self):
         self.mc = MyCobot("/dev/ttyAMA0", 1000000)
-        self.mc.send_angles([0, 0, 0, 0, 0, -135], 40)
+        self.mc.send_angles([0, 0, 0, 0, 0, -135], 20)
         # self.mc.release_all_servos()
         self.cap = cv2.VideoCapture(0)
         #lower res means faster tracking
@@ -252,6 +252,7 @@ class CameraFlangeController:
         alpha = 0.2 # Smoothing factor for EMA
         prevGesture = self.prevGesture
         j1_multiplier = 1
+        camera_angle = 0
         # i = 0
         while self.running:
             if not self.success:
@@ -280,6 +281,7 @@ class CameraFlangeController:
                 # j1_multiplier = (.27 * j1_multiplier) + 0.5
 
                 # robot_head_coords = self.mc.get_coords()
+
                 if not (x == 160):
                     # if len(robot_head_coords) > 0:
                     #     robot_head_x = robot_head_coords[0]
@@ -300,7 +302,11 @@ class CameraFlangeController:
                     j1_delta = 0.03 * (x - 160) -  0.04 * (self.last_x - x)
                     j1_delta = j1_multiplier * j1_delta
                     # j1_delta = j1_multiplier * (0.03 * (x - 160) -  0.04 * (self.last_x - x))
-                    j1_new = self.j1 - j1_delta
+                    print(camera_angle)
+                    if camera_angle > 65 and camera_angle < 115:
+                        j1_new = self.j1 + j1_delta
+                    else:
+                        j1_new = self.j1 - j1_delta
                     if (j1_delta < 0 and j1_new < 160) or (j1_delta > 0 and j1_new > -160):
                         self.j1 = j1_new
                 # if not (y == 120) and self.prevGesture != "Closed_Fist":
@@ -352,6 +358,8 @@ class CameraFlangeController:
                     j1_multiplier = min(1.87, j1_multiplier)
                     j1_multiplier = (.27 * j1_multiplier) + 0.5
                 #     print(j1_multiplier)
+
+                camera_angle = abs(j2_ema + self.j3 + self.j4)
 
                 prevGesture = self.prevGesture
                 # print(prevGesture)

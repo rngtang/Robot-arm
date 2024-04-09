@@ -29,16 +29,19 @@ while True:
         # print(angles[1],",", angles[2], ",", angles[1] + angles[2])
         # if abs(angles[1]) > 90:
 
-        j2_angle = angles[1]
-        j3_angle = angles[2]
-        value = -abs(abs(angles[2]) - abs(angles[1]))
-        calculations = abs((-abs(j2_angle) / 90) + 1)
-        if abs(j2_angle) > 35 and abs(j2_angle) < 145:
-            value = (abs(angles[2]) - abs(angles[1]))
+        # j2_angle = angles[1]
+        # j3_angle = angles[2]
+        # value = -abs(abs(angles[2]) - abs(angles[1]))
+        # calculations = abs((-abs(j2_angle) / 90) + 1)
+        # if abs(j2_angle) > 35 and abs(j2_angle) < 145:
+        #     value = (abs(angles[2]) - abs(angles[1]))
+        # calculations += 0.87 * (abs((( value / ( 90)) + 1)))   
+        # calculations = min(1.87, calculations)
+        # print(calculations)
 
-        calculations += 0.87 * (abs((( value / ( 90)) + 1)))   
-        calculations = min(1.87, calculations)
-        print(calculations)
+        camera_angle = abs(angles[1] + angles[2] + angles[3])
+        print(camera_angle)
+
         # print(coords[3:])
 
         #new approach
