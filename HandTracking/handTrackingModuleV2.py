@@ -302,9 +302,9 @@ class CameraFlangeController:
                     j1_delta = 0.03 * (x - 160) -  0.04 * (self.last_x - x)
                     j1_delta = j1_multiplier * j1_delta
                     # j1_delta = j1_multiplier * (0.03 * (x - 160) -  0.04 * (self.last_x - x))
-                    print(camera_angle)
-                    if camera_angle > 65 and camera_angle < 115:
-                        j1_new = self.j1 + j1_delta
+                    # print(camera_angle)
+                    if camera_angle > 70 and camera_angle < 110:
+                        j1_new = self.j1 + 0.5* (j1_delta)
                     else:
                         j1_new = self.j1 - j1_delta
                     if (j1_delta < 0 and j1_new < 160) or (j1_delta > 0 and j1_new > -160):
@@ -348,6 +348,9 @@ class CameraFlangeController:
                     # j3_ema = j3_ema_new
                     # print(self.multiplier)
                     # print("test")
+                
+                #calculates roughly how far the head is from the z axis (vertical center axis)
+                #used angles instead of using coords to calculate this beause get_cords slows the tracking down
                 if self.prevGesture == "Pointing_Up" or self.prevGesture == "Thumb_Up" or self.prevGesture == "Closed_Fist":
                     value = -abs(abs(self.j3) - abs(self.j2))
                     j1_multiplier = abs((-abs(self.j2) / 90) + 1)
