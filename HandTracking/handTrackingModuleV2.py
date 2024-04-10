@@ -303,7 +303,7 @@ class CameraFlangeController:
                     j1_delta = j1_multiplier * j1_delta
                     # j1_delta = j1_multiplier * (0.03 * (x - 160) -  0.04 * (self.last_x - x))
                     # print(camera_angle)
-                    if camera_angle > 70 and camera_angle < 110:
+                    if camera_angle > 65 and camera_angle < 115:
                         j1_new = self.j1 + 0.5* (j1_delta)
                     else:
                         j1_new = self.j1 - j1_delta
