@@ -49,7 +49,7 @@ class handTracker():
     positionFinder(image, handNo=0, draw=True): Returns a list of landmark positions for the specified hand in the given image.
     """
 
-    def __init__(self, mode=False, maxHands=1, detectionCon=0.5, modelComplexity=0, trackCon=0.1):
+    def __init__(self, mode=False, maxHands=1, detectionCon=0.7, modelComplexity=0, trackCon=0.1):
         """
         Initializes a new instance of the handTracker class.
 
@@ -168,6 +168,7 @@ class CameraFlangeController:
         self.success_event = threading.Event()
         self.prevGesture = None
         self.multiplier = 1
+        self.camera_angle = 0
         # self.iter = 0
 
     def start(self):
@@ -215,8 +216,21 @@ class CameraFlangeController:
             self.timestamp += 1
 
     def __result_callback(self, result, output_image, timestamp_ms):
+        multiplier = 1
         if len(result.gestures) > 0:
             gesture = result.gestures[0][0].category_name
+
+            j2_j3_ratio = ((-1.5 * self.camera_angle) / 45) - 1
+            j2_j3_ratio = min(1.5, j2_j3_ratio)
+            j2_j3_ratio = max(-1, j2_j3_ratio)
+            # print(j2_j3_ratio)
+
+            #for adusting speed when user is tying to pick things up
+            if abs(self.camera_angle) > 55 and abs(self.camera_angle) < 125:
+                multiplier = 0.5
+            else:
+                multiplier = 1
+
             if gesture == "Thumb_Up" and self.j2 > -130:
                 if self.prevGesture == "Thumb_Up":
                     if self.multiplier < 3:
@@ -224,10 +238,11 @@ class CameraFlangeController:
                         self.multiplier += 0.5
                 else:
                     self.multiplier = 1
-                self.j2 -= 1 * self.multiplier
-                # self.j3 += 1 * self.multiplier
+                self.j2 -= 1 * self.multiplier * multiplier
+                self.j3 += 1 * self.multiplier * (-1 * j2_j3_ratio) * multiplier
                 self.prevGesture = "Thumb_Up"
-            elif gesture == "Pointing_Up" and self.j2 < 130:
+                
+            elif gesture == "Pointing_Up" and self.j2 < 130: #need to implement the new above features here
                 if self.prevGesture == "Pointing_Up":
                     if self.multiplier < 3:
                         # print("test2")
@@ -235,7 +250,7 @@ class CameraFlangeController:
                 else:
                     self.multiplier = 1
                 self.j2 += 1 * self.multiplier
-                # self.j3 -= 1 * self.multiplier
+                self.j3 -= 1 * self.multiplier
                 self.prevGesture = "Pointing_Up"
             elif gesture == "Closed_Fist":
                 self.prevGesture = "Closed_Fist"
@@ -252,7 +267,6 @@ class CameraFlangeController:
         alpha = 0.2 # Smoothing factor for EMA
         prevGesture = self.prevGesture
         j1_multiplier = 1
-        camera_angle = 0
         # i = 0
         while self.running:
             if not self.success:
@@ -302,8 +316,8 @@ class CameraFlangeController:
                     j1_delta = 0.03 * (x - 160) -  0.04 * (self.last_x - x)
                     j1_delta = j1_multiplier * j1_delta
                     # j1_delta = j1_multiplier * (0.03 * (x - 160) -  0.04 * (self.last_x - x))
-                    # print(camera_angle)
-                    if camera_angle > 65 and camera_angle < 115:
+                    # print(self.camera_angle)
+                    if abs(self.camera_angle) > 55 and abs(self.camera_angle) < 125:
                         j1_new = self.j1 + 0.5* (j1_delta)
                     else:
                         j1_new = self.j1 - j1_delta
@@ -311,7 +325,7 @@ class CameraFlangeController:
                         self.j1 = j1_new
                 # if not (y == 120) and self.prevGesture != "Closed_Fist":
                 if not (y == 120):
-                    j4_delta = 0.03 * (y - 120) - 0.04 * (self.last_y - y)
+                    j4_delta = 0.04 * (y - 120) - 0.05 * (self.last_y - y)
                     # if self.prevGesture != "Closed_Fist":
                     #     j4_delta = 0.1 * (j4_delta)
                     j4_new = self.j4 + j4_delta
@@ -323,54 +337,56 @@ class CameraFlangeController:
                 if(y > 120 or y < 120) and self.prevGesture == "Closed_Fist":
                     j2_ema += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
                     self.j2 += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
+                    j3_ema -= 2 * (0.03 * (y - 120) - 0.04 * (self.last_y - y))
                     self.j3 -= 2 * (0.03 * (y - 120) - 0.04 * (self.last_y - y))
 
                 # Apply EMA to smooth j2 and j3 movements
                 j2_ema_new = alpha * self.j2 + (1 - alpha) * j2_ema
-                # j3_ema_new = alpha * self.j3 + (1 - alpha) * j3_ema
+                j3_ema_new = alpha * self.j3 + (1 - alpha) * j3_ema
                 j2_delta = j2_ema_new - j2_ema #track wheather going forward or backward
                 #print(self.prevGesture)
                 if (self.prevGesture == "Thumb_Up" and j2_delta > 0) or (self.prevGesture == "Thumb_Up" and prevGesture != "Thumb_Up"):
                     self.j2 = j2_ema
-                    # self.j3 = j3_ema
+                    self.j3 = j3_ema
                     # print("test")
                 elif (self.prevGesture == "Pointing_Up" and j2_delta < 0) or (self.prevGesture == "Pointing_Up" and prevGesture != "Pointing_Up"):
                     self.j2 = j2_ema
-                    # self.j3 = j3_ema
+                    self.j3 = j3_ema
                     # print("test")
                 elif (self.prevGesture == "Thumb_Up" and j2_delta < 0):
                     j2_ema = j2_ema_new #update join movement
-                    # j3_ema = j3_ema_new
+                    j3_ema = j3_ema_new
                     # print(self.multiplier)
                     # print("test")
                 elif (self.prevGesture == "Pointing_Up" and j2_delta > 0):
                     j2_ema = j2_ema_new #update join movement
-                    # j3_ema = j3_ema_new
+                    j3_ema = j3_ema_new
                     # print(self.multiplier)
                     # print("test")
                 
                 #calculates roughly how far the head is from the z axis (vertical center axis)
                 #used angles instead of using coords to calculate this beause get_cords slows the tracking down
                 if self.prevGesture == "Pointing_Up" or self.prevGesture == "Thumb_Up" or self.prevGesture == "Closed_Fist":
-                    value = -abs(abs(self.j3) - abs(self.j2))
+                    # value = -abs(abs(self.j3) - abs(self.j2))
+                    value = (abs(self.j3) - abs(self.j2))
                     j1_multiplier = abs((-abs(self.j2) / 90) + 1)
-                    if abs(self.j2) > 35 and abs(self.j2) < 145:
-                        value = (abs(self.j3) - abs(self.j2))
+                    # if abs(self.j2) > 35 and abs(self.j2) < 145:
+                        # value = (abs(self.j3) - abs(self.j2))
 
-                    j1_multiplier += 0.87 * (abs((( value / ( 90)) + 1)))   
+                    j1_multiplier += 0.87 * (abs((( value / ( 90)) + 1))) #the ratio of length between the portion above j2 vs the portion above j3 is 100:87  
                     j1_multiplier = min(1.87, j1_multiplier)
                     j1_multiplier = (.27 * j1_multiplier) + 0.5
-                #     print(j1_multiplier)
+                    # print(j1_multiplier)
 
-                camera_angle = abs(j2_ema + self.j3 + self.j4)
-
+                self.camera_angle = j2_ema + self.j3 + self.j4
+                # print(self.camera_angle)
                 prevGesture = self.prevGesture
                 # print(prevGesture)
                 # Send joint angles to MyCobot
-                # self.mc.send_angles([self.j1, j2_ema, j3_ema, self.j4, 0, -135], 100)
+                self.mc.send_angles([self.j1, j2_ema, j3_ema, self.j4, 0, -135], 100)
 
                 # changed      
-                self.mc.send_angles([self.j1, j2_ema, self.j3, self.j4, 0, -135], 100)      
+                # self.mc.send_angles([self.j1, j2_ema, self.j3, self.j4, 0, -135], 100)      
 
                 self.last_x, self.last_y = x, y
 

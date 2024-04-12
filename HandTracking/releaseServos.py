@@ -9,7 +9,7 @@ import numpy as np
 
 mc = MyCobot("/dev/ttyAMA0", 1000000)
 
-# mc.release_all_servos()
+mc.release_all_servos()
 
 # mc.send_angles([0, 0, 0, 0, 0, 0], 40)
 # time.sleep(10)
@@ -25,12 +25,12 @@ mc = MyCobot("/dev/ttyAMA0", 1000000)
 # print(math.sqrt(coords[0]**2 + coords[1]**2) - 90)
 # while True:
 
-mc.send_angles([0, -60, 60, 0, 0, -135], 20)
-time.sleep(2)
+# mc.send_angles([0, -60, 60, 0, 0, -135], 20)
+# time.sleep(2)
 
 
-coords = mc.get_coords()
-time.sleep(3)
+# coords = mc.get_coords()
+# time.sleep(3)
 # x = coords[0]  # Example x coordinate
 # y = coords[1]  # Example y coordinate
 # z = coords[2]  # Example z coordinate
@@ -76,48 +76,13 @@ time.sleep(3)
         # mc.send_coords([x, y, z, rx, ry, rz], 10)
         # time.sleep(1)
 
-def translation_matrix(tx, ty, tz):
+def move_robot(mc, coords, distance=1.0):
     """
-    Create a translation matrix.
+    Move the robot arm along the direction of the head.
 
     Args:
-        tx (float): Translation along x-axis.
-        ty (float): Translation along y-axis.
-        tz (float): Translation along z-axis.
-
-    Returns:
-        np.ndarray: 4x4 translation matrix.
-    """
-    return np.array([[1, 0, 0, tx],
-                     [0, 1, 0, ty],
-                     [0, 0, 1, tz],
-                     [0, 0, 0, 1]])
-
-def rotation_matrix(axis, angle):
-    """
-    Create a rotation matrix for a given axis and angle.
-
-    Args:
-        axis (np.ndarray): Rotation axis (3D vector).
-        angle (float): Rotation angle in radians.
-
-    Returns:
-        np.ndarray: 3x3 rotation matrix.
-    """
-    axis /= np.linalg.norm(axis)
-    a = math.cos(angle / 2.0)
-    b, c, d = -axis * math.sin(angle / 2.0)
-    return np.array([[a*a + b*b - c*c - d*d, 2*(b*c - a*d), 2*(b*d + a*c)],
-                     [2*(b*c + a*d), a*a + c*c - b*b - d*d, 2*(c*d - a*b)],
-                     [2*(b*d - a*c), 2*(c*d + a*b), a*a + d*d - b*b - c*c]])
-
-def move_robot(coords, forward=True, distance=1.0):
-    """
-    Move the robot forward or backward along the angle of the head using coordinate transformations.
-
-    Args:
+        mc (MyCobot): The MyCobot instance.
         coords (list): List of coordinates [x, y, z, rx, ry, rz].
-        forward (bool): True for forward movement, False for backward movement.
         distance (float): Distance to move (default is 1.0).
 
     Returns:
@@ -140,24 +105,29 @@ def move_robot(coords, forward=True, distance=1.0):
     dy /= length
     dz /= length
 
-    # Update coordinates based on forward or backward movement
-    if forward:
-        x_new = x + distance * dx
-        y_new = y + distance * dy
-        z_new = z + distance * dz
-    else:
-        x_new = x - distance * dx
-        y_new = y - distance * dy
-        z_new = z - distance * dz
+    # Calculate lateral direction vector
+    lateral_dx = -math.sin(rz_rad)
+    lateral_dy = math.cos(rz_rad)
+
+    # Normalize lateral direction vector
+    lateral_length = math.sqrt(lateral_dx**2 + lateral_dy**2)
+    lateral_dx /= lateral_length
+    lateral_dy /= lateral_length
+
+    # Update coordinates based on direction and lateral vectors
+    x_new = x + distance * dx
+    y_new = y + distance * dy
+    z_new = z + distance * dz
+    x_new = x_new + distance * lateral_dx
+    y_new = y_new + distance * lateral_dy
+
+    # Send new coordinates to the robot arm
+    mc.send_coords([x_new, y_new, z_new, rx, ry, rz], 10)
+    time.sleep(1)
 
     # Return new coordinates
     return [x_new, y_new, z_new, rx, ry, rz]
 
-for i in range(20):
-    new_coords = move_robot(coords)
-    print(new_coords)
-    coords[0] = new_coords[0]
-    coords[1] = new_coords[1]
-    coords[2] = new_coords[2]
-    mc.send_coords(coords, 10)
-    time.sleep(1)
+# for i in range(20):
+#     coords = move_robot(mc, coords)
+#     print(coords)
