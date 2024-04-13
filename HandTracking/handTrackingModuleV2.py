@@ -419,93 +419,6 @@ def main(): #this function is outdated and will not work in current state
         cv2.imshow("Video",image)
         cv2.waitKey(1)
 
-class HandLandmarkerliveStream:
-    def __init__(self, model_asset_path='hand_landmarker.task'):
-        self.mp_drawing = mp.solutions.drawing_utils
-        self.mp_hands = mp.solutions.hands
-        self.j1, self.j2, self.j3, self.j4 = 0, 30, -30, 0
-        self.last_x, self.last_y = 160, 120
-
-        self.mc = MyCobot("/dev/ttyAMA0", 1000000)
-        self.mc.send_angles([0, 30, -30, 0, 0, -135], 40)
-        BaseOptions = mp.tasks.BaseOptions
-        HandLandmarker = mp.tasks.vision.HandLandmarker
-        HandLandmarkerOptions = mp.tasks.vision.HandLandmarkerOptions
-        VisionRunningMode = mp.tasks.vision.RunningMode
-
-        def print_result(result: mp.tasks.vision.HandLandmarkerResult, output_image: mp.Image, timestamp_ms: int):
-            hand_landmarks_list = result.hand_landmarks
-            image_width, image_height = output_image.width, output_image.height
-
-            bounding_box = [np.inf, np.inf, -np.inf, -np.inf]
-            for landmarks in hand_landmarks_list:
-                for landmark in landmarks:
-                    x, y, _ = landmark.x, landmark.y, landmark.z
-                    x_pixel = int(x * image_width)
-                    y_pixel = int(y * image_height)
-                    bounding_box[0] = min(bounding_box[0], x_pixel)
-                    bounding_box[1] = min(bounding_box[1], y_pixel)
-                    bounding_box[2] = max(bounding_box[2], x_pixel)
-                    bounding_box[3] = max(bounding_box[3], y_pixel)
-            x = (bounding_box[0] + bounding_box[2]) / 2
-            y = (bounding_box[1] + bounding_box[3]) / 2
-            #print('Bounding box center: ({}, {})'.format(center_x, center_y))
-            if not np.isnan(x) and not np.isnan(y):
-                #if self.last_x is None or self.last_y is None:
-                    #self.last_x = x  # Initialize last_x and with the first x value
-                    #self.last_y = y
-                if not (x == 160): #need to add error handling for going out of degree range for j1
-                    #self.j1 -= 0.02 * (x - 150)
-                    self.j1 += 0.03 * (x - 160) -  0.04 * (self.last_x - x)
-                    #self.j1 -= -0.1 * ((self.last_x - 150) - (x - 150)) #test
-                if not (y == 120): #need to add error handling for going out of degree range for j4
-                    #self.j4 -= 0.02 * (y - 107)
-                    self.j4 -= 0.03 * (y - 120) - 0.04 * (self.last_y - y)
-                # Send joint angles to MyCobot
-                self.mc.send_angles([self.j1, self.j2, self.j3, self.j4, 0, -135], 100)      
-                # Update last x and y
-                # self.j2 += 1
-                # self.j3 -= 1
-                self.last_x, self.last_y = x, y
-
-        options = HandLandmarkerOptions(
-            base_options=BaseOptions(model_asset_path=model_asset_path),
-            running_mode=VisionRunningMode.LIVE_STREAM,
-            result_callback=print_result)
-
-        self.landmarker = HandLandmarker.create_from_options(options)
-
-    def process_frame(self, frame, frame_timestamp_ms):
-        # Process a single frame
-        frame = cv2.flip(frame, 1)
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        rgb_frame.flags.writeable = False
-        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb_frame)
-        self.landmarker.detect_async(mp_image, frame_timestamp_ms)
-
-    def run(self):
-        cap = cv2.VideoCapture(0)
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
-        frame_timestamp_ms = 0
-
-        with ThreadPoolExecutor() as executor:
-            while cap.isOpened():
-                ret, frame = cap.read()
-                if not ret:
-                    print("Ignoring empty camera frame.")
-                    continue
-
-                executor.submit(self.process_frame, frame, frame_timestamp_ms)
-                frame_timestamp_ms += 1
-
-                cv2.imshow('MediaPipe Hands', frame)
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
-
-        cap.release()
-        cv2.destroyAllWindows()
-
 if __name__ == "__main__":
     #tracking without concurrency and additional imporvements
     #main()
@@ -515,7 +428,3 @@ if __name__ == "__main__":
     controller.start()
     input("Press Enter to stop...")
     controller.stop()
-
-    #tracking with mediapipe built in livestream feature
-    # detector = HandLandmarkerliveStream()
-    # detector.run()
