@@ -17,18 +17,6 @@ from concurrent.futures import ThreadPoolExecutor
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 
-# import sys
-# sys.path.append('/home/ubuntu/catkin_ws/src/mycobot_ros/mycobot_280/mycobot_280/scripts')
-# from pymycobot.mycobot import MyCobot
-# from pymycobot.genre import Angle
-# from pymycobot import PI_PORT, PI_BAUD
-# from pymycobot.mypalletizer import MyPalletizer
-# from pymycobot.genre import Coord
-# from controls import Controls
-# controls = Controls()
-# controls.test_controls()
-
-# source https://www.section.io/engineering-education/creating-a-hand-tracking-module/
 
 class handTracker():
     """
@@ -390,39 +378,7 @@ class CameraFlangeController:
 
                 self.last_x, self.last_y = x, y
 
-
-def main(): #this function is outdated and will not work in current state
-    mc = MyCobot("/dev/ttyAMA0", 1000000)
-    mc.send_angles([0, 0, 0, 0, 0, -135], 40)
-    cap = cv2.VideoCapture(0)
-    tracker = handTracker()
-    j1, j2, j3, j4 = 0, 0, 0, 0
-    while True:
-        success,image = cap.read()
-        image = tracker.handsFinder(image)
-        lmList = tracker.positionFinder(image)
-        #using index 13 for point 13 near center of hand. This index's location on hand may vary if point 13 is not at index 13 in lmList.       
-        if len(lmList) != 0:
-            x, y, z = lmList[13][1], lmList[13][2], lmList[13][3]
-            if  x < 290 or x > 310:
-                j1 = j1 - 0.007*(x - 300)
-            #if z < -0.09 and j2 < 90:
-                #j2 = j2 - 40*(z + 0.055)
-                #j3 = j3 + 40*(z + 0.055)
-            #if z > -0.02 and j2 > -90:
-                #j2 = j2 - 40*(z + 0.055)
-                #j3 = j3 + 40*(z + 0.055)
-            if y < 205 or y > 225:
-                j4 = j4 - 0.007*(y - 215)
-            mc.send_angles([j1, j2, j3, j4, 0, -135], 100)
-            #print("------------", lmList, "------------")
-        cv2.imshow("Video",image)
-        cv2.waitKey(1)
-
 if __name__ == "__main__":
-    #tracking without concurrency and additional imporvements
-    #main()
-
     # tracking with concurrency and additional improvements
     controller = CameraFlangeController()
     controller.start()
