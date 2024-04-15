@@ -208,10 +208,11 @@ class CameraFlangeController:
         if len(result.gestures) > 0:
             gesture = result.gestures[0][0].category_name
 
-            j2_j3_ratio = ((-1.5 * self.camera_angle) / 45) - 1
-            j2_j3_ratio = min(1.5, j2_j3_ratio)
-            j2_j3_ratio = max(-1, j2_j3_ratio)
-            # print(j2_j3_ratio)
+            j2_j3_ratio = ((-1.25 * self.camera_angle) / 90)
+            # j2_j3_ratio = max(-1, j2_j3_ratio)
+            # j2_j3_ratio = min(1.75, j2_j3_ratio)
+            # print(self.camera_angle)
+            print(j2_j3_ratio)
 
             #for adusting speed when user is tying to pick things up
             if abs(self.camera_angle) > 55 and abs(self.camera_angle) < 125:
@@ -227,7 +228,8 @@ class CameraFlangeController:
                 else:
                     self.multiplier = 1
                 self.j2 -= 1 * self.multiplier * multiplier
-                self.j3 += 1 * self.multiplier * (-1 * j2_j3_ratio) * multiplier
+                j2_j3_ratio = max(-1, j2_j3_ratio)
+                self.j3 -= 1 * self.multiplier * (j2_j3_ratio) * multiplier
                 self.prevGesture = "Thumb_Up"
                 
             elif gesture == "Pointing_Up" and self.j2 < 130: #need to implement the new above features here
@@ -238,7 +240,7 @@ class CameraFlangeController:
                 else:
                     self.multiplier = 1
                 self.j2 += 1 * self.multiplier
-                self.j3 -= 1 * self.multiplier * (-1 * j2_j3_ratio) * multiplier
+                self.j3 += 1 * self.multiplier * (j2_j3_ratio) * multiplier
                 self.prevGesture = "Pointing_Up"
             elif gesture == "Closed_Fist":
                 self.prevGesture = "Closed_Fist"
@@ -305,7 +307,7 @@ class CameraFlangeController:
                     j1_delta = j1_multiplier * j1_delta
                     # j1_delta = j1_multiplier * (0.03 * (x - 160) -  0.04 * (self.last_x - x))
                     # print(self.camera_angle)
-                    if abs(self.camera_angle) > 55 and abs(self.camera_angle) < 125:
+                    if self.camera_angle < -55 and self.camera_angle > -125:
                         j1_new = self.j1 + 0.5* (j1_delta)
                     else:
                         j1_new = self.j1 - j1_delta
@@ -366,7 +368,7 @@ class CameraFlangeController:
                     j1_multiplier = (.27 * j1_multiplier) + 0.5
                     # print(j1_multiplier)
 
-                self.camera_angle = j2_ema + self.j3 + self.j4
+                self.camera_angle = j2_ema + j3_ema + self.j4
                 # print(self.camera_angle)
                 prevGesture = self.prevGesture
                 # print(prevGesture)
