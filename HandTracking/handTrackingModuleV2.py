@@ -250,7 +250,7 @@ class CameraFlangeController:
                 else:
                     self.multiplier = 1
                 self.j2 += 1 * self.multiplier
-                self.j3 -= 1 * self.multiplier
+                self.j3 -= 1 * self.multiplier * (-1 * j2_j3_ratio) * multiplier
                 self.prevGesture = "Pointing_Up"
             elif gesture == "Closed_Fist":
                 self.prevGesture = "Closed_Fist"
