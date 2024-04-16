@@ -2,17 +2,17 @@
 # encoding:utf-8
 
 import cv2
-import enum
 import rospy
 import numpy as np
 
+from enum import IntEnum
 from mediapipe.python.solutions.hands import Hands
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image, CompressedImage
 from std_msgs.msg import UInt32MultiArray
 
 
-class HandLandmark(enum.IntEnum):
+class HandLandmark(IntEnum):
     """The 21 hand landmarks."""
     WRIST = 0
     THUMB_CMC = 1
@@ -66,9 +66,11 @@ class HandDetector:
         Parameters:
             static_image_mode (bool): Whether to detect hands in static images or in real-time video streams.
             max_num_hands (int): Maximum number of hands to detect.
-            detectionCon (float): Minimum confidence value ([0.0, 1.0]) for hand detection to be considered successful.
-            modelComplexity (int): Complexity of the detection model ([0, 2]).
-            trackCon (float): Minimum confidence value ([0.0, 1.0]) for hand tracking to be considered successful.
+            detection_confidence (float): Minimum confidence value ([0.0, 1.0]) for
+                                          hand detection to be considered successful.
+            model_complexity (int): Complexity of the detection model ([0, 2]).
+            track_confidence (float): Minimum confidence value ([0.0, 1.0])
+                                      for hand tracking to be considered successful.
         """
         rospy.init_node("hand_detector")
 
@@ -148,4 +150,4 @@ class HandDetector:
 
 
 if __name__ == '__main__':
-    detector = HandDetector().run()
+    HandDetector().run()
