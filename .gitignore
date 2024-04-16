@@ -10,8 +10,10 @@
 !hand_tracker.py
 !hand_detector.py
 !camera_feed.py
+!gesture_detector.py
 
 !MycobotState.msg
+!HandGesture.msg
 !ServoStatus.srv
 
 !mycobot_communication/*/mycobot_services.py
