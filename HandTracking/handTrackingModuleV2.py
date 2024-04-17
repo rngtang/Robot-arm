@@ -17,6 +17,7 @@ from concurrent.futures import ThreadPoolExecutor
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 
+import RPi.GPIO as GPIO
 
 class handTracker():
     """
@@ -157,6 +158,10 @@ class CameraFlangeController:
         self.prevGesture = None
         self.multiplier = 1
         self.camera_angle = 0
+        self.pump_active = False
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(1, GPIO.OUT)
+        GPIO.output(1, 1) #turn off pump by default
         # self.iter = 0
 
     def start(self):
@@ -232,8 +237,8 @@ class CameraFlangeController:
                 self.j3 -= 1 * self.multiplier * (j2_j3_ratio) * multiplier
                 self.prevGesture = "Thumb_Up"
                 
-            elif gesture == "Pointing_Up" and self.j2 < 130: #need to implement the new above features here
-                if self.prevGesture == "Pointing_Up":
+            elif gesture == "Thumb_Down" and self.j2 < 130: #need to implement the new above features here
+                if self.prevGesture == "Thumb_Down":
                     if self.multiplier < 3:
                         # print("test2")
                         self.multiplier += 0.5
@@ -241,9 +246,16 @@ class CameraFlangeController:
                     self.multiplier = 1
                 self.j2 += 1 * self.multiplier
                 self.j3 += 1 * self.multiplier * (j2_j3_ratio) * multiplier
-                self.prevGesture = "Pointing_Up"
+                self.prevGesture = "Thumb_Down"
             elif gesture == "Closed_Fist":
                 self.prevGesture = "Closed_Fist"
+            elif gesture == "Pointing_Up":
+                if self.pump_active == False:
+                    GPIO.output(1, 0) #turn on pump
+                else:
+                    GPIO.output(1, 1) #turn off pump
+                self.pump_active = not self.pump_active
+                self.prevGesture = "Pointing_Up"
             else:
                 self.multiplier = 1
                 self.prevGesture = "None"
@@ -342,7 +354,7 @@ class CameraFlangeController:
                     self.j2 = j2_ema
                     self.j3 = j3_ema
                     # print("test")
-                elif (self.prevGesture == "Pointing_Up" and j2_delta < 0) or (self.prevGesture == "Pointing_Up" and prevGesture != "Pointing_Up"):
+                elif (self.prevGesture == "Thumb_Down" and j2_delta < 0) or (self.prevGesture == "Pointing_Up" and prevGesture != "Pointing_Up"):
                     self.j2 = j2_ema
                     self.j3 = j3_ema
                     # print("test")
@@ -351,7 +363,7 @@ class CameraFlangeController:
                     j3_ema = j3_ema_new
                     # print(self.multiplier)
                     # print("test")
-                elif (self.prevGesture == "Pointing_Up" and j2_delta > 0):
+                elif (self.prevGesture == "Thumb_Down" and j2_delta > 0):
                     j2_ema = j2_ema_new #update join movement
                     j3_ema = j3_ema_new
                     # print(self.multiplier)
@@ -359,7 +371,7 @@ class CameraFlangeController:
                 
                 #calculates roughly how far the head is from the z axis (vertical center axis)
                 #used angles instead of using coords to calculate this beause get_cords slows the tracking down
-                if self.prevGesture == "Pointing_Up" or self.prevGesture == "Thumb_Up" or self.prevGesture == "Closed_Fist":
+                if self.prevGesture == "Thumb_Down" or self.prevGesture == "Thumb_Up" or self.prevGesture == "Closed_Fist":
                     # value = -abs(abs(self.j3) - abs(self.j2))
                     value = (abs(self.j3) - abs(self.j2))
                     j1_multiplier = abs((-abs(self.j2) / 90) + 1)

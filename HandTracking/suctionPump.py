@@ -10,8 +10,8 @@ import time
 mc = MyCobot("/dev/ttyAMA0", 1000000)
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(20, GPIO.OUT)
-GPIO.setup(21, GPIO.OUT)
+GPIO.setup(1, GPIO.OUT)
+# GPIO.setup(21, GPIO.OUT)
 
 
 while True:
@@ -23,12 +23,12 @@ while True:
 
     if choice == '1':
         print("Pump on")
-        GPIO.output(20, 0)
-        GPIO.output(21, 0)
+        GPIO.output(1, 0)
+        # GPIO.output(21, 0)
     elif choice == '2':
         print("Pump off")
-        GPIO.output(20, 1)
-        GPIO.output(21, 1)
+        GPIO.output(1, 1)
+        # GPIO.output(21, 1)
     elif choice == '3':
         break
     else:
