@@ -208,11 +208,11 @@ class CameraFlangeController:
         if len(result.gestures) > 0:
             gesture = result.gestures[0][0].category_name
 
-            j2_j3_ratio = ((-1.25 * self.camera_angle) / 90)
+            j2_j3_ratio = ((-1.18 * self.camera_angle) / 90)
             # j2_j3_ratio = max(-1, j2_j3_ratio)
             # j2_j3_ratio = min(1.75, j2_j3_ratio)
             # print(self.camera_angle)
-            print(j2_j3_ratio)
+            # print(j2_j3_ratio)
 
             #for adusting speed when user is tying to pick things up
             if abs(self.camera_angle) > 55 and abs(self.camera_angle) < 125:
@@ -228,7 +228,7 @@ class CameraFlangeController:
                 else:
                     self.multiplier = 1
                 self.j2 -= 1 * self.multiplier * multiplier
-                j2_j3_ratio = max(-1, j2_j3_ratio)
+                j2_j3_ratio = max(0, j2_j3_ratio)
                 self.j3 -= 1 * self.multiplier * (j2_j3_ratio) * multiplier
                 self.prevGesture = "Thumb_Up"
                 
@@ -315,7 +315,10 @@ class CameraFlangeController:
                         self.j1 = j1_new
                 # if not (y == 120) and self.prevGesture != "Closed_Fist":
                 if not (y == 120):
-                    j4_delta = 0.04 * (y - 120) - 0.05 * (self.last_y - y)
+                    if self.prevGesture == "Closed_Fist":
+                        j4_delta = 0.03 * (y - 120) - 0.04 * (self.last_y - y)
+                    else:
+                        j4_delta = 0.04 * (y - 120) - 0.05 * (self.last_y - y)
                     # if self.prevGesture != "Closed_Fist":
                     #     j4_delta = 0.1 * (j4_delta)
                     j4_new = self.j4 + j4_delta

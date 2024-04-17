@@ -9,7 +9,7 @@ import numpy as np
 
 mc = MyCobot("/dev/ttyAMA0", 1000000)
 
-mc.release_all_servos()
+#mc.release_all_servos()
 
 # mc.send_angles([0, 0, 0, 0, 0, 0], 40)
 # time.sleep(10)
@@ -25,20 +25,20 @@ mc.release_all_servos()
 # print(math.sqrt(coords[0]**2 + coords[1]**2) - 90)
 # while True:
 
-# mc.send_angles([0, -60, 60, 0, 0, -135], 20)
-# time.sleep(2)
+mc.send_angles([0, -60, 60, -40, 0, -135], 20)
+time.sleep(2)
 
 
-# coords = mc.get_coords()
-# time.sleep(3)
-# x = coords[0]  # Example x coordinate
-# y = coords[1]  # Example y coordinate
-# z = coords[2]  # Example z coordinate
-# rx = coords[3]  # Example rotation around x axis (in degrees)
-# ry = coords[4]  # Example rotation around y axis (in degrees)
-# rz = coords[5]  # Example rotation around z axis (in degrees)
+coords = mc.get_coords()
+time.sleep(3)
+x = coords[0]  # Example x coordinate
+y = coords[1]  # Example y coordinate
+z = coords[2]  # Example z coordinate
+rx = coords[3]  # Example rotation around x axis (in degrees)
+ry = coords[4]  # Example rotation around y axis (in degrees)
+rz = coords[5]  # Example rotation around z axis (in degrees)
 
-# distance = 10
+distance = 5
 
 
 # for i in range(10):
@@ -106,20 +106,20 @@ def move_robot(mc, coords, distance=1.0):
     dz /= length
 
     # Calculate lateral direction vector
-    lateral_dx = -math.sin(rz_rad)
-    lateral_dy = math.cos(rz_rad)
+    #lateral_dx = -math.sin(rz_rad)
+    #lateral_dy = math.cos(rz_rad)
 
     # Normalize lateral direction vector
-    lateral_length = math.sqrt(lateral_dx**2 + lateral_dy**2)
-    lateral_dx /= lateral_length
-    lateral_dy /= lateral_length
+    #lateral_length = math.sqrt(lateral_dx**2 + lateral_dy**2)
+    #lateral_dx /= lateral_length
+    #lateral_dy /= lateral_length
 
     # Update coordinates based on direction and lateral vectors
     x_new = x + distance * dx
     y_new = y + distance * dy
     z_new = z + distance * dz
-    x_new = x_new + distance * lateral_dx
-    y_new = y_new + distance * lateral_dy
+    #x_new = x_new + distance * lateral_dx
+    #y_new = y_new + distance * lateral_dy
 
     # Send new coordinates to the robot arm
     mc.send_coords([x_new, y_new, z_new, rx, ry, rz], 10)
@@ -128,6 +128,6 @@ def move_robot(mc, coords, distance=1.0):
     # Return new coordinates
     return [x_new, y_new, z_new, rx, ry, rz]
 
-# for i in range(20):
-#     coords = move_robot(mc, coords)
-#     print(coords)
+for i in range(90):
+    coords = move_robot(mc, coords)
+    print(coords)
