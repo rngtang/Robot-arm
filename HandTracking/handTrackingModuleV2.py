@@ -144,8 +144,8 @@ class CameraFlangeController:
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)  # Set width
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)  # Set height
         self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)  # Disable auto exposure
-        self.cap.set(cv2.CAP_PROP_EXPOSURE, -200)  # lowering exposure and brightness helps the camera focus on the hand in bright settings better
-        self.cap.set(cv2.CAP_PROP_BRIGHTNESS, -50)
+        self.cap.set(cv2.CAP_PROP_EXPOSURE, -100)  # lowering exposure and brightness helps the camera focus on the hand in bright settings better
+        self.cap.set(cv2.CAP_PROP_BRIGHTNESS, -25)
         self.tracker = handTracker()
         self.j1, self.j2, self.j3, self.j4 = 0, 0, 0, 0
         self.j2_ema, self.j3_ema = 0, 0
@@ -213,11 +213,7 @@ class CameraFlangeController:
         if len(result.gestures) > 0:
             gesture = result.gestures[0][0].category_name
 
-            j2_j3_ratio = ((-1.18 * self.camera_angle) / 90)
-            # j2_j3_ratio = max(-1, j2_j3_ratio)
-            # j2_j3_ratio = min(1.75, j2_j3_ratio)
-            # print(self.camera_angle)
-            # print(j2_j3_ratio)
+            j2_j3_ratio = ((-1.18 * self.camera_angle) / 90)               
 
             #for adusting speed when user is tying to pick things up
             if abs(self.camera_angle) > 55 and abs(self.camera_angle) < 125:
@@ -233,8 +229,13 @@ class CameraFlangeController:
                 else:
                     self.multiplier = 1
                 self.j2 -= 1 * self.multiplier * multiplier
-                j2_j3_ratio = max(0, j2_j3_ratio)
-                self.j3 -= 1 * self.multiplier * (j2_j3_ratio) * multiplier
+                if self.camera_angle >= -10 and self.j3 < 0: #if camera is pointing to something out of range
+                    #this extends arm when to try reaching the out of range object
+                    j2_j3_ratio = max(1, j2_j3_ratio)
+                    self.j3 += 1 * self.multiplier * (j2_j3_ratio) * multiplier
+                else:
+                    j2_j3_ratio = max(0, j2_j3_ratio)
+                    self.j3 -= 1 * self.multiplier * (j2_j3_ratio) * multiplier
                 self.prevGesture = "Thumb_Up"
                 
             elif gesture == "Thumb_Down" and self.j2 < 130: #need to implement the new above features here
@@ -249,7 +250,7 @@ class CameraFlangeController:
                 self.prevGesture = "Thumb_Down"
             elif gesture == "Closed_Fist":
                 self.prevGesture = "Closed_Fist"
-            elif gesture == "Pointing_Up":
+            elif not (self.prevGesture == "Pointing_Up") and gesture == "Pointing_Up":
                 if self.pump_active == False:
                     GPIO.output(1, 0) #turn on pump
                 else:
@@ -265,7 +266,7 @@ class CameraFlangeController:
         #print(self.multiplier)
 
     def control_loop(self):
-        j2_ema, j3_ema = self.j2, self.j3 #exponential moving average for smoother movement
+        self.j2_ema, self.j3_ema = self.j2, self.j3 #exponential moving average for smoother movement
         alpha = 0.2 # Smoothing factor for EMA
         prevGesture = self.prevGesture
         j1_multiplier = 1
@@ -283,38 +284,7 @@ class CameraFlangeController:
             if len(centers) > 0:
                 x, y = centers[0][0], centers[0][1]
                 value = 0
-
-                #testing speed
-                # coords = self.mc.get_coords()
-
-                # value = -abs(abs(self.j3) - abs(self.j2))
-                # j1_multiplier = abs((-abs(self.j2) / 90) + 1)
-                # if abs(self.j2) > 35 and abs(self.j2) < 145:
-                #     value = (abs(self.j3) - abs(self.j2))
-
-                # j1_multiplier += 0.87 * (abs((( value / ( 90)) + 1)))   
-                # j1_multiplier = min(1.87, j1_multiplier)
-                # j1_multiplier = (.27 * j1_multiplier) + 0.5
-
-                # robot_head_coords = self.mc.get_coords()
-
                 if not (x == 160):
-                    # if len(robot_head_coords) > 0:
-                    #     robot_head_x = robot_head_coords[0]
-                    #     robot_head_y = robot_head_coords[1]
-                    #     j1_multiplier = max(0, math.sqrt(robot_head_x**2 + robot_head_y**2) - 110)
-                    #     j1_multiplier = -(j1_multiplier / 350) + 1
-                    #     print(j1_multiplier)
-                    # value = -abs(abs(self.j3) - abs(self.j2))
-                    # j1_multiplier = abs((-abs(self.j2) / 90) + 1)
-                    # if abs(self.j2) > 35 and abs(self.j2) < 145:
-                    #     value = (abs(self.j3) - abs(self.j2))
-
-                    # j1_multiplier += 0.87 * (abs((( value / ( 90)) + 1)))   
-                    # j1_multiplier = min(1.87, j1_multiplier)
-                    # j1_multiplier = (.27 * j1_multiplier) + 0.5
-                    # print(j1_multiplier)
-
                     j1_delta = 0.03 * (x - 160) -  0.04 * (self.last_x - x)
                     j1_delta = j1_multiplier * j1_delta
                     # j1_delta = j1_multiplier * (0.03 * (x - 160) -  0.04 * (self.last_x - x))
@@ -340,32 +310,32 @@ class CameraFlangeController:
                     
                 # new
                 if(y > 120 or y < 120) and self.prevGesture == "Closed_Fist":
-                    j2_ema += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
+                    self.j2_ema += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
                     self.j2 += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
-                    j3_ema -= 2 * (0.03 * (y - 120) - 0.04 * (self.last_y - y))
+                    self.j3_ema -= 2 * (0.03 * (y - 120) - 0.04 * (self.last_y - y))
                     self.j3 -= 2 * (0.03 * (y - 120) - 0.04 * (self.last_y - y))
 
                 # Apply EMA to smooth j2 and j3 movements
-                j2_ema_new = alpha * self.j2 + (1 - alpha) * j2_ema
-                j3_ema_new = alpha * self.j3 + (1 - alpha) * j3_ema
-                j2_delta = j2_ema_new - j2_ema #track wheather going forward or backward
+                j2_ema_new = alpha * self.j2 + (1 - alpha) * self.j2_ema
+                j3_ema_new = alpha * self.j3 + (1 - alpha) * self.j3_ema
+                j2_delta = j2_ema_new - self.j2_ema #track wheather going forward or backward
                 #print(self.prevGesture)
                 if (self.prevGesture == "Thumb_Up" and j2_delta > 0) or (self.prevGesture == "Thumb_Up" and prevGesture != "Thumb_Up"):
-                    self.j2 = j2_ema
-                    self.j3 = j3_ema
+                    self.j2 = self.j2_ema
+                    self.j3 = self.j3_ema
                     # print("test")
-                elif (self.prevGesture == "Thumb_Down" and j2_delta < 0) or (self.prevGesture == "Pointing_Up" and prevGesture != "Pointing_Up"):
-                    self.j2 = j2_ema
-                    self.j3 = j3_ema
+                elif (self.prevGesture == "Thumb_Down" and j2_delta < 0) or (self.prevGesture == "Thumb_Down" and prevGesture != "Thumb_Down"):
+                    self.j2 = self.j2_ema
+                    self.j3 = self.j3_ema
                     # print("test")
                 elif (self.prevGesture == "Thumb_Up" and j2_delta < 0):
-                    j2_ema = j2_ema_new #update join movement
-                    j3_ema = j3_ema_new
+                    self.j2_ema = j2_ema_new #update join movement
+                    self.j3_ema = j3_ema_new
                     # print(self.multiplier)
                     # print("test")
                 elif (self.prevGesture == "Thumb_Down" and j2_delta > 0):
-                    j2_ema = j2_ema_new #update join movement
-                    j3_ema = j3_ema_new
+                    self.j2_ema = j2_ema_new #update join movement
+                    self.j3_ema = j3_ema_new
                     # print(self.multiplier)
                     # print("test")
                 
@@ -383,12 +353,12 @@ class CameraFlangeController:
                     j1_multiplier = (.27 * j1_multiplier) + 0.5
                     # print(j1_multiplier)
 
-                self.camera_angle = j2_ema + j3_ema + self.j4
+                self.camera_angle = self.j2_ema + self.j3_ema + self.j4
                 # print(self.camera_angle)
                 prevGesture = self.prevGesture
                 # print(prevGesture)
                 # Send joint angles to MyCobot
-                self.mc.send_angles([self.j1, j2_ema, j3_ema, self.j4, 0, -135], 100)
+                self.mc.send_angles([self.j1, self.j2_ema, self.j3_ema, self.j4, 0, -135], 100)
 
                 # changed      
                 # self.mc.send_angles([self.j1, j2_ema, self.j3, self.j4, 0, -135], 100)      
