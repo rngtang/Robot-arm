@@ -5,6 +5,7 @@ import cv2
 import rospy
 import numpy as np
 
+# from time import time
 from cv_bridge import CvBridge
 from sensor_msgs.msg import CompressedImage
 from mycobot_communication.msg import HandGesture
@@ -60,7 +61,10 @@ class GestureDetector:
 
     def detect(self):
         image = Image(image_format=ImageFormat.SRGB, data=self.image)
+        # start_time = time()
         results = self.recognizer.recognize(image)
+        # end_time = time()
+        # print(f"Detection time: {end_time - start_time}")
 
         if results.gestures:
             gesture = results.gestures[0][0].category_name
