@@ -95,31 +95,50 @@ class MyCobotHandTrackingClass:
     
     """
     def __init__(self):
+        #initialize MyCobot and set arm to default standing position
         self.mc = MyCobot("/dev/ttyAMA0", 1000000)
         self.mc.send_angles([0, 0, 0, 0, 0, -135], 20)
-        self.cap = cv2.VideoCapture(0)
-        #lower res means faster tracking
-        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)  # Set width
-        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)  # Set height
-        self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)  # Disable auto exposure
-        self.cap.set(cv2.CAP_PROP_EXPOSURE, -100)  # lowering exposure and brightness helps the camera focus on the hand in bright settings better
-        self.cap.set(cv2.CAP_PROP_BRIGHTNESS, -25)
+
+        #initialize handTracker class which draws bounding box around hand and returns the center of the hand's bounding box
         self.tracker = handTracker()
+
+        #set MyCobot joint angles
         self.j1, self.j2, self.j3, self.j4 = 0, 0, 0, 0
+        #ema or exponential moving average makes rotation of joints 2 and 3 more smooth
         self.j2_ema, self.j3_ema = 0, 0
+
+        #set the a default x and y position of hand to be in the center of the camera to be used in handtracking formula
         self.last_x, self.last_y = 160, 120
-        self.timestamp = 0
+        self.camera_angle = 0
+        
+        #to keep track of previous hand gesture
+        self.prevGesture = None
+        #a multiplier that increases the longer you hold a specified gesture to speed up joint rotations
+        self.multiplier = 1
+
+        #initialize camera and camera settings
+        self.cap = cv2.VideoCapture(0)
+        #lowering width and height makes tracking faster by effectively lowering the resolution of image and processing time needed per image
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
+        #disabing autoexposure and lowering exposure and brightness allows camera to better focus on hand in moderate to high light environments
+        self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)  # Disable auto exposure
+        self.cap.set(cv2.CAP_PROP_EXPOSURE, -100) #lower exposure
+        self.cap.set(cv2.CAP_PROP_BRIGHTNESS, -25) #lower brightness
+
+        #for threading and concurrency
         self.success = False
         self.running = True
         self.image = None
-        self.success_event = threading.Event()
-        self.prevGesture = None
-        self.multiplier = 1
-        self.camera_angle = 0
-        self.pump_active = False
+        self.success_event = threading.Event()     
+        self.timestamp = 0
+
+        #for pump activation
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(1, GPIO.OUT)
         GPIO.output(1, 1) #turn off pump by default
+        self.pump_active = False
+
 
     def start(self):
         threading.Thread(target=self.camera_loop, daemon=True).start()
