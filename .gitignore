@@ -1,10 +1,25 @@
-# .vscode
-.vscode
-settings.json
+*
 
-# Python compiler files
-*.pyc
-TicTacToe/*.save*
+!.gitignore
 
-# Public API
-nohup.out
+!controls.launch
+!hand_tracker.launch
+
+!controls.py
+!head_to_base_broadcaster.py
+!hand_tracker.py
+!hand_detector.py
+!camera_feed.py
+!gesture_detector.py
+
+!MycobotState.msg
+!HandGesture.msg
+!ServoStatus.srv
+
+!mycobot_communication/*/mycobot_services.py
+!mycobot_communication/*/mycobot_topics.py
+
+!mycobot_280/mycobot_280/CMakeLists.txt
+!mycobot_communication/CMakeLists.txt
+
+!*/
