@@ -95,7 +95,7 @@ class MyCobotHandTrackingClass:
     
     """
     def __init__(self):
-        #initialize MyCobot and set arm to default standing position
+        #initialize MyCobot and set arm to default starting position
         self.mc = MyCobot("/dev/ttyAMA0", 1000000)
         self.mc.send_angles([0, 0, 0, 0, 0, -135], 20)
 
@@ -109,6 +109,7 @@ class MyCobotHandTrackingClass:
 
         #set the a default x and y position of hand to be in the center of the camera to be used in handtracking formula
         self.last_x, self.last_y = 160, 120
+        #initialize camera_angle which is the angle of camera from horizontal axis
         self.camera_angle = 0
         
         #to keep track of previous hand gesture
@@ -141,14 +142,17 @@ class MyCobotHandTrackingClass:
 
 
     def start(self):
+        #begin multithreading of camera_loop, gestureLiveStreamTracking, and control loop
         threading.Thread(target=self.camera_loop, daemon=True).start()
         threading.Thread(target=self.gestureLiveStreamTracking, daemon=True).start()
         threading.Thread(target=self.control_loop, daemon=True).start()
 
     def stop(self):
+        #end multithreading
         self.running = False
     
     def camera_loop(self):
+        #camera loop to continously set camera image
         while self.running:
             success, image = self.cap.read()
             if not success:
@@ -159,6 +163,7 @@ class MyCobotHandTrackingClass:
             self.success = success
 
     def gestureLiveStreamTracking(self):
+        #intailize mediapipe hand gesture tracking model
         model_file = open('gesture_recognizer.task', "rb")
         model_data = model_file.read()
         model_file.close()
@@ -180,17 +185,22 @@ class MyCobotHandTrackingClass:
                 continue
             frame = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
             mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
+            #call gesture recognizer with asynchronous call to __result_callback 
             recognizer.recognize_async(mp_image, self.timestamp)
             self.timestamp += 1
 
     def __result_callback(self, result, output_image, timestamp_ms):
         multiplier = 1
         if len(result.gestures) > 0:
+            #the recognized gesture that the model detects
             gesture = result.gestures[0][0].category_name
-
+            
+            #adjusts j2:j3 ratio based on camera angle to allow for intuitive motion when picking up objects
+            #the greater the camera angle the closer the object is that the user is trying to pick up so j3 rotates at a greater rate than j2 to pick things up that are closer
             j2_j3_ratio = ((-1.18 * self.camera_angle) / 90)               
 
             #for adusting speed when user is tying to pick things up
+            #if camera angle is greater than 55 degrees, but less than 125 degrees the speed of the robot approaching the object is reduced by 50% to allow for users to have more control when picking up objects
             if abs(self.camera_angle) > 55 and abs(self.camera_angle) < 125:
                 multiplier = 0.5
             else:
