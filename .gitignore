@@ -23,3 +23,6 @@
 !mycobot_communication/CMakeLists.txt
 
 !*/
+# Python compiler files
+*.pyc
+TicTacToe/*.save*
