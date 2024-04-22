@@ -9,16 +9,17 @@ from pymycobot import PI_PORT, PI_BAUD
 from pymycobot.mypalletizer import MyPalletizer
 from pymycobot.genre import Coord
 
-import numpy as np
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
-
+#mediapipe library for hand landmarks and gesture tracking
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 
-import RPi.GPIO as GPIO
+#needed to activate/disactive the pin that powers suction pump
+import RPi.GPIO as GPIO 
 
+#handtracker class that uses mediapipe's hand landmarker tracking to draw bounding box around hand and find bounding box center for handtracking
 class handTracker():
     """
     A class used to detect and track hands in an image using the Mediapipe library.
@@ -34,8 +35,7 @@ class handTracker():
     mpDraw (mediapipe.solutions.drawing_utils): The Mediapipe drawing utilities object.
 
     Methods:
-    handsFinder(image, draw=True): Detects hands in the given image and returns the image with landmarks drawn on it.
-    positionFinder(image, handNo=0, draw=True): Returns a list of landmark positions for the specified hand in the given image.
+    draw_bounding_box(self, image) - used to draw handbounding box and return the center of the bounding box as well
     """
 
     def __init__(self, mode=False, maxHands=1, detectionCon=0.7, modelComplexity=0, trackCon=0.1):
@@ -61,7 +61,7 @@ class handTracker():
 
     def draw_bounding_box(self, image):
         """
-        Draws a bounding box around detected hands in the given image.
+        Draws a bounding box around detected hands in the given image and finds the center of the bounding box.
 
         Args:
             image (numpy.ndarray): The image to draw the bounding box on.
@@ -90,7 +90,10 @@ class handTracker():
         return image, centers
 
 
-class CameraFlangeController:
+class MyCobotHandTrackingClass:
+    """
+    
+    """
     def __init__(self):
         self.mc = MyCobot("/dev/ttyAMA0", 1000000)
         self.mc.send_angles([0, 0, 0, 0, 0, -135], 20)
@@ -292,7 +295,7 @@ class CameraFlangeController:
 
 if __name__ == "__main__":
     # tracking with concurrency and additional improvements
-    controller = CameraFlangeController()
+    controller = MyCobotHandTrackingClass()
     controller.start()
     input("Press Enter to stop...")
     controller.stop()
