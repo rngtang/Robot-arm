@@ -39,21 +39,17 @@ class HandLandmark(IntEnum):
 
 class HandDetector:
     """
-    A class used to detect and track hands in an image using the Mediapipe library.
+    A class used to detect hands in an image using the Mediapipe library.
 
     Attributes:
-        static_image_mode (bool): Whether to detect hands in static images or in real-time video streams.
-        max_num_hands (int): Maximum number of hands to detect.
-        detection_confidence (float): Minimum confidence value ([0.0, 1.0]) for hand detection to be successful.
-        model_complexity (int): Complexity of the detection model ([0, 2]).
-        tracking_confidence (float): Minimum confidence value ([0.0, 1.0]) for hand tracking to be successful.
-        hands (mediapipe.solutions.hands.Hands): The Mediapipe Hands object used for detection and tracking.
-        raw_image: Current raw image received from the camera.
-        image: Current converted RGB image used for processing.
-        visualizer_publisher (rospy.Publisher): ROS Publisher for publishing visualized detections.
-        detections_publisher (rospy.Publisher): ROS Publisher for publishing coordinates of raw detections.
+        DEFAULT_FRAME_RATE (int): Default frame rate for processing
+        hands (mediapipe.solutions.hands.Hands): The Mediapipe Hands object used for detection.
+        raw_image(numpy.ndarray): Current raw image received from the camera.
+        image(numpy.ndarray): Current converted RGB image used for processing.
         loop_rate (rospy.Rate): Rate object from rospy to control the loop rate of the node. Set default to 30 Hz.
         _cv_bridge (CvBridge): CvBridge object for converting between OpenCV images and ROS image messages.
+        visualizer_publisher (rospy.Publisher): ROS Publisher for publishing visualized detections.
+        detections_publisher (rospy.Publisher): ROS Publisher for publishing coordinates of raw detections.
 
     Methods:
         update_image(image_msg): Callback function to receive and convert ROS Image messages to Cv2 images.
@@ -66,7 +62,7 @@ class HandDetector:
     def __init__(self, static_image_mode=False, max_num_hands=1, detection_confidence=0.5,
                  model_complexity=0, tracking_confidence=0.1) -> None:
         """
-        Initialize a new instance of the HandTracker class.
+        Initialize a new instance of the HandDetector class.
 
         Parameters:
             static_image_mode (bool): Whether to detect hands in static images or in real-time video streams.
@@ -74,13 +70,13 @@ class HandDetector:
             detection_confidence (float): Minimum confidence value ([0.0, 1.0]) for
                                           hand detection to be considered successful.
             model_complexity (int): Complexity of the detection model ([0, 2]).
-            track_confidence (float): Minimum confidence value ([0.0, 1.0])
-                                      for hand tracking to be considered successful.
+            tracking_confidence (float): Minimum confidence value ([0.0, 1.0])
+                                         for hand tracking to be considered successful.
         """
         # Initialize ROS node with the name "hand_detector"
         rospy.init_node("hand_detector")
 
-        # Initialize Mediapipe Hands object
+        # Create Mediapipe Hands object
         self.hands = Hands(static_image_mode, max_num_hands, model_complexity,
                            detection_confidence, tracking_confidence)
 
@@ -93,7 +89,8 @@ class HandDetector:
         # Set loop rate (framerate) to DEFAULT_FRAME_RATE
         self.rate = rospy.Rate(self.DEFAULT_FRAME_RATE)
 
-        # ROS Subscriber for receiving CompressedImage messages from the topic "camera/rgb/compressed"
+        # ROS Subscriber for receiving CompressedImage messages from the topic "camera/rgb/compressed" which calls
+        # self.update_image with the message as the callback function
         rospy.Subscriber("camera/rgb/compressed", CompressedImage, self.update_image)
 
         # ROS Publisher for publishing visualized detections (images with overlaid bounding boxes)
@@ -104,7 +101,12 @@ class HandDetector:
         self.detections_publisher = rospy.Publisher("cv/detections", UInt32MultiArray, queue_size=10)
 
     def update_image(self, image_msg):
-        """Callback function to receive and convert ROS CompressedImage messages to Cv2 images."""
+        """
+        Callback function to receive and convert ROS CompressedImage messages to Cv2 images.
+
+        Parameters:
+            image_msg (sensor_msgs.msg.CompressedImage): ROS CompressedImage message received from the ROS topic.
+        """
         # Convert the CompressedImage message to Cv2 Image
         np_arr = np.frombuffer(image_msg.data, np.uint8)
         self.raw_image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
