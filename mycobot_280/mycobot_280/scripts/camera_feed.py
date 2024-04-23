@@ -20,10 +20,11 @@ class CameraFeedPublisher:
         publisher (rospy.Publisher): ROS publisher object for publishing compressed image messages.
 
     Methods:
-        run(): Method to start capturing frames from the camera, converting them to ROS image messages,
+        run(): Function to start capturing frames from the camera, converting them to ROS image messages,
                and publishing them continuously in a loop at the frequency of loop_rate.
     """
     def __init__(self) -> None:
+        """Initialize a new instance of the CameraFeedPublisher class."""
         # Initialize ROS node with the name "camera_feed_publisher"
         rospy.init_node("camera_feed_publisher")
 
@@ -41,10 +42,14 @@ class CameraFeedPublisher:
         # Create CvBridge object for image conversion
         self._cv_bridge = CvBridge()
 
-        # Create ROS publisher for compressed image topic
+        # Create ROS publisher for the CompressedImage topic "camera/rgb/compressed"
         self.publisher = rospy.Publisher("camera/rgb/compressed", CompressedImage, queue_size=10)
 
     def run(self):
+        """
+        Capture frames from the camera, convert them to ROS Image messages,
+        and publish them continuously in a loop at the frequency of loop_rate.
+        """
         # Loop until ROS shutdown or node is stopped
         while not rospy.is_shutdown():
             # Read frame from camera
