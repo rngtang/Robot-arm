@@ -54,7 +54,7 @@ class HandDetector:
     Methods:
         update_image(image_msg): Callback function to receive and convert ROS Image messages to Cv2 images.
         detect(hand_index=0): Function to detect hands in the given image and publish visualized detections.
-        run(): Main function of the class to run hand detection continuously in a loop at the frequency of loop_rate.
+        run(): Run hand detection continuously in a loop at the frequency of loop_rate.
     """
     # Default frame rate
     DEFAULT_FRAME_RATE = 30
