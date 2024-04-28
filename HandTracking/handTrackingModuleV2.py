@@ -297,7 +297,8 @@ class MyCobotHandTrackingClass:
         #Used for thumbs up and thumbs down movements only since those movements do not use hand coordinate information (which inherently makes movement less smooth).
         self.j2_ema, self.j3_ema = self.j2, self.j3
         #Alpha is the smoothing factor for the exponential moving average. 
-        #A lower alpha corresponds to weighing the last joint angle more which makes the movement smooth. 0.2 is the value I found to be the most stable and smooth.
+        #A lower alpha corresponds to weighing the last joint angle more which makes the movement smooth. 
+        #0.2 is the value I found to be the most stable and smooth.
         alpha = 0.2
         prevGesture = self.prevGesture
         #J1_multiplier used to slown down the horizontal tracking when the robot head is far away from the center vertial axis.
