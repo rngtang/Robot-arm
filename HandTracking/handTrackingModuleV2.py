@@ -52,6 +52,7 @@ class handTracker():
         self.mode = mode
         self.maxHands = maxHands
         self.detectionCon = detectionCon
+        #setting the modelComplexity to 0 makes the handtracking much faster
         self.modelComplex = modelComplexity
         self.trackCon = trackCon
         self.mpHands = mp.solutions.hands
@@ -89,10 +90,19 @@ class handTracker():
                 cv2.rectangle(image, (x_min, y_min), (x_max, y_max), (255, 0, 255), 2)
         return image, centers
 
-
 class MyCobotHandTrackingClass:
     """
-    
+    primary class that performs hand landmark and gesture detection and controls the robot arm. It uses the camerafeed from the Elephant Robotics camerflange, but can be perhaps be fitted with a cheaper web camera that you can attach to the head of the robot. The code has been fitted for myCobot280, but perhaps can be adapted for the M5 version. The main purpose is to track the user's hand and allow them to pick up objects with the robot using just their hand, a camera, and suction pump (Elephant Robotics suction pump v1 was used for this project, but v2 or other suction pump can perhaps be adapted).
+
+    the class performs handtracking using joints 1 and 4
+    joint 1 is used for horizontal tracking of the hand
+    joint 4 is used for veritcal tracking of the hand
+
+    additionally, the class uses the thumbs up and thumbs down gesture from the user to move the robot closer and further using joints 2 and 3. This is meant for picking up objects using the suction pump, but can be used for more general purposes.
+    thumbs up moves the robot away from you, so towards the object you are trying to pick up.
+    thumbs down moves the robot toward you, so to pick up the object.
+
+    lastly, to assist with pick up objects, the robot also contracts and extends using a closed fist gesture. To contract the robot, use a closed fist and move downward. To extend the robot, use a closed fist and move upward.
     """
     def __init__(self):
         #initialize MyCobot and set arm to default starting position
@@ -126,6 +136,7 @@ class MyCobotHandTrackingClass:
         self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)  # Disable auto exposure
         self.cap.set(cv2.CAP_PROP_EXPOSURE, -100) #lower exposure
         self.cap.set(cv2.CAP_PROP_BRIGHTNESS, -25) #lower brightness
+        #if you experience issues with the lighting, play around with these camera settings. This is the best configuration I've found for moderate light environments
 
         #for threading and concurrency
         self.success = False
@@ -163,7 +174,8 @@ class MyCobotHandTrackingClass:
             self.success = success
 
     def gestureLiveStreamTracking(self):
-        #intailize mediapipe hand gesture tracking model
+        #intailize Mediapipe hand gesture tracking model
+        #Mediapipe does not offer model api for the gesture model such as hand landmarker model, so you must directly include the gesture model in the same folder
         model_file = open('gesture_recognizer.task', "rb")
         model_data = model_file.read()
         model_file.close()
@@ -190,39 +202,47 @@ class MyCobotHandTrackingClass:
             self.timestamp += 1
 
     def __result_callback(self, result, output_image, timestamp_ms):
+        #Initalizing multipler that is used to lower the speed of the robot when it detects someone is trying to pick up an object. It does this by using the angle between the camera's line of vision and the horizontal axis
         multiplier = 1
+
         if len(result.gestures) > 0:
             #the recognized gesture that the model detects
             gesture = result.gestures[0][0].category_name
             
             #adjusts j2:j3 ratio based on camera angle to allow for intuitive motion when picking up objects
-            #the greater the camera angle the closer the object is that the user is trying to pick up so j3 rotates at a greater rate than j2 to pick things up that are closer
+            #the greater the angle between the camera's line of vision and the horizontal axis, the closer the object is that the user is trying to pick up so the j2:j3 ratio is greater and will be applied to j3 to rotate it at a greater rate than j2 to pick things up that are closer
             j2_j3_ratio = ((-1.18 * self.camera_angle) / 90)               
 
             #for adusting speed when user is tying to pick things up
-            #if camera angle is greater than 55 degrees, but less than 125 degrees the speed of the robot approaching the object is reduced by 50% to allow for users to have more control when picking up objects
+            #if angle between the camera's line of vision and the horizontal axis is greater than 55 degrees, but less than 125 degrees the speed of the robot approaching the object is reduced by 50% to allow for users to have more control when picking up objects
             if abs(self.camera_angle) > 55 and abs(self.camera_angle) < 125:
                 multiplier = 0.5
             else:
                 multiplier = 1
 
             if gesture == "Thumb_Up" and self.j2 > -130:
+                #set gesture multipler to increase the movement speed of robot the longer the user holds the thumbs up gesture using this gesture multipler
                 if self.prevGesture == "Thumb_Up":
                     if self.multiplier < 3:
                         self.multiplier += 0.5
                 else:
                     self.multiplier = 1
+                #move j2, taking into account the gesture multiplier and multiplier that detects when camera is tilted down
                 self.j2 -= 1 * self.multiplier * multiplier
-                if self.camera_angle >= -10 and self.j3 < 0: #if camera is pointing to something out of range
+
+                #if camera is pointing to something out of range
+                if self.camera_angle >= -10 and self.j3 < 0:
                     #this extends arm when to try reaching the out of range object
                     j2_j3_ratio = max(1, j2_j3_ratio)
                     self.j3 += 1 * self.multiplier * (j2_j3_ratio) * multiplier
+                #if the object is in range, apply the j2:j3 ratio to j3 to move joints effectivley to approach object
                 else:
                     j2_j3_ratio = max(0, j2_j3_ratio)
                     self.j3 -= 1 * self.multiplier * (j2_j3_ratio) * multiplier
                 self.prevGesture = "Thumb_Up"
-                
-            elif gesture == "Thumb_Down" and self.j2 < 130: #need to implement the new above features here
+            
+            #similar logic as above for the thumbs down gesture. A bit less complex than thumbs up gesture logic since thumbs down is not used when a user to trying to pick up an object
+            elif gesture == "Thumb_Down" and self.j2 < 130:
                 if self.prevGesture == "Thumb_Down":
                     if self.multiplier < 3:
                         self.multiplier += 0.5
@@ -231,8 +251,12 @@ class MyCobotHandTrackingClass:
                 self.j2 += 1 * self.multiplier
                 self.j3 += 1 * self.multiplier * (j2_j3_ratio) * multiplier
                 self.prevGesture = "Thumb_Down"
+            
+            #set closed fist gesture
             elif gesture == "Closed_Fist":
                 self.prevGesture = "Closed_Fist"
+
+            #activates and deactivates pump using index finger pointed up gesture
             elif not (self.prevGesture == "Pointing_Up") and gesture == "Pointing_Up":
                 if self.pump_active == False:
                     GPIO.output(1, 0) #turn on pump
@@ -240,9 +264,13 @@ class MyCobotHandTrackingClass:
                     GPIO.output(1, 1) #turn off pump
                 self.pump_active = not self.pump_active
                 self.prevGesture = "Pointing_Up"
+
+            #if no gesture is detected reset gesture multiplier and set gesture to none
             else:
                 self.multiplier = 1
                 self.prevGesture = "None"
+
+        #if no hand is detected reset gesture multiplier and set gesture to none
         else:
             self.multiplier = 1
             self.prevGesture = "None"
@@ -323,7 +351,7 @@ class MyCobotHandTrackingClass:
                 self.last_x, self.last_y = x, y
 
 if __name__ == "__main__":
-    # tracking with concurrency and additional improvements
+    # logic to call the MyCobotHandTrackingClass class to begin hand tracking
     controller = MyCobotHandTrackingClass()
     controller.start()
     input("Press Enter to stop...")
