@@ -68,7 +68,9 @@ class handTracker():
             image (numpy.ndarray): The image to draw the bounding box on.
 
         Returns:
-            tuple: A tuple containing the modified image with bounding boxes drawn and the centers of the bounding boxes.
+            image: A tuple containing the modified image with bounding boxes drawn.
+            centers: The centers of the bounding boxes.
+
         """
         imageRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         self.results = self.hands.process(imageRGB)
