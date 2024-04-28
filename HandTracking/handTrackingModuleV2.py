@@ -124,8 +124,8 @@ class MyCobotHandTrackingClass:
         
         #to keep track of previous hand gesture
         self.prevGesture = None
-        #a multiplier that increases the longer you hold a specified gesture to speed up joint rotations
-        self.multiplier = 1
+        #a gesture multiplier that increases the longer you hold a specified gesture to speed up joint rotations
+        self.gestureMultiplier = 1
 
         #initialize camera and camera settings
         self.cap = cv2.VideoCapture(0)
@@ -202,8 +202,8 @@ class MyCobotHandTrackingClass:
             self.timestamp += 1
 
     def __result_callback(self, result, output_image, timestamp_ms):
-        #Initalizing multipler that is used to lower the speed of the robot when it detects someone is trying to pick up an object. It does this by using the angle between the camera's line of vision and the horizontal axis
-        multiplier = 1
+        #Initalizing pickingUpObjectMultiplier that is used to lower the speed of the robot moving foward when it detects someone is trying to pick up an object. It does this by using the angle between the camera's line of vision and the horizontal axis. This is to make it easier to control the robot when picking up an object.
+        pickingUpObjectMultiplier = 1
 
         if len(result.gestures) > 0:
             #the recognized gesture that the model detects
@@ -216,40 +216,43 @@ class MyCobotHandTrackingClass:
             #for adusting speed when user is tying to pick things up
             #if angle between the camera's line of vision and the horizontal axis is greater than 55 degrees, but less than 125 degrees the speed of the robot approaching the object is reduced by 50% to allow for users to have more control when picking up objects
             if abs(self.camera_angle) > 55 and abs(self.camera_angle) < 125:
-                multiplier = 0.5
+                pickingUpObjectMultiplier = 0.5
             else:
-                multiplier = 1
+                pickingUpObjectMultiplier = 1
 
             if gesture == "Thumb_Up" and self.j2 > -130:
                 #set gesture multipler to increase the movement speed of robot the longer the user holds the thumbs up gesture using this gesture multipler
                 if self.prevGesture == "Thumb_Up":
-                    if self.multiplier < 3:
-                        self.multiplier += 0.5
+                    if self.gestureMultiplier < 3:
+                        self.gestureMultiplier += 0.5
                 else:
-                    self.multiplier = 1
-                #move j2, taking into account the gesture multiplier and multiplier that detects when camera is tilted down
-                self.j2 -= 1 * self.multiplier * multiplier
+                    self.gestureMultiplier = 1
+
+                #rotate j2, taking into account the gesture multiplier and pickingUpObjectMultiplier
+                self.j2 -= 1 * self.gestureMultiplier * pickingUpObjectMultiplier
 
                 #if camera is pointing to something out of range
                 if self.camera_angle >= -10 and self.j3 < 0:
                     #this extends arm when to try reaching the out of range object
                     j2_j3_ratio = max(1, j2_j3_ratio)
-                    self.j3 += 1 * self.multiplier * (j2_j3_ratio) * multiplier
+                    self.j3 += 1 * self.gestureMultiplier * (j2_j3_ratio) * pickingUpObjectMultiplier
+
                 #if the object is in range, apply the j2:j3 ratio to j3 to move joints effectivley to approach object
                 else:
                     j2_j3_ratio = max(0, j2_j3_ratio)
-                    self.j3 -= 1 * self.multiplier * (j2_j3_ratio) * multiplier
+                    self.j3 -= 1 * self.gestureMultiplier * (j2_j3_ratio) * pickingUpObjectMultiplier
+
                 self.prevGesture = "Thumb_Up"
-            
-            #similar logic as above for the thumbs down gesture. A bit less complex than thumbs up gesture logic since thumbs down is not used when a user to trying to pick up an object
+        
+            #similar logic as the lines above for the thumbs down gesture. A bit less complex than thumbs up gesture logic since thumbs down is not used when a user to trying to pick up an object
             elif gesture == "Thumb_Down" and self.j2 < 130:
                 if self.prevGesture == "Thumb_Down":
-                    if self.multiplier < 3:
-                        self.multiplier += 0.5
+                    if self.gestureMultiplier < 3:
+                        self.gestureMultiplier += 0.5
                 else:
-                    self.multiplier = 1
-                self.j2 += 1 * self.multiplier
-                self.j3 += 1 * self.multiplier * (j2_j3_ratio) * multiplier
+                    self.gestureMultiplier = 1
+                self.j2 += self.gestureMultiplier
+                self.j3 += self.gestureMultiplier * (j2_j3_ratio) * pickingUpObjectMultiplier
                 self.prevGesture = "Thumb_Down"
             
             #set closed fist gesture
@@ -267,26 +270,30 @@ class MyCobotHandTrackingClass:
 
             #if no gesture is detected reset gesture multiplier and set gesture to none
             else:
-                self.multiplier = 1
+                self.gestureMultiplier = 1
                 self.prevGesture = "None"
 
         #if no hand is detected reset gesture multiplier and set gesture to none
         else:
-            self.multiplier = 1
+            self.gestureMultiplier = 1
             self.prevGesture = "None"
 
     def control_loop(self):
         self.j2_ema, self.j3_ema = self.j2, self.j3 #exponential moving average for smoother movement
         alpha = 0.2 # Smoothing factor for EMA
         prevGesture = self.prevGesture
+        #j1_multiplier used to slown down the horizontal tracking when the robot head is far away from the center vertial axis. This makes it easier to control the movements when the arm is extended out greatly.
         j1_multiplier = 1
+
         while self.running:
             if not self.success:
                 continue
-
-            image, centers = self.tracker.draw_bounding_box(self.image)
-            cv2.imshow("Video", image)
+            
+            image, centers = self.tracker.draw_bounding_box(self.image) #retrieve image and centers
+            cv2.imshow("Video", image) # to show camera feed
             cv2.waitKey(1)
+            #If you want to run the file from your own terminal, shh into the robot and comment out the two lines above. The camera feed will give errors if you are not using a terminal in the raspberry pi.
+
             if len(centers) > 0:
                 x, y = centers[0][0], centers[0][1]
                 value = 0
