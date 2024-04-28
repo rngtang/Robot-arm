@@ -92,9 +92,9 @@ class handTracker():
 
 class MyCobotHandTrackingClass:
     """
-    primary class that performs hand landmark and gesture detection and controls the robot arm. It uses the camerafeed from the Elephant Robotics camerflange, but can be perhaps be fitted with a cheaper web camera that you can attach to the head of the robot. The code has been fitted for myCobot280, but perhaps can be adapted for the M5 version. The main purpose is to track the user's hand and allow them to pick up objects with the robot using just their hand, a camera, and suction pump (Elephant Robotics suction pump v1 was used for this project, but v2 or other suction pump can perhaps be adapted).
+    primary class that performs hand landmark and gesture detection and controls the robot arm. It uses the camerafeed from the Elephant Robotics camerflange attached to the head of the robot, but can be perhaps be fitted with a cheaper web camera that you can attach to the head of the robot. The class achieves hand tracking by making the robot continually center the hand in the camera feed. Additionally, the class performs gesture tracking to move the robot closer or further and contract/extend the robot. The code has been fitted for myCobot280, but perhaps can be adapted for the M5 version. The main purpose is to track the user's hand and allow them to pick up objects with the robot using just their hand, a camera, and suction pump (Elephant Robotics suction pump v1 was used for this project, but v2 or other suction pump can perhaps be adapted).
 
-    the class performs handtracking using joints 1 and 4
+    the class performs hand tracking using joints 1 and 4
     joint 1 is used for horizontal tracking of the hand
     joint 4 is used for veritcal tracking of the hand
 
@@ -213,7 +213,6 @@ class MyCobotHandTrackingClass:
             #the greater the angle between the camera's line of vision and the horizontal axis, the closer the object is that the user is trying to pick up so the j2:j3 ratio is greater and will be applied to j3 to rotate it at a greater rate than j2 to pick things up that are closer
             j2_j3_ratio = ((-1.18 * self.camera_angle) / 90)               
 
-            #for adusting speed when user is tying to pick things up
             #if angle between the camera's line of vision and the horizontal axis is greater than 55 degrees, but less than 125 degrees the speed of the robot approaching the object is reduced by 50% to allow for users to have more control when picking up objects
             if abs(self.camera_angle) > 55 and abs(self.camera_angle) < 125:
                 pickingUpObjectMultiplier = 0.5
@@ -255,7 +254,7 @@ class MyCobotHandTrackingClass:
                 self.j3 += self.gestureMultiplier * (j2_j3_ratio) * pickingUpObjectMultiplier
                 self.prevGesture = "Thumb_Down"
             
-            #set closed fist gesture
+            #if a closed fist gesture is detected. a closed fist getsure will be used to contract and extend robot arm.
             elif gesture == "Closed_Fist":
                 self.prevGesture = "Closed_Fist"
 
@@ -279,8 +278,10 @@ class MyCobotHandTrackingClass:
             self.prevGesture = "None"
 
     def control_loop(self):
-        self.j2_ema, self.j3_ema = self.j2, self.j3 #exponential moving average for smoother movement
-        alpha = 0.2 # Smoothing factor for EMA
+        #exponential moving average for smoother movement. Exponential moving average weighs the current and last joint angles for smoother movement. Used for thumbs up and thumbs down movements only since those movements do not use hand coordinate information (which inherently makes movement less smooth)
+        self.j2_ema, self.j3_ema = self.j2, self.j3
+        # alpha is the smoothing factor for the exponential moving average. A lower alpha corresponds to weighing the last joint angle more which makes the movement smooth. 0.2 is the value I found to be the most stable and smooth.
+        alpha = 0.2
         prevGesture = self.prevGesture
         #j1_multiplier used to slown down the horizontal tracking when the robot head is far away from the center vertial axis. This makes it easier to control the movements when the arm is extended out greatly.
         j1_multiplier = 1
@@ -295,28 +296,42 @@ class MyCobotHandTrackingClass:
             #If you want to run the file from your own terminal, shh into the robot and comment out the two lines above. The camera feed will give errors if you are not using a terminal in the raspberry pi.
 
             if len(centers) > 0:
-                x, y = centers[0][0], centers[0][1]
-                value = 0
+                x, y = centers[0][0], centers[0][1] #the user's hand center coordinates
+                #the center of the camera is (160, 120)
 
+                #if the hand is not horizontally centered, center it by rotating joint 1
                 if not (x == 160):
+                    #j1_delta uses a fine tuned formula for calculating how much to rotate joint 1 based on the x coordinate of the hand to horizontally center it. It uses two parts - 1. the distance between the hand's x coordinate and the center x cordinate 2. the distance between the hand's last and current x coordinate. The forumla is very accurate with minimal overshot for horizontally centering the hand.
                     j1_delta = 0.03 * (x - 160) -  0.04 * (self.last_x - x)
                     j1_delta = j1_multiplier * j1_delta
+
+                    #if user is trying to pick up an object, lower the amount of rotation of joint 1 to make it easier to control. Additionally, make the movement none inverted to also make it easier.
                     if self.camera_angle < -55 and self.camera_angle > -125:
-                        j1_new = self.j1 + 0.5* (j1_delta)
+                        j1_new = self.j1 + 0.5 * (j1_delta)
+
                     else:
                         j1_new = self.j1 - j1_delta
+                    
+                    #for out of bounds handling of joint 1 rotation
                     if (j1_delta < 0 and j1_new < 160) or (j1_delta > 0 and j1_new > -160):
                         self.j1 = j1_new
 
+                #if the hand is not vertically centered, center it by rotating joint 4
                 if not (y == 120):
+                    #for a closed fist gesture, vertically center the hand more slowly. This allows for the user to contract/extend the robot arm by moving their hand downward/upward without the robot camera centering on the hand too quickly
                     if self.prevGesture == "Closed_Fist":
+                        #j4_delta uses a fine tuned formula for calculating how much to rotate joint 4 based on the y coordinate of the hand to vertically center it. It uses two parts - 1. the distance between the hand's y coordinate and the center y cordinate, 2. the distance between the hand's last and current y coordinate.
                         j4_delta = 0.03 * (y - 120) - 0.04 * (self.last_y - y)
+
                     else:
                         j4_delta = 0.04 * (y - 120) - 0.05 * (self.last_y - y)
                     j4_new = self.j4 + j4_delta
                     self.j4 = j4_new
-                    
-                if(y > 120 or y < 120) and self.prevGesture == "Closed_Fist":
+                
+                #if the user has a closed fist gesture, contract the robot arm when they move downward and extend the arm when they move upward.
+                if self.prevGesture == "Closed_Fist" and (not (y == 120)):
+                    #use joints 2 and 3 to contract/extend the robot arm
+                    #since we ARE using the hand coordinate information, we do not need the exponential moving average smoothing effect, so we modify both the ema joint value and current joint value to not affect the difference between the two
                     self.j2_ema += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
                     self.j2 += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
                     self.j3_ema -= 2 * (0.03 * (y - 120) - 0.04 * (self.last_y - y))
@@ -327,6 +342,7 @@ class MyCobotHandTrackingClass:
                 j3_ema_new = alpha * self.j3 + (1 - alpha) * self.j3_ema
                 j2_delta = j2_ema_new - self.j2_ema #track wheather going forward or backward
                 
+                #logic that nullifies some odd behavior of the ema. Since the ema weighs the last joint angle, this causes the robot to slightly continue moving in a certain direction even though you stopped a certain gesture. It also causes other weird behavior such as lag or abrupt movements. This can make the thumbs up and thumbs downs movement hard to use. HOWEVER, this logic stops any odd behavior and allows for more intuative behavior of thumbs up and thumbs down movement.
                 if (self.prevGesture == "Thumb_Up" and j2_delta > 0) or (self.prevGesture == "Thumb_Up" and prevGesture != "Thumb_Up"):
                     self.j2 = self.j2_ema
                     self.j3 = self.j3_ema
@@ -334,25 +350,26 @@ class MyCobotHandTrackingClass:
                     self.j2 = self.j2_ema
                     self.j3 = self.j3_ema
                 elif (self.prevGesture == "Thumb_Up" and j2_delta < 0):
-                    self.j2_ema = j2_ema_new #update join movement
+                    self.j2_ema = j2_ema_new
                     self.j3_ema = j3_ema_new
                 elif (self.prevGesture == "Thumb_Down" and j2_delta > 0):
-                    self.j2_ema = j2_ema_new #update join movement
+                    self.j2_ema = j2_ema_new
                     self.j3_ema = j3_ema_new
                 
-                #calculates roughly how far the head is from the z axis (vertical center axis)
-                #used angles instead of using coords to calculate this beause get_cords slows the tracking down
+                #calculates roughly how far the robot head is from the z axis (vertical center axis) using joints 2 and 3. used angles instead of coords to calculate this beause get_cords slows the tracking down. Only calculate when the user uses a gesture that modifies joints 2 or 3 since these are the only ones used for the calculations.
                 if self.prevGesture == "Thumb_Down" or self.prevGesture == "Thumb_Up" or self.prevGesture == "Closed_Fist":
                     value = (abs(self.j3) - abs(self.j2))
                     j1_multiplier = abs((-abs(self.j2) / 90) + 1)
-                    j1_multiplier += 0.87 * (abs((( value / ( 90)) + 1))) #the ratio of length between the portion above j2 vs the portion above j3 is 100:87  
+                    j1_multiplier += 0.87 * (abs((( value / ( 90)) + 1))) #using 0.87 because the ratio of length between the robot portion between above j2 and j3 vs the portion between j3 and j4 is 100:87
                     j1_multiplier = min(1.87, j1_multiplier)
                     j1_multiplier = (.27 * j1_multiplier) + 0.5
 
+                #angle between the line of vision of the camera and horizontal axis. Used to detect when the user is roughly pointing the camera toward the ground.
                 self.camera_angle = self.j2_ema + self.j3_ema + self.j4
+
                 prevGesture = self.prevGesture
 
-                # Send joint angles to MyCobot
+                # Send joint angles to myCobot
                 self.mc.send_angles([self.j1, self.j2_ema, self.j3_ema, self.j4, 0, -135], 100)
 
                 self.last_x, self.last_y = x, y
