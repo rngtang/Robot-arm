@@ -350,6 +350,7 @@ class MyCobotHandTrackingClass:
                         #It uses two parts - 
                         #1. the distance between the hand's y coordinate and the center y cordinate.
                         #2. the distance between the hand's last and current y coordinate.
+                        #The forumla is very accurate with minimal overshot for vertically centering the hand.
                         j4_delta = 0.03 * (y - 120) - 0.04 * (self.last_y - y)
 
                     else:
