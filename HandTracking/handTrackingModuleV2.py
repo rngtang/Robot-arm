@@ -131,49 +131,49 @@ class MyCobotHandTrackingClass:
         #Initialize camera_angle which is the angle of camera from horizontal axis.
         self.camera_angle = 0
         
-        #To keep track of previous hand gesture
+        #To keep track of previous hand gesture.
         self.prevGesture = None
         #A gesture multiplier that increases the longer you hold a specified gesture to speed up joint rotations.
         self.gestureMultiplier = 1
 
-        #Initialize camera and camera settings
+        #Initialize camera and camera settings.
         self.cap = cv2.VideoCapture(0)
         #Lowering width and height makes tracking faster by effectively lowering the resolution of image and processing time needed per image.
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
         #Disabing autoexposure and lowering exposure and brightness allows camera to better focus on hand in moderate to high light environments.
-        self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)  # Disable auto exposure
-        self.cap.set(cv2.CAP_PROP_EXPOSURE, -100) #lower exposure
-        self.cap.set(cv2.CAP_PROP_BRIGHTNESS, -25) #lower brightness
+        self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)  # Disable auto exposure.
+        self.cap.set(cv2.CAP_PROP_EXPOSURE, -100) #Lower exposure.
+        self.cap.set(cv2.CAP_PROP_BRIGHTNESS, -25) #Lower brightness.
         #If you experience issues with the lighting, play around with these camera settings. 
         #This is the best configuration I've found for moderate light environments.
 
-        #For threading and concurrency
+        #For threading and concurrency.
         self.success = False
         self.running = True
         self.image = None
         self.success_event = threading.Event()     
         self.timestamp = 0
 
-        #For pump activation
+        #For pump activation.
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(1, GPIO.OUT)
-        GPIO.output(1, 1) #Turn off pump by default
+        GPIO.output(1, 1) #Turn off pump by default.
         self.pump_active = False
 
 
     def start(self):
-        #Begin multithreading of camera_loop, gestureLiveStreamTracking, and control loop
+        #Begin multithreading of camera_loop, gestureLiveStreamTracking, and control loop.
         threading.Thread(target=self.camera_loop, daemon=True).start()
         threading.Thread(target=self.gestureLiveStreamTracking, daemon=True).start()
         threading.Thread(target=self.control_loop, daemon=True).start()
 
     def stop(self):
-        #End multithreading
+        #End multithreading.
         self.running = False
     
     def camera_loop(self):
-        #Camera loop to continously set camera image
+        #Camera loop to continously set camera image.
         while self.running:
             success, image = self.cap.read()
             if not success:
@@ -184,7 +184,7 @@ class MyCobotHandTrackingClass:
             self.success = success
 
     def gestureLiveStreamTracking(self):
-        #Intailize Mediapipe hand gesture tracking model
+        #Intailize Mediapipe hand gesture tracking model.
         #Mediapipe does not offer model api for the gesture model such as hand landmarker model, so you must directly include the gesture model in the same folder.
         model_file = open('gesture_recognizer.task', "rb")
         model_data = model_file.read()
@@ -207,7 +207,7 @@ class MyCobotHandTrackingClass:
                 continue
             frame = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
             mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
-            #Call gesture recognizer with asynchronous call to __result_callback 
+            #Call gesture recognizer with asynchronous call to __result_callback .
             recognizer.recognize_async(mp_image, self.timestamp)
             self.timestamp += 1
 
@@ -218,37 +218,37 @@ class MyCobotHandTrackingClass:
         pickingUpObjectMultiplier = 1
 
         if len(result.gestures) > 0:
-            #The recognized gesture that the model detects
+            #The recognized gesture that the model detects.
             gesture = result.gestures[0][0].category_name
             
-            #Adjusts j2:j3 ratio based on camera angle to allow for intuitive motion when picking up objects
-            #The greater the angle between the camera's line of vision and the horizontal axis, the closer the object is that the user is trying to pick up so the j2:j3 ratio is greater and will be applied to j3 to rotate it at a greater rate than j2 to pick things up that are closer
+            #Adjusts j2:j3 ratio based on camera angle to allow for intuitive motion when picking up objects.
+            #The greater the angle between the camera's line of vision and the horizontal axis, the closer the object is that the user is trying to pick up so the j2:j3 ratio is greater and will be applied to j3 to rotate it at a greater rate than j2 to pick things up that are closer.
             j2_j3_ratio = ((-1.18 * self.camera_angle) / 90)               
 
-            #If angle between the camera's line of vision and the horizontal axis is greater than 55 degrees, but less than 125 degrees the speed of the robot approaching the object is reduced by 50% to allow for users to have more control when picking up objects
+            #If angle between the camera's line of vision and the horizontal axis is greater than 55 degrees, but less than 125 degrees the speed of the robot approaching the object is reduced by 50% to allow for users to have more control when picking up objects.
             if abs(self.camera_angle) > 55 and abs(self.camera_angle) < 125:
                 pickingUpObjectMultiplier = 0.5
             else:
                 pickingUpObjectMultiplier = 1
 
             if gesture == "Thumb_Up" and self.j2 > -130:
-                #Set gesture multipler to increase the movement speed of robot the longer the user holds the thumbs up gesture using this gesture multipler
+                #Set gesture multipler to increase the movement speed of robot the longer the user holds the thumbs up gesture using this gesture multipler.
                 if self.prevGesture == "Thumb_Up":
                     if self.gestureMultiplier < 3:
                         self.gestureMultiplier += 0.5
                 else:
                     self.gestureMultiplier = 1
 
-                #Rotate j2, taking into account the gesture multiplier and pickingUpObjectMultiplier
+                #Rotate j2, taking into account the gesture multiplier and pickingUpObjectMultiplier.
                 self.j2 -= 1 * self.gestureMultiplier * pickingUpObjectMultiplier
 
-                #If camera is pointing to something out of range
+                #If camera is pointing to something out of range.
                 if self.camera_angle >= -10 and self.j3 < 0:
-                    #This extends arm when to try reaching the out of range object
+                    #This extends arm when to try reaching the out of range object.
                     j2_j3_ratio = max(1, j2_j3_ratio)
                     self.j3 += 1 * self.gestureMultiplier * (j2_j3_ratio) * pickingUpObjectMultiplier
 
-                #If the object is in range, apply the j2:j3 ratio to j3 to move joints effectivley to approach object
+                #If the object is in range, apply the j2:j3 ratio to j3 to move joints effectivley to approach object.
                 else:
                     j2_j3_ratio = max(0, j2_j3_ratio)
                     self.j3 -= 1 * self.gestureMultiplier * (j2_j3_ratio) * pickingUpObjectMultiplier
@@ -256,7 +256,7 @@ class MyCobotHandTrackingClass:
                 self.prevGesture = "Thumb_Up"
         
             #Similar logic as the lines above for the thumbs down gesture. 
-            #A bit less complex than thumbs up gesture logic since thumbs down is not used when a user to trying to pick up an object
+            #A bit less complex than thumbs up gesture logic since thumbs down is not used when a user to trying to pick up an object.
             elif gesture == "Thumb_Down" and self.j2 < 130:
                 if self.prevGesture == "Thumb_Down":
                     if self.gestureMultiplier < 3:
@@ -267,26 +267,26 @@ class MyCobotHandTrackingClass:
                 self.j3 += self.gestureMultiplier * (j2_j3_ratio) * pickingUpObjectMultiplier
                 self.prevGesture = "Thumb_Down"
             
-            #If a closed fist gesture is detected
+            #If a closed fist gesture is detected.
             #A closed fist getsure will be used to contract and extend robot arm.
             elif gesture == "Closed_Fist":
                 self.prevGesture = "Closed_Fist"
 
-            #Activates and deactivates pump using index finger pointed up gesture
+            #Activates and deactivates pump using index finger pointed up gesture.
             elif not (self.prevGesture == "Pointing_Up") and gesture == "Pointing_Up":
                 if self.pump_active == False:
-                    GPIO.output(1, 0) #Turn on pump
+                    GPIO.output(1, 0) #Turn on pump.
                 else:
-                    GPIO.output(1, 1) #Turn off pump
+                    GPIO.output(1, 1) #Turn off pump.
                 self.pump_active = not self.pump_active
                 self.prevGesture = "Pointing_Up"
 
-            #If no gesture is detected reset gesture multiplier and set gesture to none
+            #If no gesture is detected reset gesture multiplier and set gesture to none.
             else:
                 self.gestureMultiplier = 1
                 self.prevGesture = "None"
 
-        #If no hand is detected reset gesture multiplier and set gesture to none
+        #If no hand is detected reset gesture multiplier and set gesture to none.
         else:
             self.gestureMultiplier = 1
             self.prevGesture = "None"
@@ -294,9 +294,9 @@ class MyCobotHandTrackingClass:
     def control_loop(self):
         #Exponential moving average for smoother movement. 
         #Exponential moving average weighs the current and last joint angles for smoother movement. 
-        #Used for thumbs up and thumbs down movements only since those movements do not use hand coordinate information (which inherently makes movement less smooth)
+        #Used for thumbs up and thumbs down movements only since those movements do not use hand coordinate information (which inherently makes movement less smooth).
         self.j2_ema, self.j3_ema = self.j2, self.j3
-        # alpha is the smoothing factor for the exponential moving average. 
+        #Alpha is the smoothing factor for the exponential moving average. 
         #A lower alpha corresponds to weighing the last joint angle more which makes the movement smooth. 0.2 is the value I found to be the most stable and smooth.
         alpha = 0.2
         prevGesture = self.prevGesture
@@ -308,17 +308,17 @@ class MyCobotHandTrackingClass:
             if not self.success:
                 continue
             
-            image, centers = self.tracker.draw_bounding_box(self.image) #Retrieve image and centers
-            cv2.imshow("Video", image) # To show camera feed
+            image, centers = self.tracker.draw_bounding_box(self.image) #Retrieve image and centers.
+            cv2.imshow("Video", image) # To show camera feed.
             cv2.waitKey(1)
             #If you want to run the file from your own terminal, shh into the robot and comment out the two lines above. 
             #The camera feed will give errors if you are not using a terminal in the raspberry pi.
 
             if len(centers) > 0:
-                x, y = centers[0][0], centers[0][1] #The user's hand center coordinates
-                #The center of the camera is (160, 120)
+                x, y = centers[0][0], centers[0][1] #The user's hand center coordinates.
+                #The center of the camera is (160, 120).
 
-                #If the hand is not horizontally centered, center it by rotating joint 1
+                #If the hand is not horizontally centered, center it by rotating joint 1.
                 if not (x == 160):
                     #J1_delta uses a fine tuned formula for calculating how much to rotate joint 1 based on the x coordinate of the hand to horizontally center it. 
                     #It uses two parts - 
@@ -336,14 +336,14 @@ class MyCobotHandTrackingClass:
                     else:
                         j1_new = self.j1 - j1_delta
                     
-                    #For out of bounds handling of joint 1 rotation
+                    #For out of bounds handling of joint 1 rotation.
                     if (j1_delta < 0 and j1_new < 160) or (j1_delta > 0 and j1_new > -160):
                         self.j1 = j1_new
 
-                #If the hand is not vertically centered, center it by rotating joint 4
+                #If the hand is not vertically centered, center it by rotating joint 4.
                 if not (y == 120):
                     #For a closed fist gesture, vertically center the hand more slowly. 
-                    #This allows for the user to contract/extend the robot arm by moving their hand downward/upward without the robot camera centering on the hand too quickly
+                    #This allows for the user to contract/extend the robot arm by moving their hand downward/upward without the robot camera centering on the hand too quickly.
                     if self.prevGesture == "Closed_Fist":
                         #J4_delta uses a fine tuned formula for calculating how much to rotate joint 4 based on the y coordinate of the hand to vertically center it. 
                         #It uses two parts - 
@@ -359,16 +359,16 @@ class MyCobotHandTrackingClass:
                 #If the user has a closed fist gesture, contract the robot arm when they move downward and extend the arm when they move upward.
                 if self.prevGesture == "Closed_Fist" and (not (y == 120)):
                     #Use joints 2 and 3 to contract/extend the robot arm.
-                    #Since we ARE using the hand coordinate information, we do not need the exponential moving average smoothing effect, so we modify both the ema joint value and current joint value to not affect the difference between the two
+                    #Since we ARE using the hand coordinate information, we do not need the exponential moving average smoothing effect, so we modify both the ema joint value and current joint value to not affect the difference between the two.
                     self.j2_ema += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
                     self.j2 += 0.03 * (y - 120) - 0.04 * (self.last_y - y)
                     self.j3_ema -= 2 * (0.03 * (y - 120) - 0.04 * (self.last_y - y))
                     self.j3 -= 2 * (0.03 * (y - 120) - 0.04 * (self.last_y - y))
 
-                # Apply EMA to smooth j2 and j3 movements
+                # Apply EMA to smooth j2 and j3 movements.
                 j2_ema_new = alpha * self.j2 + (1 - alpha) * self.j2_ema
                 j3_ema_new = alpha * self.j3 + (1 - alpha) * self.j3_ema
-                j2_delta = j2_ema_new - self.j2_ema #track wheather going forward or backward
+                j2_delta = j2_ema_new - self.j2_ema #Track whether going forward or backward.
                 
                 #Logic that nullifies some odd behavior of the ema. Since the ema weighs the last joint angle, this causes the robot to slightly continue moving in a certain direction even though you stopped a certain gesture. 
                 #It also causes other weird behavior such as lag or abrupt movements. This can make the thumbs up and thumbs downs movement hard to use. 
@@ -392,7 +392,7 @@ class MyCobotHandTrackingClass:
                 if self.prevGesture == "Thumb_Down" or self.prevGesture == "Thumb_Up" or self.prevGesture == "Closed_Fist":
                     value = (abs(self.j3) - abs(self.j2))
                     j1_multiplier = abs((-abs(self.j2) / 90) + 1)
-                    j1_multiplier += 0.87 * (abs((( value / ( 90)) + 1))) #Using 0.87 because the ratio of length between the robot portion between above j2 and j3 vs the portion between j3 and j4 is 100:87
+                    j1_multiplier += 0.87 * (abs((( value / ( 90)) + 1))) #Using 0.87 because the ratio of length between the robot portion between above j2 and j3 vs the portion between j3 and j4 is 100:87.
                     j1_multiplier = min(1.87, j1_multiplier)
                     j1_multiplier = (.27 * j1_multiplier) + 0.5
 
@@ -402,13 +402,13 @@ class MyCobotHandTrackingClass:
 
                 prevGesture = self.prevGesture
 
-                # Send joint angles to myCobot
+                #Send joint angles to myCobot.
                 self.mc.send_angles([self.j1, self.j2_ema, self.j3_ema, self.j4, 0, -135], 100)
 
                 self.last_x, self.last_y = x, y
 
 if __name__ == "__main__":
-    # Logic to call the MyCobotHandTrackingClass class to begin hand tracking
+    #Logic to call the MyCobotHandTrackingClass class to begin hand tracking.
     controller = MyCobotHandTrackingClass()
     controller.start()
     input("Press Enter to stop...")
