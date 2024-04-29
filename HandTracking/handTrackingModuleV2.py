@@ -105,7 +105,8 @@ class MyCobotHandTrackingClass:
     Joint 1 is used for horizontal tracking of the hand.
     Joint 4 is used for veritcal tracking of the hand.
 
-    Additionally, the class uses the thumbs up and thumbs down gesture from the user to move the robot closer and further using joints 2 and 3. This is meant for picking up objects using the suction pump, but can be used for more general purposes.
+    Additionally, the class uses the thumbs up and thumbs down gesture from the user to move the robot closer and further using joints 2 and 3. 
+    This is meant for picking up objects using the suction pump, but can be used for more general purposes.
     Thumbs up moves the robot away from you, so towards the object you are trying to pick up.
     Thumbs down moves the robot toward you, so to pick up the object.
 
