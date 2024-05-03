@@ -42,7 +42,7 @@ Foxglove Studio is a very useful software that allows us to visualize ROS data i
 2. Launch hand and gesture tracking through ROS. (see above)
 3. In another terminal, after you SSH into the robot, run
 ```bash
-source home/er/launch.sh foxglove
+source ~/launch.sh foxglove
 ```
   to launch the Foxglove websocket on the robot, which will establish the connection to your local Foxglove software.
 
@@ -53,7 +53,7 @@ In Foxglove Studio, you can then click on the "Add panel" symbol and choose "Ima
 ## Other ROS terminals
 If you only want to launch a terminal with the ROS catkin workspace already set up, after you SSH into the robot, run
 ```bash
-source home/er/launch.sh foxglove
+source ~/launch.sh foxglove
 ```
 
 
