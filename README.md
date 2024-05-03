@@ -28,6 +28,37 @@ python ~/robotic-arm/TicTacToe/api/app.py
   * `app.py` receives the robot's best move from `ttt.py` (from the LCD) through the Flask endpoint. It then uses ROS (set up by `launch_controls.sh`) to move the robotic arm to that spot on the LCD touchscreen.
 
 
+# Launching hand and gesture tracking through Robot Operating System (ROS)
+
+Make sure the camera flange is connected to the robot. In a terminal, after you SSH into the robot, run
+```bash
+source home/er/launch.sh hand
+```
+
+## Using Foxglove Studios
+Foxglove Studios is a very useful software that allows us to visualize ROS data in real time using interactive visualizations in customizable layouts. We can easily use Foxglove Studios to build Graphical User Interface (GUIs) to interact with the robot and understand what the robot system is doing.
+
+1. Make sure you have Foxglove Studios[https://foxglove.dev/download] installed in your local environment.
+2. Launch hand and gesture tracking through ROS (see above)
+3. In another terminal, after you SSH into the robot, run
+```bash
+source home/er/launch.sh foxglove
+```
+to launch the Foxglove websocket on the robot, which will establish the connection to your local Foxglove software.
+4. Open Foxglove Studios on your computer (not on the robot), click on "Open Connection", and enter `ws://10.197.94.158:8765` for the WebSocket URL. Click "Open". 
+
+In Foxglove Studios, you can then click on the "Add panel" symbol and choose "Image" for `Image` and `CompressedImage` messages and "Raw Message" for other types of ROS messages. Once a new panel is opened, enter the name of the topic to subscribe to.
+
+## Other ROS terminals
+If you only want to launch a terminal with the ROS catkin workspace already set up, after you SSH into the robot, run
+```bash
+source home/er/launch.sh foxglove
+```
+
+
+
+# Setup
+
 ## Remote Server Setup
 For the robot (`Ubuntu`): 
 * IP: 10.194.72.227
@@ -63,7 +94,7 @@ This example is for if you want to edit VSCode on your own device but still have
 In RealVNC, go to terminal (linux) and type command:
 
 ```bash
-ssh ubuntu@10.194.72.227
+ssh -XY -t -p 5422 colab_developer@10.197.94.158
 ```
 
 After typing command, enter password (from 'Remove Server Setup').
@@ -71,7 +102,7 @@ After typing command, enter password (from 'Remove Server Setup').
 Then, go to VSCode on your personal laptop and make sure you have the remote server extension installed. Open a new VSCode project and then choose the "SSH connection from another host". Enter the host:
 
 ```bash
-ubuntu@10.194.72.227
+colab_developer@10.197.94.158
 ```
 Then, enter password.
 
@@ -83,8 +114,9 @@ Open a new VS Code window, then click on the blue "><" button. Choose "Connect t
 
 ```
 Host <your_chosen_hostname>
-  HostName 10.197.171.134
-  User er
+  HostName 10.197.94.158
+  User colab_developer
+  Port 5422
 ```
 
 Replace `<your_chosen_hostname>` with your chosen hostname (for example, "mycobot"), then save the file. The next time you SSH into the robot in the terminal, instead of typing in the IP, you can just run
