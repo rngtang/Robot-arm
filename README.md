@@ -35,10 +35,10 @@ Make sure the camera flange is connected to the robot. In a terminal, after you 
 source home/er/launch.sh hand
 ```
 
-## Using Foxglove Studios
-Foxglove Studios is a very useful software that allows us to visualize ROS data in real time using interactive visualizations in customizable layouts. We can easily use Foxglove Studios to build Graphical User Interface (GUIs) to interact with the robot and understand what the robot system is doing.
+## Using Foxglove Studio
+Foxglove Studio is a very useful software that allows us to visualize ROS data in real time using interactive visualizations in customizable layouts. We can easily use Foxglove Studio to build Graphical User Interface (GUIs) to interact with the robot and understand what the robot system is doing.
 
-1. Make sure you have [Foxglove Studios](https://foxglove.dev/download]) installed in your local environment.
+1. Make sure you have [Foxglove Studio](https://foxglove.dev/download]) installed in your local environment.
 2. Launch hand and gesture tracking through ROS. (see above)
 3. In another terminal, after you SSH into the robot, run
 ```bash
@@ -48,7 +48,7 @@ source home/er/launch.sh foxglove
 
 4. Open Foxglove Studios on your computer (not on the robot), click on "Open Connection", and enter `ws://10.197.94.158:8765` for the WebSocket URL. Click "Open". 
 
-In Foxglove Studios, you can then click on the "Add panel" symbol and choose "Image" for `Image` and `CompressedImage` messages and "Raw Message" for other types of ROS messages. Once a new panel is opened, enter the name of the topic to subscribe to.
+In Foxglove Studio, you can then click on the "Add panel" symbol and choose "Image" for `Image` and `CompressedImage` messages and "Raw Message" for other types of ROS messages. Once a new panel is opened, enter the name of the topic to subscribe to.
 
 ## Other ROS terminals
 If you only want to launch a terminal with the ROS catkin workspace already set up, after you SSH into the robot, run
