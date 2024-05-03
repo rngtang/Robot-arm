@@ -1,4 +1,4 @@
-# Robot Operating System (ROS)
+# Hand Tracker Using Robot Operating System (ROS)
 
 ## Overview
 This hand tracking package controls the MyCobot arm movement to track the hand position as well as react to certain hand gestures.
