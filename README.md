@@ -38,7 +38,7 @@ source home/er/launch.sh hand
 ## Using Foxglove Studios
 Foxglove Studios is a very useful software that allows us to visualize ROS data in real time using interactive visualizations in customizable layouts. We can easily use Foxglove Studios to build Graphical User Interface (GUIs) to interact with the robot and understand what the robot system is doing.
 
-1. Make sure you have Foxglove Studios[https://foxglove.dev/download] installed in your local environment.
+1. Make sure you have [Foxglove Studios](https://foxglove.dev/download]) installed in your local environment.
 2. Launch hand and gesture tracking through ROS. (see above)
 3. In another terminal, after you SSH into the robot, run
 ```bash
