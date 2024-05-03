@@ -6,6 +6,7 @@ This hand tracking package controls the MyCobot arm movement to track the hand p
 It takes in the video feed from the camera flange as inputs. For each new image, the system detects the hand position and gestures in parallel. Once those information are available, the hand tracker will compute the desired movement of the robot and send the commands to the MyCobot arm.
 
 ```mermaid
+flowchart LR
     camera_feed[Camera Feed] --> hand_detector[Hand Detector]
     camera_feed --> gesture_detector[Gesture Detector]
 
@@ -21,6 +22,7 @@ It takes in the video feed from the camera flange as inputs. For each new image,
     subgraph HandTracker
         hand_detector
         gesture_detector
+        hand_tracker
     end
 
     subgraph Output
