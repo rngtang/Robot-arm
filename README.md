@@ -32,7 +32,7 @@ python ~/robotic-arm/TicTacToe/api/app.py
 
 Make sure the camera flange is connected to the robot. In a terminal, after you SSH into the robot, run
 ```bash
-source home/er/launch.sh hand
+source ~/launch.sh hand
 ```
 
 ## Using Foxglove Studio
@@ -55,8 +55,6 @@ If you only want to launch a terminal with the ROS catkin workspace already set 
 ```bash
 source ~/launch.sh foxglove
 ```
-
-
 
 # Setup
 
